@@ -38,7 +38,7 @@
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._bq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    if(!f._bq)f._bq=n;n.push=n;n.loaded=!0;n.version='2.0';
     n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
@@ -133,9 +133,9 @@
                 </button>
             </section>
 
-            <section id="products-dynamic-section" class="hidden flex-col items-center gap-5 w-full"></section>
-            <section id="combos-section" class="hidden w-full flex-col items-center gap-5"></section>
-        </main>
+            <section id="products-dynamic-section" class="hidden flex flex-col items-center gap-5 w-full"></section>
+            <section id="combos-section" class="hidden flex flex-col items-center gap-5 w-full"></section>
+            </main>
 
         <footer class="w-full text-center mt-12 mb-4">
             <div class="flex justify-center items-center gap-6 mb-6">
@@ -189,9 +189,10 @@
             // --- Navigation Functions ---
             const showMainScreen = () => {
                 mainNavigation.classList.remove('hidden');
+                mainNavigation.classList.add('flex'); // Garante que a seção principal volte a ser flex
                 productsSection.classList.add('hidden');
                 combosSection.classList.add('hidden');
-                // Clear content to save memory
+                // Limpar o conteúdo pode economizar memória
                 productsSection.innerHTML = '';
                 combosSection.innerHTML = '';
             };
@@ -209,18 +210,21 @@
             // --- Event Listeners ---
             showEmagrecedoresBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
+                mainNavigation.classList.remove('flex');
                 productsSection.classList.remove('hidden');
                 window.renderProductList('Emagrecedores', showMainScreen);
             });
 
             showComplementosBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
+                mainNavigation.classList.remove('flex');
                 productsSection.classList.remove('hidden');
                 window.renderProductList('Complementos', showMainScreen);
             });
 
             showCombosBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
+                mainNavigation.classList.remove('flex');
                 combosSection.classList.remove('hidden');
                 window.renderCombosContent(showMainScreen);
             });
