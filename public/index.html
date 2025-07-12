@@ -38,7 +38,7 @@
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    if(!f._fbq)f._bq=n;n.push=n;n.loaded=!0;n.version='2.0';
     n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
@@ -115,30 +115,26 @@
 
         <main class="w-full">
             <section id="main-navigation" class="flex flex-col items-center gap-5 w-full">
-                <button id="show-emagrecedores-btn" class="link-button group flex items-center gap-4 w-full max-w-sm p-3">
-                    <div class="w-10 h-10 flex-shrink-0 grid place-items-center"><span class="text-2xl">💊</span></div>
-                    <span class="flex-grow font-semibold text-center text-slate-200 group-hover:text-white">Ver Emagrecedores</span>
-                    <div class="w-10"></div>
+                <button id="show-emagrecedores-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                    <span class="text-2xl">💊</span>
+                    <span class="font-semibold text-slate-200 group-hover:text-white">Ver Emagrecedores</span>
                 </button>
-                <button id="show-complementos-btn" class="link-button group flex items-center gap-4 w-full max-w-sm p-3">
-                    <div class="w-10 h-10 flex-shrink-0 grid place-items-center"><span class="text-2xl">💪🏼</span></div>
-                    <span class="flex-grow font-semibold text-center text-slate-200 group-hover:text-white">Ver Complementos</span>
-                    <div class="w-10"></div>
+                <button id="show-complementos-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                    <span class="text-2xl">💪🏼</span>
+                    <span class="font-semibold text-slate-200 group-hover:text-white">Ver Complementos</span>
                 </button>
-                <button id="show-combos-btn" class="link-button group flex items-center gap-4 w-full max-w-sm p-3">
-                    <div class="w-10 h-10 flex-shrink-0 grid place-items-center"><span class="text-2xl">🔥</span></div>
-                    <span class="flex-grow font-semibold text-center text-slate-200 group-hover:text-white">Ver Combos</span>
-                    <div class="w-10"></div>
+                <button id="show-combos-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                    <span class="text-2xl">🔥</span>
+                    <span class="font-semibold text-slate-200 group-hover:text-white">Ver Combos</span>
                 </button>
-                <button id="show-gabi-gpt-btn" class="link-button group flex items-center gap-4 w-full max-w-sm p-3">
-                    <div class="w-10 h-10 flex-shrink-0 grid place-items-center"><span class="text-2xl">🧠</span></div>
-                    <span class="flex-grow font-semibold text-center text-slate-200 group-hover:text-white">Descobrir o ideal para mim</span>
-                    <div class="w-10"></div>
+                <button id="show-gabi-gpt-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                    <span class="text-2xl">🧠</span>
+                    <span class="font-semibold text-slate-200 group-hover:text-white text-center">Descobrir o ideal para mim</span>
                 </button>
             </section>
 
             <section id="products-dynamic-section" class="hidden flex-col items-center gap-5 w-full"></section>
-            <section id="combos-section" class="hidden w-full -mx-4 md:mx-0"></section>
+            <section id="combos-section" class="hidden w-full flex-col items-center gap-5"></section>
         </main>
 
         <footer class="w-full text-center mt-12 mb-4">
@@ -214,21 +210,18 @@
             showEmagrecedoresBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
                 productsSection.classList.remove('hidden');
-                // Call function from products.js
                 window.renderProductList('Emagrecedores', showMainScreen);
             });
 
             showComplementosBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
                 productsSection.classList.remove('hidden');
-                // Call function from products.js
                 window.renderProductList('Complementos', showMainScreen);
             });
 
             showCombosBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
                 combosSection.classList.remove('hidden');
-                // Call function from combos.js
                 window.renderCombosContent(showMainScreen);
             });
 
