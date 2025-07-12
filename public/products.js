@@ -31,31 +31,103 @@
         }
     }
 
-    function generateProductPitch(produto) { /* ... (implementation is the same) ... */ return "";}
+    // Função auxiliar para criar itens do acordeão
+    function generateAccordionItem(title, content, isOpen = false) {
+        if (!content || (Array.isArray(content) && content.length === 0)) return '';
 
-    function generateAccordionItem(title, content) { /* ... (implementation is the same) ... */ return "";}
+        const contentHTML = Array.isArray(content)
+            ? `<ul>${content.map(item => `<li class="flex items-start gap-2"><span class="text-green-400 mt-1">✓</span><span>${item}</span></li>`).join('')}</ul>`
+            : `<p>${content}</p>`;
+
+        return `
+            <div class="accordion-item border-b border-slate-700">
+                <button class="accordion-header w-full flex justify-between items-center p-4 text-left">
+                    <span class="font-semibold text-slate-200">${title}</span>
+                    <i class="fas fa-chevron-down transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}"></i>
+                </button>
+                <div class="accordion-content overflow-hidden max-h-0 transition-all duration-500 ease-in-out ${isOpen ? 'max-h-screen' : ''}">
+                    <div class="p-4 pt-0 text-slate-400 space-y-2">
+                        ${contentHTML}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
 
     function createBackButtonHTML(backCallback) {
         const button = document.createElement('button');
-        button.className = 'link-button group flex items-center gap-4 w-full max-w-sm p-3 mt-4 border-slate-500 hover:border-slate-300';
-        button.innerHTML = `<span class="flex-grow font-semibold text-center text-slate-400 group-hover:text-white">↩️ Voltar</span>`;
+        button.className = 'link-button group flex items-center justify-center gap-4 w-full max-w-sm p-3 mt-8 border-slate-500 hover:border-slate-300';
+        button.innerHTML = `<span class="font-semibold text-center text-slate-400 group-hover:text-white">↩️ Voltar</span>`;
         button.onclick = backCallback;
         return button;
     }
-    
+
+    // Função que exibe os detalhes do produto - AGORA COMPLETA
     function showProductDetail(productId, backCallback) {
         const produto = produtos.find(p => p.id === parseInt(productId));
         if (!produto) return;
-        
-        // ... (HTML generation for product detail is the same) ...
-        
-        productsDynamicSection.innerHTML = `...`; // Detail HTML
+
+        const imageUrl = `https://www.projetoslim.fitness${produto.imagem}`;
+        const formattedPrice = `R$ ${produto.preco.toFixed(2).replace('.', ',')}`;
+
+        const detailHTML = `
+            <div class="w-full max-w-md mx-auto">
+                <div class="product-card-detail bg-surface-dark border border-slate-700 rounded-2xl overflow-hidden">
+                    <div class="p-6 text-center bg-slate-800/50">
+                        <img src="${imageUrl}" alt="${produto.nome}" class="w-32 h-32 object-contain rounded-full mx-auto mb-4 border-4 border-purple-400/50">
+                        <h2 class="text-2xl font-bold text-white">${produto.nome}</h2>
+                        <p class="text-2xl font-semibold text-primary-green mt-2">${formattedPrice}</p>
+                    </div>
+
+                    <div class="accordion-container text-sm">
+                        ${generateAccordionItem('✨ Para que serve?', produto.resultado_combinacao, true)}
+                        ${generateAccordionItem('💊 Composição', produto.composicao)}
+                        ${generateAccordionItem('📋 Modo de Uso', produto.modo_uso)}
+                        ${generateAccordionItem('⚠️ Efeitos de Adaptação', produto.efeitos_possiveis)}
+                        ${generateAccordionItem('🛡️ Segurança', produto.seguranca)}
+                        ${generateAccordionItem('🎯 Indicações', produto.indicacoes)}
+                        ${generateAccordionItem('🏆 Benefícios', produto.beneficios)}
+                        ${generateAccordionItem('📦 Embalagem', produto.embalagem)}
+                        ${generateAccordionItem('🚫 Contraindicações', produto.contraindicacoes)}
+                        ${generateAccordionItem('💡 Dicas Importantes', produto.dicas_importantes)}
+                    </div>
+
+                    <div class="p-6">
+                         <a href="${produto.link_loja}" target="_blank" class="buy-button w-full block text-center p-4 rounded-full font-bold text-lg transition-transform duration-300 hover:scale-105 bg-primary-green text-background-dark">
+                            <i class="fas fa-shopping-cart mr-2"></i> Comprar Agora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        productsDynamicSection.innerHTML = detailHTML;
         productsDynamicSection.appendChild(createBackButtonHTML(() => renderProductList(produto.categoria, backCallback)));
         addEventListenersForDetail();
     }
     
+    // Função para adicionar os eventos de clique no acordeão
     function addEventListenersForDetail() {
-        // This would contain accordion logic, etc.
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = header.querySelector('i');
+
+            header.addEventListener('click', () => {
+                const isOpen = content.classList.contains('max-h-screen');
+                
+                // Fecha todos os outros itens
+                document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('max-h-screen'));
+                document.querySelectorAll('.accordion-header i').forEach(i => i.classList.remove('rotate-180'));
+
+                // Abre ou fecha o item clicado
+                if (!isOpen) {
+                    content.classList.add('max-h-screen');
+                    icon.classList.add('rotate-180');
+                }
+            });
+        });
     }
 
     // --- Main exposed function ---
@@ -66,23 +138,19 @@
         let productsHTML = filteredProducts.map(produto => {
             const imageUrl = `https://www.projetoslim.fitness${produto.imagem}`;
             return `
-                <button data-product-id="${produto.id}" class="link-button product-item-btn group flex items-center gap-4 w-full max-w-sm p-3">
-                    <img src="${imageUrl}" alt="${produto.nome}" class="w-10 h-10 object-cover rounded-full flex-shrink-0">
+                <button data-product-id="${produto.id}" class="link-button product-item-btn group flex items-center gap-4 w-full max-w-sm p-3 h-16">
+                    <img src="${imageUrl}" alt="${produto.nome}" class="w-12 h-12 object-contain rounded-full flex-shrink-0">
                     <span class="flex-grow font-semibold text-center text-slate-200 group-hover:text-white">${produto.nome}</span>
-                    <div class="w-10"></div>
+                    <div class="w-12"></div>
                 </button>
             `;
         }).join('');
-        
+
         productsDynamicSection.innerHTML = productsHTML;
         productsDynamicSection.appendChild(createBackButtonHTML(backCallback));
 
         document.querySelectorAll('.product-item-btn').forEach(button => {
             button.onclick = () => showProductDetail(button.dataset.productId, backCallback);
         });
-        
-        const style = document.createElement('style');
-        style.textContent = `.product-card-detail { background-color: var(--surface-dark); border: 1px solid #333; border-radius: 1.5rem; overflow: hidden; display: flex; flex-direction: column; }`;
-        if(!document.getElementById('product-styles')) { style.id = 'product-styles'; document.head.append(style); }
     };
 })();
