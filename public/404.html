@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitrine de Produtos - Projeto Slim</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="produtos.css">
+
+    <style>
+        /* Estilos para o novo botão flutuante e o pop-up */
+        #combo-popup-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #c084fc, #a855f7);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        #combo-popup-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(192, 132, 252, 0.5);
+        }
+
+        #combo-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #combo-popup {
+            position: relative;
+            background-color: #1E1F20;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            max-width: 95%;
+            max-height: 95vh;
+            overflow: auto;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0;}
+            to { transform: translateY(0); opacity: 1;}
+        }
+
+        #combo-popup img {
+            display: block;
+            width: 100%;
+            max-width: 800px; /* Limite para a imagem não ficar excessivamente grande em telas largas */
+            height: auto;
+            border-radius: 1rem;
+        }
+
+        #close-combo-popup {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            color: #131314;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+        }
+        
+        #close-combo-popup:hover {
+            transform: scale(1.1);
+            background-color: #c084fc;
+            color: white;
+        }
+
+        /* Adicionando estilo para o novo botão de combo no footer para se parecer com os outros */
+        #footer-combo-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px 2px rgba(192, 132, 252, 0.2);
+            padding: 14px 28px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+        }
+        #footer-combo-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 20px 3px rgba(75, 222, 128, 0.4);
+            border-color: rgba(75, 222, 128, 0.6);
+        }
+
+
+        /* Responsividade para o botão flutuante */
+        @media (max-width: 600px) {
+            #combo-popup-btn {
+                padding: 12px;
+                border-radius: 50%; /* Vira um círculo em telas pequenas */
+                right: 15px;
+                bottom: 15px;
+            }
+            #combo-popup-btn .button-text {
+                display: none; /* Esconde o texto e mostra só o ícone */
+            }
+             #close-combo-popup {
+                top: 5px;
+                right: 5px;
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="showcase-header">
+        <div class="container">
+            <div class="animated-pill-icon">💊</div>
+            <h1>Nossa Linha Completa</h1>
+            <p>Encontre o suplemento ideal para acelerar sua jornada de transformação.</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="product-category">
+            <h2 class="category-title">🔥 Emagrecedores</h2>
+            <div class="swiper-container">
+                <div class="swiper-wrapper" id="emagrecedores-wrapper"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+        <section class="product-category">
+            <h2 class="category-title">✨ Complementos Essenciais</h2>
+            <div class="swiper-container">
+                <div class="swiper-wrapper" id="essenciais-wrapper"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+        <section class="product-category">
+            <h2 class="category-title">💡 Complementos Úteis</h2>
+            <div class="swiper-container">
+                <div class="swiper-wrapper" id="uteis-wrapper"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+        <section class="product-category">
+            <h2 class="category-title">🎁 Para Presentear (ou se Presentear!)</h2>
+            <div id="masculino-container" class="single-product-container">
+                </div>
+        </section>
+    </main>
+
+    <footer class="showcase-footer">
+        <div class="footer-actions">
+            <button id="footer-combo-btn">
+                <i class="fas fa-layer-group"></i> Ver Combos por IMC
+            </button>
+            <a href="https://wa.me/556792552604?text=Oii, vim pela vitrine de produtos e gostaria de conversar com um especialista." target="_blank" class="footer-button">
+                <i class="fab fa-whatsapp"></i> Conversar com Especialista
+            </a>
+        </div>
+        <p class="copyright-text">
+            Copyright &copy; 2025 Gabriela Torraca. Todos os direitos reservados.
+        </p>
+    </footer>
+
+    <button id="combo-popup-btn" title="Ver combos por IMC">
+        <i class="fas fa-layer-group"></i>
+        <span class="button-text">Ver combos por IMC</span>
+    </button>
+    
+    <div id="combo-popup-overlay">
+        <div id="combo-popup">
+            <button id="close-combo-popup" title="Fechar">&times;</button>
+            <img src="produtos.png" alt="Combos Recomendados por IMC">
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="produtos.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const openBtn = document.getElementById('combo-popup-btn');
+            const footerOpenBtn = document.getElementById('footer-combo-btn'); // Pega o novo botão do rodapé
+            const overlay = document.getElementById('combo-popup-overlay');
+            const closeBtn = document.getElementById('close-combo-popup');
+
+            // Função para abrir o pop-up
+            const openPopup = () => {
+                overlay.style.display = 'flex';
+            };
+
+            // Função para fechar o pop-up
+            const closePopup = () => {
+                overlay.style.display = 'none';
+            };
+
+            // Adiciona os eventos
+            openBtn.addEventListener('click', openPopup);
+            footerOpenBtn.addEventListener('click', openPopup); // Adiciona o evento ao botão do rodapé
+            closeBtn.addEventListener('click', closePopup);
+
+            // Fecha o pop-up ao clicar fora da imagem (no overlay)
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) {
+                    closePopup();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

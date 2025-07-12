@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estratégias de Sucesso - Projeto Slim</title>
+  <meta name="description" content="Explore estratégias completas e personalizadas para cada etapa da sua jornada de bem-estar.">
+  <link rel="icon" href="https://gabi-gpt.web.app/gabi-profile.jpg" type="image/jpeg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+  <style>
+    :root {
+      --background-dark: #131314;
+      --surface-dark: #1E1F20;
+      --primary-purple: #c084fc;
+      --primary-green: #4ade80;
+      --text-light: #e5e7eb;
+      --subtle-gray: #4b5563;
+      --font-main: 'Inter', sans-serif;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100vw;
+      max-width: 100vw;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: var(--background-dark);
+      color: var(--text-light);
+      font-family: var(--font-main);
+      background-image: radial-gradient(circle at 10% 10%, rgba(192, 132, 252, 0.1) 0%, transparent 35%),
+                        radial-gradient(circle at 90% 80%, rgba(75, 222, 128, 0.1) 0%, transparent 35%);
+      background-repeat: no-repeat;
+      line-height: 1.6;
+      box-sizing: border-box;
+      width: 100vw;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+    .container {
+      width: 100vw;
+      max-width: 100vw;
+      margin: 0 auto;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .showcase-header {
+      text-align: center;
+      padding: 100px 0 60px 0;
+    }
+    .showcase-header h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: white;
+      line-height: 1.2;
+      text-shadow: 0 0 20px rgba(192, 132, 252, 0.4);
+      margin-bottom: 1rem;
+    }
+    .showcase-header p {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: #a1a1aa;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .tabs-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 4rem;
+      gap: 1rem;
+      width: 100vw;
+      box-sizing: border-box;
+      padding: 0 1rem;
+    }
+    .tab-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .tab-btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #a1a1aa;
+      background-color: transparent;
+      border: 2px solid var(--surface-dark);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    .tab-btn:hover {
+      color: white;
+      background-color: var(--surface-dark);
+    }
+    .tab-btn.active {
+      color: white;
+      background-color: var(--primary-green);
+      border-color: var(--primary-green);
+      box-shadow: 0 0 15px rgba(75, 222, 128, 0.4);
+    }
+
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.5s ease;
+      width: 100vw;
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .swiper-container {
+      width: 100vw;
+      max-width: 100vw;
+      box-sizing: border-box;
+      padding: 1rem 0 3rem 0;
+      margin: 0;
+    }
+    .swiper-slide {
+      width: 320px;
+      height: auto;
+      display: flex;
+      padding: 0.5rem;
+    }
+    .swiper-pagination {
+      bottom: 0 !important;
+    }
+    .swiper-pagination-bullet-active {
+      background: var(--primary-purple);
+    }
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none !important;
+    }
+    .combo-card {
+      background-color: rgba(30, 31, 32, 0.7);
+      border: 1px solid rgba(192, 132, 252, 0.2);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      width: 100%;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+    .combo-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 25px 5px rgba(75, 222, 128, 0.25);
+      border-color: rgba(75, 222, 128, 0.5);
+    }
+    .card-header .type-tag {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .card-header .combo-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 1rem;
+      color: white;
+    }
+    .card-header .anxiety-tag {
+      font-size: 0.9rem;
+      color: var(--primary-purple);
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+    .combo-details {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      padding: 1.5rem 0;
+      margin: 1.5rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .detail-item .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .detail-item .value.price {
+      color: var(--primary-green);
+    }
+    .detail-item .value.duration {
+      color: var(--primary-purple);
+    }
+    .detail-item .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #a1a1aa;
+    }
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1rem 0 2rem;
+      flex-grow: 1;
+    }
+    .product-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+    }
+    .product-item img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+    }
+    .buy-button {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      background: var(--primary-green);
+      color: var(--background-dark);
+      cursor: pointer;
+      border: none;
+      margin-top: auto;
+    }
+    .buy-button:hover {
+      background-color: #6affa2;
+      box-shadow: 0 0 15px rgba(75, 222, 128, 0.7);
+      transform: scale(1.03);
+    }
+
+    #imc-popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #imc-popup-overlay.visible {
+      display: flex;
+      opacity: 1;
+    }
+    #imc-popup {
+      position: relative;
+      background-color: rgba(30, 31, 32, 0.8);
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      backdrop-filter: blur(15px);
+      border-radius: 1.5rem;
+      width: 95vw;
+      max-width: 800px;
+      height: 95%;
+      max-height: 700px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #imc-popup-overlay.visible #imc-popup {
+      transform: scale(1);
+    }
+    #close-popup {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #a1a1aa;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1010;
+    }
+    #open-popup-btn {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      backdrop-filter: blur(10px);
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px 2px rgba(192, 132, 252, 0.2);
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+    #open-popup-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 20px 3px rgba(75, 222, 128, 0.4);
+      border-color: rgba(75, 222, 128, 0.6);
+    }
+    #open-popup-btn img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    #open-popup-btn .online-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--primary-green);
+      border-radius: 50%;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      border: 1px solid var(--background-dark);
+    }
+    #open-popup-btn p {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    .showcase-footer {
+      text-align: center;
+      padding: 80px 0 40px 0;
+      margin-top: 5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      width: 100vw;
+      box-sizing: border-box;
+    }
+    .footer-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      backdrop-filter: blur(10px);
+      border-radius: 9999px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px 2px rgba(192, 132, 252, 0.2);
+      padding: 14px 28px;
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-button:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 20px 3px rgba(75, 222, 128, 0.4);
+      border-color: rgba(75, 222, 128, 0.6);
+    }
+    .copyright-text {
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: #a1a1aa;
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0; }
+      .showcase-header { padding: 80px 0 40px 0; }
+      .tab-btn { font-size: 0.85rem; padding: 0.6rem 1.2rem; }
+      .swiper-slide { width: 290px; }
+      .footer-actions { flex-direction: column; align-items: center; }
+      #open-popup-btn p { display: none; }
+      #open-popup-btn { padding: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="showcase-header">
+    <div class="container">
+      <h1>Sua Jornada de Sucesso Começa Aqui</h1>
+      <p>Criamos estratégias completas para cada fase do seu processo. Navegue pelas abas ou use a Gabi GPT para encontrar o plano perfeito para você.</p>
+    </div>
+  </header>
+  <main class="container">
+    <div class="tabs-container">
+      <div class="tab-row">
+        <button class="tab-btn active" data-target="#peso-normal">🟢 Peso Normal</button>
+        <button class="tab-btn" data-target="#sobrepeso">🟠 Sobrepeso</button>
+      </div>
+      <div class="tab-row">
+        <button class="tab-btn" data-target="#obesidade-grau-i">🟡 Obesidade Grau I</button>
+        <button class="tab-btn" data-target="#obesidade-grau-ii">🔴 Obesidade Grau II</button>
+        <button class="tab-btn" data-target="#obesidade-grau-iii">🚨 Obesidade Grau III</button>
+      </div>
+    </div>
+    <div class="tab-content">
+      <div id="peso-normal" class="tab-pane active">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 30 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">30 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 169,90</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/slimx.png" alt="Super Slim X">
+                    <span class="product-name">✅ 1 Slim</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 30 dias (Econômico)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-premium">PLANO PREMIUM</span>
+                  <h3 class="combo-title">Projeto Slim 40 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">40 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 499,99</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/gold.png" alt="Guria Shape Gold">
+                    <span class="product-name">✅ 1 Gold</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 40 dias (Premium)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+      <div id="sobrepeso" class="tab-pane">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 60 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">60 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 339,80</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/slimx.png" alt="Super Slim X">
+                    <span class="product-name">✅ 2 Slim</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 60 dias (Econômico)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 60 dias</h3>
+                  <p class="anxiety-tag">Com Foco em Ansiedade</p>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">60 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 285,00</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/roxo.png" alt="Guria Shape Roxo">
+                    <span class="product-name">✅ 1 Roxo</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 60 dias (Econômico - Ansiedade)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-premium">PLANO PREMIUM</span>
+                  <h3 class="combo-title">Projeto Slim 40 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">40 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 499,99</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/gold.png" alt="Guria Shape Gold">
+                    <span class="product-name">✅ 1 Gold</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 40 dias (Premium)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+      <div id="obesidade-grau-i" class="tab-pane">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 90 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">90 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 500,00</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 1 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/black.png" alt="Black">
+                    <span class="product-name">✅ 1 Black</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 90 dias (Econômico)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 90 dias</h3>
+                  <p class="anxiety-tag">Com Foco em Ansiedade</p>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">90 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 455,00</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 1 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/roxo.png" alt="Roxo">
+                    <span class="product-name">✅ 1 Roxo</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 90 dias (Econômico - Ansiedade)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-premium">PLANO PREMIUM</span>
+                  <h3 class="combo-title">Projeto Slim 70 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">70 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 669,99</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 1 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/gold.png" alt="Gold">
+                    <span class="product-name">✅ 1 Gold</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 70 dias (Premium)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+      <div id="obesidade-grau-ii" class="tab-pane">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 120 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">120 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 669,90</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 1 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/black.png" alt="Black">
+                    <span class="product-name">✅ 1 Black</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/slimx.png" alt="Slim X">
+                    <span class="product-name">✅ 1 Slim</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 120 dias (Econômico)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 120 dias</h3>
+                  <p class="anxiety-tag">Com Foco em Ansiedade</p>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">120 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 624,90</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 1 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/roxo.png" alt="Roxo">
+                    <span class="product-name">✅ 1 Roxo</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/slimx.png" alt="Slim X">
+                    <span class="product-name">✅ 1 Slim</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 120 dias (Econômico - Ansiedade)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-premium">PLANO PREMIUM</span>
+                  <h3 class="combo-title">Projeto Slim 100 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">100 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 839,89</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 1 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/gold.png" alt="Gold">
+                    <span class="product-name">✅ 1 Gold</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/slimx.png" alt="Slim X">
+                    <span class="product-name">✅ 1 Slim</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 100 dias (Premium)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+      <div id="obesidade-grau-iii" class="tab-pane">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 160 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">160 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 1.169,90</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 2 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/black.png" alt="Black">
+                    <span class="product-name">✅ 2 Black</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/slimx.png" alt="Slim X">
+                    <span class="product-name">✅ 1 Slim</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 160 dias (Econômico)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-economico">PLANO ECONÔMICO</span>
+                  <h3 class="combo-title">Projeto Slim 160 dias</h3>
+                  <p class="anxiety-tag">Com Foco em Ansiedade</p>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">160 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 1.079,90</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 2 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/roxo.png" alt="Roxo">
+                    <span class="product-name">✅ 2 Roxo</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/slimx.png" alt="Slim X">
+                    <span class="product-name">✅ 1 Slim</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 160 dias (Econômico - Ansiedade)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="combo-card">
+                <div class="card-header">
+                  <span class="type-tag tag-premium">PLANO PREMIUM</span>
+                  <h3 class="combo-title">Projeto Slim 140 dias</h3>
+                </div>
+                <div class="combo-details">
+                  <div class="detail-item">
+                    <div class="value duration">140 Dias</div>
+                    <div class="label">Duração</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="value price">R$ 1.179,79</div>
+                    <div class="label">Total</div>
+                  </div>
+                </div>
+                <h4 class="product-list-title">Produtos Inclusos:</h4>
+                <div class="product-list">
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/detox.png" alt="Detox">
+                    <span class="product-name">✅ 2 Detox</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/slimx.png" alt="Slim X">
+                    <span class="product-name">✅ 2 Slim</span>
+                  </div>
+                  <div class="product-item">
+                    <img src="https://gabi-gpt.web.app/assets/produtos/gold.png" alt="Gold">
+                    <span class="product-name">✅ 1 Gold</span>
+                  </div>
+                </div>
+                <a href="https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 140 dias (Premium)'." target="_blank" class="buy-button">
+                  <i class="fab fa-whatsapp"></i> Comprar Combo
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="imc-popup-overlay">
+    <div id="imc-popup">
+      <button id="close-popup" title="Fechar">&times;</button>
+      <h2 style="text-align: center; padding: 40px 20px 20px 20px; font-size: 1.5rem; color: var(--text-light); font-weight: 700;">Vamos descobrir qual 💊 é ideal para você?</h2>
+    </div>
+  </div>
+  <button id="open-popup-btn" title="Descobrir meu plano ideal">
+    <div style="position: relative;">
+      <img src="https://gabi-gpt.web.app/gabi-profile.jpg" alt="Gabi GPT">
+      <span class="online-dot"></span>
+    </div>
+    <p>Descobrir meu plano</p>
+  </button>
+  <footer class="showcase-footer">
+    <div class="footer-actions">
+      <a href="https://www.projetoslim.fitness" class="footer-button">
+        <i class="fas fa-home"></i> Voltar ao Início
+      </a>
+      <a href="https://wa.me/556792552604?text=Oii, vim pelo catálogo de combos e gostaria de conversar com um especialista." target="_blank" class="footer-button">
+        <i class="fab fa-whatsapp"></i> Falar com Especialista
+      </a>
+    </div>
+    <p class="copyright-text">Copyright &copy; 2025 Gabriela Torraca. Todos os direitos reservados.</p>
+  </footer>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="gabi_gpt_popup.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.swiper-container').forEach(container => {
+        new Swiper(container, {
+          loop: false,
+          slidesPerView: 'auto',
+          spaceBetween: 16,
+          grabCursor: true,
+          pagination: {
+            el: container.querySelector('.swiper-pagination'),
+            clickable: true,
+          }
+        });
+      });
+      const tabs = document.querySelectorAll('.tab-btn');
+      const panes = document.querySelectorAll('.tab-pane');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = document.querySelector(tab.dataset.target);
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          panes.forEach(p => p.classList.remove('active'));
+          target.classList.add('active');
+        });
+      });
+      const openPopupBtn = document.getElementById('open-popup-btn');
+      const closePopupBtn = document.getElementById('close-popup');
+      const overlay = document.getElementById('imc-popup-overlay');
+      const popupContainer = document.getElementById('imc-popup');
+      let chatInitialized = false;
+      const openPopup = () => {
+        overlay.classList.add('visible');
+        if (!chatInitialized) {
+          if (window.startGabiGptPopup) {
+            window.startGabiGptPopup(popupContainer, closePopup);
+            chatInitialized = true;
+          } else {
+            console.error("Erro: gabi_gpt_popup.js não foi carregado.");
+          }
+        }
+      };
+      const closePopup = () => {
+        overlay.classList.remove('visible');
+      };
+      openPopupBtn.addEventListener('click', openPopup);
+      closePopupBtn.addEventListener('click', closePopup);
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          closePopup();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
