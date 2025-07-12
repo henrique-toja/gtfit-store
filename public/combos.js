@@ -1,4 +1,4 @@
-// combos.js (Rebuilt to match product Browse logic with Emojis)
+// combos.js (Rebuilt with new title format and symmetrical buttons)
 (function() {
     const combosSection = document.getElementById('combos-section');
     const head = document.head;
@@ -41,11 +41,9 @@
         };
         return combos.map(combo => ({
             id: combo.id,
-            nome: `${combo.title}`, // Simplified name for the list view
-            fullName: `${combo.tag} - ${combo.title}`, // Full name for detail view
+            nome: `${combo.title}`,
             preco: parseFloat(combo.price.replace(',', '.')),
             categoria: categoryMap[categoryKey],
-            imagem: combo.products[0].img,
             details: combo
         }));
     });
@@ -100,33 +98,33 @@
         combosSection.appendChild(createBackButton(() => renderComboList(combo.categoria, backCallback)));
     }
 
-    // NEW: Helper function to get the correct emoji for a combo
-    function getComboEmoji(combo) {
-        if (combo.details.anxiety) {
-            return '🥵'; // Combo Ansiosa
-        }
-        if (combo.details.tag === 'PLANO ECONÔMICO') {
-            return '😅'; // Combo Econômico
-        }
-        if (combo.details.tag === 'PLANO PREMIUM') {
-            return '🤑'; // Combo Premium
-        }
-        return '🔥'; // Default fallback
-    }
-
     function renderComboList(category, backCallback) {
+        // Helper function to generate the new title format
+        const generateComboTitle = (combo) => {
+            let emoji = '🔥';
+            let title = 'Projeto Slim';
+
+            if (combo.details.anxiety) {
+                emoji = '🥵';
+                title = 'Projeto Slim Ansiosa';
+            } else if (combo.details.tag === 'PLANO ECONÔMICO') {
+                emoji = '😅';
+                title = 'Projeto Slim Econômico';
+            } else if (combo.details.tag === 'PLANO PREMIUM') {
+                emoji = '🤑';
+                title = 'Projeto Slim Premium';
+            }
+            return `${emoji} ${title} - ${combo.details.duration} 🔥`;
+        };
+        
         const filteredCombos = combosList.filter(c => c.categoria === category);
 
-        // UPDATED: This part now uses the getComboEmoji function
+        // UPDATED: Symmetrical button structure and new title format
         const combosHTML = filteredCombos.map(combo => {
-            const emoji = getComboEmoji(combo);
+            const buttonText = generateComboTitle(combo);
             return `
-            <button data-combo-id="${combo.id}" class="link-button combo-item-btn group flex items-center gap-4 w-full max-w-sm p-3">
-                <div class="w-10 h-10 grid place-items-center flex-shrink-0">
-                    <span class="text-3xl">${emoji}</span>
-                </div>
-                <span class="flex-grow font-semibold text-center text-slate-200 group-hover:text-white">${combo.nome}</span>
-                <div class="w-10"></div>
+            <button data-combo-id="${combo.id}" class="link-button combo-item-btn group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                <span class="font-semibold text-center text-slate-200 group-hover:text-white">${buttonText}</span>
             </button>
         `;
         }).join('');
@@ -149,8 +147,8 @@
         ];
 
         const categoriesHTML = categories.map(category => `
-            <button data-category="${category}" class="link-button combo-category-btn group flex items-center gap-4 w-full max-w-sm p-3">
-                <span class="flex-grow font-semibold text-center text-slate-200 group-hover:text-white">${category}</span>
+            <button data-category="${category}" class="link-button combo-category-btn group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                <span class="font-semibold text-slate-200 group-hover:text-white">${category}</span>
             </button>
         `).join('');
 
