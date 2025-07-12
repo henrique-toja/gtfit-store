@@ -25,19 +25,19 @@
             { id: 'o2-prem', tag: 'PLANO PREMIUM', tagClass: 'tag-premium', title: 'Projeto Slim 100 dias', duration: '100 Dias', price: '839,89', anxiety: false, products: [{ name: '1 Detox', img: 'https://gabi-gpt.web.app/assets/produtos/detox.png' }, { name: '1 Gold', img: 'https://gabi-gpt.web.app/assets/produtos/gold.png' }, { name: '1 Slim', img: 'https://gabi-gpt.web.app/assets/produtos/slimx.png' }], whatsappLink: 'https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo "Projeto Slim 100 dias (Premium)".' }
         ],
         'obesidade-grau-iii': [
-            { id: 'o3-eco', tag: 'PLANO ECONÔMICO', tagClass: 'tag-economico', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: '1.169,90', anxiety: false, products: [{ name: '2 Detox', img: 'https://gabi-gpt.web.app/assets/produtos/detox.png' }, { name: '2 Black', img: 'https://gabi-gpt.web.app/assets/produtos/black.png' }, { name: '1 Slim', img: 'https://gabi-gpt.web.app/assets/produtos/slimx.png' }], whatsappLink: 'https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo "Projeto Slim 160 dias (Econômico)".' },
-            { id: 'o3-ans', tag: 'PLANO ECONÔMICO', tagClass: 'tag-economico', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: '1.079,90', anxiety: true, products: [{ name: '2 Detox', img: 'https://gabi-gpt.web.app/assets/produtos/detox.png' }, { name: '2 Roxo', img: 'https://gabi-gpt.web.app/assets/produtos/roxo.png' }, { name: '1 Slim', img: 'https://gabi-gpt.web.app/assets/produtos/slimx.png' }], whatsappLink: 'https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo "Projeto Slim 160 dias (Econômico - Ansiedade)".' },
-            { id: 'o3-prem', tag: 'PLANO PREMIUM', tagClass: 'tag-premium', title: 'Projeto Slim 140 dias', duration: '140 Dias', price: '1.179,79', anxiety: false, products: [{ name: '2 Detox', img: 'https://gabi-gpt.web.app/assets/produtos/detox.png' }, { name: '2 Slim', img: 'https://gabi-gpt.web.app/assets/produtos/slimx.png' }, { name: '1 Gold', img: 'https://gabi-gpt.web.app/assets/produtos/gold.png' }], whatsappLink: 'https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo "Projeto Slim 140 dias (Premium)".' }
+            { id: 'o3-eco', tag: 'PLANO ECONÔMICO', tagClass: 'tag-economico', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: '909,90', anxiety: false, products: [{ name: '1 Detox', img: 'https://gabi-gpt.web.app/assets/produtos/detox.png' }, { name: '2 Black', img: 'https://gabi-gpt.web.app/assets/produtos/black.png' }, { name: '1 Slim', img: 'https://gabi-gpt.web.app/assets/produtos/slimx.png' }], whatsappLink: 'https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo "Projeto Slim 160 dias (Econômico)".' },
+            { id: 'o3-ans', tag: 'PLANO ECONÔMICO', tagClass: 'tag-economico', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: '999,90', anxiety: true, products: [{ name: '1 Detox', img: 'https://gabi-gpt.web.app/assets/produtos/detox.png' }, { name: '2 Roxo', img: 'https://gabi-gpt.web.app/assets/produtos/roxo.png' }, { name: '1 Slim', img: 'https://gabi-gpt.web.app/assets/produtos/slimx.png' }], whatsappLink: 'https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo "Projeto Slim 160 dias (Econômico - Ansiedade)".' },
+            { id: 'o3-prem', tag: 'PLANO PREMIUM', tagClass: 'tag-premium', title: 'Projeto Slim 140 dias', duration: '140 Dias', price: '1.009,79', anxiety: false, products: [{ name: '1 Detox', img: 'https://gabi-gpt.web.app/assets/produtos/detox.png' }, { name: '2 Slim', img: 'https://gabi-gpt.web.app/assets/produtos/slimx.png' }, { name: '1 Gold', img: 'https://gabi-gpt.web.app/assets/produtos/gold.png' }], whatsappLink: 'https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo "Projeto Slim 140 dias (Premium)".' }
         ]
     };
 
     const combosList = Object.entries(originalCombosData).flatMap(([categoryKey, combos]) => {
         const categoryMap = {
-            'peso-normal': '🟢 Peso Normal',
-            'sobrepeso': '🟠 Sobrepeso',
-            'obesidade-grau-i': '🟡 Obesidade Grau I',
-            'obesidade-grau-ii': '🔴 Obesidade Grau II',
-            'obesidade-grau-iii': '🚨 Obesidade Grau III',
+            'peso-normal': '🟢 Peso Normal 🟢',
+            'sobrepeso': '🟠 Sobrepeso 🟠 ',
+            'obesidade-grau-i': '🟡 Obesidade Grau I 🟡',
+            'obesidade-grau-ii': '🔴 Obesidade Grau II 🔴',
+            'obesidade-grau-iii': '🚨 Obesidade Grau III 🚨',
         };
         return combos.map(combo => ({
             id: combo.id,
@@ -139,11 +139,11 @@
 
     function showComboCategories(backCallback) {
         const categories = [
-            '🟢 Peso Normal',
-            '🟠 Sobrepeso',
-            '🟡 Obesidade Grau I',
-            '🔴 Obesidade Grau II',
-            '🚨 Obesidade Grau III',
+            '🟢 Peso Normal 🟢',
+            '🟠 Sobrepeso 🟠 ',
+            '🟡 Obesidade Grau I 🟡',
+            '🔴 Obesidade Grau II 🔴',
+            '🚨 Obesidade Grau III 🚨',
         ];
 
         const categoriesHTML = categories.map(category => `
