@@ -118,7 +118,7 @@
             { id: 'o3-ans', imcCategory: 'Obesidade Grau III', type: 'Ansiedade', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: 1079.90, products: ['2 Detox', '2 Roxo', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 160 dias (Econômico - Ansiedade)'." },
             { id: 'o3-prem', imcCategory: 'Obesidade Grau III', type: 'Premium', title: 'Projeto Slim 140 dias', duration: '140 Dias', price: 1179.79, products: ['2 Detox', '2 Slim', '1 Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png', 'https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 140 dias (Premium)'." },
         ];
-        
+
         const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, activityLevel: '', dietSweet: '', dietHealthy: '', anxiety: '', digestion: '', challengeText: '' };
         const sleep = ms => new Promise(res => setTimeout(res, ms));
 
@@ -179,7 +179,7 @@
                 reason = `Com um IMC indicando 'Abaixo do Peso', a estratégia de emagrecimento não é a mais indicada. O foco deve ser o ganho de massa muscular de forma saudável. Recomendo fortemente uma conversa com um especialista para traçar o plano ideal para você. O acompanhamento da Gabi será fundamental nesse processo!`;
                 return { recommendations, reason };
             }
-            
+
             if (anxiety === 'sim') {
                 if (comboAnsiedade) recommendations.push({ combo: comboAnsiedade, tag: '🎯 Foco em Ansiedade', tagClass: 'main' });
                 if (comboPremium) recommendations.push({ combo: comboPremium, tag: '⭐ Opção Premium', tagClass: 'secondary' });
@@ -256,14 +256,14 @@
                     </div>
                 </div>`;
         };
-        
+
         const showFinalRecommendation = () => {
             chatInterface.style.display = 'none';
             finalResultScreen.style.display = 'block';
-        
+
             const { recommendations, reason } = getRecomendacao(userData);
             const cardsHtml = recommendations.map(rec => createComboCard(rec)).join('');
-        
+
             finalResultScreen.innerHTML = `
                 <div class="gabi-result-header">
                     <h2>Sua estratégia está pronta, ${userData.name}!</h2>
@@ -275,7 +275,7 @@
                 ${(reason && recommendations.length > 0) ? createExplanationSection(reason) : ''}
                 ${recommendations.length === 0 ? `<div class="gabi-explanation-section"><p style="text-align:center;">${reason}</p></div>` : ''}
             `;
-            
+
             const toggleButton = container.querySelector('#gabi-toggle-explanation');
             if (toggleButton) {
                 toggleButton.addEventListener('click', () => {
