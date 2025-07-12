@@ -28,7 +28,7 @@
             .gabi-input-area { padding: 1.5rem 1rem; margin-top: auto; flex-shrink: 0; }
             .gabi-message { padding: 1rem 1.5rem; border-radius: 1rem; line-height: 1.6; animation: gabi-fadeIn 0.4s ease-out both; max-width: 85%; white-space: pre-wrap; font-size: 0.95rem; }
             .gabi-bot-message { background-color: #2c2c2e; color: #e5e7eb; align-self: flex-start; border-bottom-left-radius: 0.25rem; }
-            .gabi-user-message { background: linear-gradient(135deg, #8b5cf6, #a855f7); color: white; align-self: flex-end; font-weight: 500; border-top-right-radius: 0.25rem; }
+            .gabi-user-message { background: linear-gradient(135deg, #8b5cf6, #a855f7); color: white; font-weight: 500; border-top-right-radius: 0.25rem; }
             .gabi-action-button { width: 100%; padding: 0.8rem 1rem; border-radius: 0.75rem; border: 1px solid #c084fc; background: transparent; color: #c084fc; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
             .gabi-action-button:hover { background: #c084fc; color: white; }
             .gabi-input-with-button { display: flex; gap: 1rem; align-items: center; padding: 0.5rem; background-color: #2c2c2e; border-radius: 1.5rem; }
@@ -103,19 +103,19 @@
         const inputArea = container.querySelector('.gabi-input-area');
 
         const combos = [
-            { id: 'pn-eco', imcCategory: 'Peso Normal', type: 'Econômico', title: 'Projeto Slim 30 dias', duration: '30 Dias', price: 169.90, products: ['1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 30 dias (Econômico)'." },
-            { id: 'pn-prem', imcCategory: 'Peso Normal', type: 'Premium', title: 'Projeto Slim 40 dias', duration: '40 Dias', price: 499.99, products: ['1 Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 40 dias (Premium)'." },
-            { id: 'sp-eco', imcCategory: 'Sobrepeso', type: 'Econômico', title: 'Projeto Slim 60 dias', duration: '60 Dias', price: 339.80, products: ['2 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 60 dias (Econômico)'." },
-            { id: 'sp-ans', imcCategory: 'Sobrepeso', type: 'Ansiedade', title: 'Projeto Slim 60 dias', duration: '60 Dias', price: 285.00, products: ['1 Roxo'], images: ['https://gabi-gpt.web.app/assets/produtos/roxo.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 60 dias (Econômico - Ansiedade)'." },
-            { id: 'sp-prem', imcCategory: 'Sobrepeso', type: 'Premium', title: 'Projeto Slim 40 dias', duration: '40 Dias', price: 499.99, products: ['1 Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 40 dias (Premium)'." },
+            { id: 'pn-eco', imcCategory: 'Peso Normal', type: 'Econômico', title: 'Projeto Slim 30 dias', duration: '30 Dias', price: 169.90, products: ['1 Super Slim X'], images: ['https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 30 dias (Econômico)'." },
+            { id: 'pn-prem', imcCategory: 'Peso Normal', type: 'Premium', title: 'Projeto Slim 40 dias', duration: '40 Dias', price: 499.99, products: ['1 Guria Shape Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 40 dias (Premium)'." },
+            { id: 'sp-eco', imcCategory: 'Sobrepeso', type: 'Econômico', title: 'Projeto Slim 60 dias', duration: '60 Dias', price: 339.80, products: ['2 Super Slim X'], images: ['https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 60 dias (Econômico)'." },
+            { id: 'sp-ans', imcCategory: 'Sobrepeso', type: 'Ansiedade', title: 'Projeto Slim 60 dias', duration: '60 Dias', price: 285.00, products: ['1 Guria Shape Roxo'], images: ['https://gabi-gpt.web.app/assets/produtos/roxo.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 60 dias (Foco Ansiedade)'." },
+            { id: 'sp-prem', imcCategory: 'Sobrepeso', type: 'Premium', title: 'Projeto Slim 40 dias', duration: '40 Dias', price: 499.99, products: ['1 Guria Shape Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 40 dias (Premium)'." },
             { id: 'o1-eco', imcCategory: 'Obesidade Grau I', type: 'Econômico', title: 'Projeto Slim 90 dias', duration: '90 Dias', price: 500.00, products: ['1 Detox', '1 Black'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/black.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 90 dias (Econômico)'." },
-            { id: 'o1-ans', imcCategory: 'Obesidade Grau I', type: 'Ansiedade', title: 'Projeto Slim 90 dias', duration: '90 Dias', price: 455.00, products: ['1 Detox', '1 Roxo'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 90 dias (Econômico - Ansiedade)'." },
+            { id: 'o1-ans', imcCategory: 'Obesidade Grau I', type: 'Ansiedade', title: 'Projeto Slim 90 dias', duration: '90 Dias', price: 455.00, products: ['1 Detox', '1 Roxo'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 90 dias (Foco Ansiedade)'." },
             { id: 'o1-prem', imcCategory: 'Obesidade Grau I', type: 'Premium', title: 'Projeto Slim 70 dias', duration: '70 Dias', price: 669.99, products: ['1 Detox', '1 Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 70 dias (Premium)'." },
             { id: 'o2-eco', imcCategory: 'Obesidade Grau II', type: 'Econômico', title: 'Projeto Slim 120 dias', duration: '120 Dias', price: 669.90, products: ['1 Detox', '1 Black', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/black.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 120 dias (Econômico)'." },
-            { id: 'o2-ans', imcCategory: 'Obesidade Grau II', type: 'Ansiedade', title: 'Projeto Slim 120 dias', duration: '120 Dias', price: 624.90, products: ['1 Detox', '1 Roxo', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 120 dias (Econômico - Ansiedade)'." },
+            { id: 'o2-ans', imcCategory: 'Obesidade Grau II', type: 'Ansiedade', title: 'Projeto Slim 120 dias', duration: '120 Dias', price: 624.90, products: ['1 Detox', '1 Roxo', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 120 dias (Foco Ansiedade)'." },
             { id: 'o2-prem', imcCategory: 'Obesidade Grau II', type: 'Premium', title: 'Projeto Slim 100 dias', duration: '100 Dias', price: 839.89, products: ['1 Detox', '1 Gold', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/gold.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 100 dias (Premium)'." },
             { id: 'o3-eco', imcCategory: 'Obesidade Grau III', type: 'Econômico', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: 1169.90, products: ['2 Detox', '2 Black', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/black.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 160 dias (Econômico)'." },
-            { id: 'o3-ans', imcCategory: 'Obesidade Grau III', type: 'Ansiedade', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: 1079.90, products: ['2 Detox', '2 Roxo', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 160 dias (Econômico - Ansiedade)'." },
+            { id: 'o3-ans', imcCategory: 'Obesidade Grau III', type: 'Ansiedade', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: 1079.90, products: ['2 Detox', '2 Roxo', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 160 dias (Foco Ansiedade)'." },
             { id: 'o3-prem', imcCategory: 'Obesidade Grau III', type: 'Premium', title: 'Projeto Slim 140 dias', duration: '140 Dias', price: 1179.79, products: ['2 Detox', '2 Slim', '1 Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png', 'https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 140 dias (Premium)'." },
         ];
 
@@ -187,6 +187,9 @@
             } else if (anxiety === 'nao') {
                 if (comboEconomico) recommendations.push({ combo: comboEconomico, tag: '💎 Principal', tagClass: 'main' });
                 if (comboPremium) recommendations.push({ combo: comboPremium, tag: '⭐ Opção Premium', tagClass: 'secondary' });
+                if (imcCategory === 'Sobrepeso' && comboAnsiedade) {
+                    recommendations.push({ combo: comboAnsiedade, tag: '🎯 Controle de Apetite', tagClass: 'economic' });
+                }
                 reason = `Com a ansiedade sob controle, nosso foco é 100% na aceleração do seu metabolismo. O **plano principal** para sua categoria de IMC é a escolha mais direta para os seus objetivos.`;
             } else { // anxiety === 'media'
                 if (comboPremium) recommendations.push({ combo: comboPremium, tag: '💎 Plano Premium', tagClass: 'main' });
@@ -205,18 +208,21 @@
             return { recommendations, reason };
         }
 
+        // --- CORREÇÃO APLICADA AQUI ---
         const createComboCard = (rec) => {
             if (!rec || !rec.combo) return '';
             const { combo, tag, tagClass } = rec;
 
-            let productItemsHtml = '';
-            for (let i = 0; i < combo.products.length; i++) {
-                productItemsHtml += `
+            // Mapeia cada nome de produto a sua respectiva imagem
+            const productItemsHtml = combo.products.map((productName, index) => {
+                // Usa a imagem na mesma posição do produto, ou a última imagem se não houver correspondência
+                const imageUrl = combo.images[index] || combo.images[combo.images.length - 1];
+                return `
                     <div class="gabi-product-item">
-                        <img src="${combo.images[i]}" alt="${combo.products[i]}">
-                        <span>${combo.products[i]}</span>
+                        <img src="${imageUrl}" alt="${productName}">
+                        <span>${productName}</span>
                     </div>`;
-            }
+            }).join('');
 
             return `
                 <div class="gabi-result-card combo-style">
