@@ -1,10 +1,9 @@
-// combos.js (Rebuilt to match product Browse logic)
+// combos.js (Rebuilt to match product Browse logic with Emojis)
 (function() {
     const combosSection = document.getElementById('combos-section');
     const head = document.head;
 
     // --- Data Transformation ---
-    // Original combo data from previous version
     const originalCombosData = {
         'peso-normal': [
             { id: 'pn-eco', tag: 'PLANO ECONÔMICO', tagClass: 'tag-economico', title: 'Projeto Slim 30 dias', duration: '30 Dias', price: '169,90', anxiety: false, products: [{ name: '1 Slim', img: 'https://gabi-gpt.web.app/assets/produtos/slimx.png' }], whatsappLink: 'https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo "Projeto Slim 30 dias (Econômico)".' },
@@ -32,7 +31,6 @@
         ]
     };
 
-    // Flatten the data into a product-like array
     const combosList = Object.entries(originalCombosData).flatMap(([categoryKey, combos]) => {
         const categoryMap = {
             'peso-normal': '🟢 Peso Normal',
@@ -43,11 +41,12 @@
         };
         return combos.map(combo => ({
             id: combo.id,
-            nome: `${combo.tag} - ${combo.title}`,
+            nome: `${combo.title}`, // Simplified name for the list view
+            fullName: `${combo.tag} - ${combo.title}`, // Full name for detail view
             preco: parseFloat(combo.price.replace(',', '.')),
             categoria: categoryMap[categoryKey],
-            imagem: combo.products[0].img, // Use the first product's image
-            details: combo // Keep all original details for the detail view
+            imagem: combo.products[0].img,
+            details: combo
         }));
     });
 
@@ -63,7 +62,6 @@
         const combo = combosList.find(c => c.id === comboId);
         if (!combo) return;
 
-        // Re-use the combo card HTML from the previous version for the detail view
         const detailHTML = `
             <div class="w-full max-w-md mx-auto">
                 <div class="combo-card-detail">
@@ -102,16 +100,36 @@
         combosSection.appendChild(createBackButton(() => renderComboList(combo.categoria, backCallback)));
     }
 
+    // NEW: Helper function to get the correct emoji for a combo
+    function getComboEmoji(combo) {
+        if (combo.details.anxiety) {
+            return '🥵'; // Combo Ansiosa
+        }
+        if (combo.details.tag === 'PLANO ECONÔMICO') {
+            return '😅'; // Combo Econômico
+        }
+        if (combo.details.tag === 'PLANO PREMIUM') {
+            return '🤑'; // Combo Premium
+        }
+        return '🔥'; // Default fallback
+    }
+
     function renderComboList(category, backCallback) {
         const filteredCombos = combosList.filter(c => c.categoria === category);
 
-        const combosHTML = filteredCombos.map(combo => `
+        // UPDATED: This part now uses the getComboEmoji function
+        const combosHTML = filteredCombos.map(combo => {
+            const emoji = getComboEmoji(combo);
+            return `
             <button data-combo-id="${combo.id}" class="link-button combo-item-btn group flex items-center gap-4 w-full max-w-sm p-3">
-                <img src="${combo.imagem}" alt="${combo.nome}" class="w-10 h-10 object-cover rounded-full flex-shrink-0">
+                <div class="w-10 h-10 grid place-items-center flex-shrink-0">
+                    <span class="text-3xl">${emoji}</span>
+                </div>
                 <span class="flex-grow font-semibold text-center text-slate-200 group-hover:text-white">${combo.nome}</span>
                 <div class="w-10"></div>
             </button>
-        `).join('');
+        `;
+        }).join('');
 
         combosSection.innerHTML = combosHTML;
         combosSection.appendChild(createBackButton(() => showComboCategories(backCallback)));
@@ -122,7 +140,6 @@
     }
 
     function showComboCategories(backCallback) {
-        // Get unique categories in the correct order
         const categories = [
             '🟢 Peso Normal',
             '🟠 Sobrepeso',
@@ -169,7 +186,7 @@
         `;
         document.head.appendChild(style);
     }
-    
+
     // --- Main Exposed Function ---
     window.renderCombosContent = (backCallback) => {
         injectDetailStyles();
