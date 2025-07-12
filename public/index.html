@@ -284,14 +284,27 @@
             background: linear-gradient(135deg, #2a2a2d, #1E1F20);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
+        
         .gabi-gpt-avatar {
-            font-size: 2rem;
+            width: 48px; /* Tamanho fixo para o container do avatar */
+            height: 48px;
+            border-radius: 50%;
+            overflow: hidden; /* Garante que a imagem não ultrapasse o border-radius */
+            flex-shrink: 0;
         }
+
+        .gabi-gpt-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+        }
+        
         .gabi-gpt-name {
             color: white;
             font-weight: 600;
             font-size: 1.1rem;
         }
+        
         .gabi-gpt-status {
             color: #4adf85;
             font-size: 0.85rem;
@@ -444,7 +457,9 @@
         <div id="gabi-gpt-popup">
             <button id="close-gabi-gpt-popup">&times;</button>
             <div class="gabi-gpt-header">
-                <div class="gabi-gpt-avatar">💊</div>
+                <div class="gabi-gpt-avatar">
+                    <img src="/gabi-profile.jpg" alt="Avatar da Gabi GPT">
+                </div>
                 <div class="gabi-gpt-info">
                     <div class="gabi-gpt-name">Gabi GPT</div>
                     <div class="gabi-gpt-status">Online</div>
@@ -469,7 +484,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Lógica original do popup de combos
             const footerOpenBtn = document.getElementById('footer-combo-btn');
             const overlay = document.getElementById('combo-popup-overlay');
             const closeBtn = document.getElementById('close-combo-popup');
@@ -491,39 +505,10 @@
                     }
                 });
             }
-
-            // --- LÓGICA DO CHAT GABI GPT ---
-            const gabiGptFloatBtn = document.getElementById('gabi-gpt-float-btn');
-            const gabiGptOverlay = document.getElementById('gabi-gpt-popup-overlay');
-            const closeGabiGptBtn = document.getElementById('close-gabi-gpt-popup');
-
-            setTimeout(() => {
-                if(gabiGptFloatBtn) gabiGptFloatBtn.classList.add('show');
-            }, 3000);
-
-            setTimeout(() => {
-                if(gabiGptFloatBtn) gabiGptFloatBtn.classList.remove('show');
-            }, 10000);
-
-            const openGabiGptPopup = () => {
-                if (gabiGptOverlay) gabiGptOverlay.style.display = 'flex';
-            };
-
-            const closeGabiGptPopup = () => {
-                if (gabiGptOverlay) gabiGptOverlay.style.display = 'none';
-            };
-
-            if (gabiGptFloatBtn) gabiGptFloatBtn.addEventListener('click', openGabiGptPopup);
-            if (closeGabiGptBtn) closeGabiGptBtn.addEventListener('click', closeGabiGptPopup);
-
-            if (gabiGptOverlay) {
-                gabiGptOverlay.addEventListener('click', (event) => {
-                    if (event.target === gabiGptOverlay) {
-                        closeGabiGptPopup();
-                    }
-                });
-            }
         });
     </script>
+    
+    <script src="gabi_gpt_pupup.js"></script>
+
 </body>
 </html>
