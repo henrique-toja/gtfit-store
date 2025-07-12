@@ -16,32 +16,7 @@
     <link rel="stylesheet" href="produtos.css">
 
     <style>
-        /* Estilos para o novo botão flutuante e o pop-up */
-        #combo-popup-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: linear-gradient(135deg, #c084fc, #a855f7);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 15px 25px;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-
-        #combo-popup-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(192, 132, 252, 0.5);
-        }
+        /* ESTILOS DO BOTÃO FLUTUANTE REMOVIDOS */
 
         #combo-popup-overlay {
             position: fixed;
@@ -166,17 +141,8 @@
             box-shadow: 0 10px 25px rgba(192, 132, 252, 0.5);
         }
 
-        /* Responsividade para o botão flutuante */
+        /* Responsividade para o botão de fechar do pop-up */
         @media (max-width: 600px) {
-            #combo-popup-btn {
-                padding: 12px;
-                border-radius: 50%;
-                right: 15px;
-                bottom: 15px;
-            }
-            #combo-popup-btn .button-text {
-                display: none;
-            }
              #close-combo-popup {
                 top: 5px;
                 right: 5px;
@@ -195,7 +161,7 @@
             <h1>Nossa Linha Completa</h1>
             <p>Encontre o suplemento ideal para acelerar sua jornada de transformação.</p>
             
-            <a href="/combos" class="header-combo-btn">
+            <a href="/combos.html" class="header-combo-btn">
                 Ver combos personalizados 🧠
             </a>
 
@@ -251,16 +217,11 @@
         </p>
     </footer>
 
-    <button id="combo-popup-btn" title="Ver combos por IMC">
-        <i class="fas fa-layer-group"></i>
-        <span class="button-text">Ver combos por IMC</span>
-    </button>
-
     <div id="combo-popup-overlay">
         <div id="combo-popup">
             <button id="close-combo-popup" title="Fechar">&times;</button>
 
-            <a href="/combos" title="Ver todos os combos">
+            <a href="/combos.html" title="Ver todos os combos">
                 <img src="produtos.png" alt="Combos Recomendados por IMC">
             </a>
             
@@ -271,7 +232,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const openBtn = document.getElementById('combo-popup-btn');
+            // Referência ao botão flutuante removida
             const footerOpenBtn = document.getElementById('footer-combo-btn');
             const overlay = document.getElementById('combo-popup-overlay');
             const closeBtn = document.getElementById('close-combo-popup');
@@ -284,12 +245,11 @@
                 overlay.style.display = 'none';
             };
 
-            openBtn.addEventListener('click', openPopup);
+            // Evento de clique do botão flutuante removido
             footerOpenBtn.addEventListener('click', openPopup);
             closeBtn.addEventListener('click', closePopup);
 
             overlay.addEventListener('click', (event) => {
-                // Modificado para fechar apenas se clicar no overlay, não na imagem (que agora é um link)
                 if (event.target === overlay) {
                     closePopup();
                 }
