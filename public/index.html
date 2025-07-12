@@ -58,7 +58,7 @@
             padding: 1rem;
             animation: fadeIn 0.3s ease;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -80,12 +80,18 @@
             to { transform: translateY(0); opacity: 1;}
         }
 
+        /* O link (<a>) dentro do popup */
+        #combo-popup a {
+            display: block; /* Garante que a área do link preencha a imagem */
+        }
+
         #combo-popup img {
             display: block;
             width: 100%;
-            max-width: 800px; /* Limite para a imagem não ficar excessivamente grande em telas largas */
+            max-width: 800px;
             height: auto;
             border-radius: 1rem;
+            cursor: pointer; /* Adiciona o cursor de link na imagem */
         }
 
         #close-combo-popup {
@@ -106,8 +112,9 @@
             align-items: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             transition: all 0.2s ease;
+            z-index: 1001; /* Garante que o botão de fechar fique sobre a imagem linkável */
         }
-        
+
         #close-combo-popup:hover {
             transform: scale(1.1);
             background-color: #c084fc;
@@ -126,7 +133,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 0 15px 2px rgba(192, 132, 252, 0.2);
             padding: 14px 28px;
-            color: var(--text-light);
+            color: white;
             text-decoration: none;
             font-weight: 600;
             cursor: pointer;
@@ -139,17 +146,36 @@
             border-color: rgba(75, 222, 128, 0.6);
         }
 
+        /* Estilo para o botão de combos no header */
+        .header-combo-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, #c084fc, #a855f7);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+        .header-combo-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(192, 132, 252, 0.5);
+        }
 
         /* Responsividade para o botão flutuante */
         @media (max-width: 600px) {
             #combo-popup-btn {
                 padding: 12px;
-                border-radius: 50%; /* Vira um círculo em telas pequenas */
+                border-radius: 50%;
                 right: 15px;
                 bottom: 15px;
             }
             #combo-popup-btn .button-text {
-                display: none; /* Esconde o texto e mostra só o ícone */
+                display: none;
             }
              #close-combo-popup {
                 top: 5px;
@@ -168,6 +194,11 @@
             <div class="animated-pill-icon">💊</div>
             <h1>Nossa Linha Completa</h1>
             <p>Encontre o suplemento ideal para acelerar sua jornada de transformação.</p>
+            
+            <a href="/combos" class="header-combo-btn">
+                Ver combos personalizados 🧠
+            </a>
+
         </div>
     </header>
 
@@ -224,42 +255,41 @@
         <i class="fas fa-layer-group"></i>
         <span class="button-text">Ver combos por IMC</span>
     </button>
-    
+
     <div id="combo-popup-overlay">
         <div id="combo-popup">
             <button id="close-combo-popup" title="Fechar">&times;</button>
-            <img src="produtos.png" alt="Combos Recomendados por IMC">
+
+            <a href="/combos" title="Ver todos os combos">
+                <img src="produtos.png" alt="Combos Recomendados por IMC">
+            </a>
+            
         </div>
     </div>
-
-
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="produtos.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const openBtn = document.getElementById('combo-popup-btn');
-            const footerOpenBtn = document.getElementById('footer-combo-btn'); // Pega o novo botão do rodapé
+            const footerOpenBtn = document.getElementById('footer-combo-btn');
             const overlay = document.getElementById('combo-popup-overlay');
             const closeBtn = document.getElementById('close-combo-popup');
 
-            // Função para abrir o pop-up
             const openPopup = () => {
                 overlay.style.display = 'flex';
             };
 
-            // Função para fechar o pop-up
             const closePopup = () => {
                 overlay.style.display = 'none';
             };
 
-            // Adiciona os eventos
             openBtn.addEventListener('click', openPopup);
-            footerOpenBtn.addEventListener('click', openPopup); // Adiciona o evento ao botão do rodapé
+            footerOpenBtn.addEventListener('click', openPopup);
             closeBtn.addEventListener('click', closePopup);
 
-            // Fecha o pop-up ao clicar fora da imagem (no overlay)
             overlay.addEventListener('click', (event) => {
+                // Modificado para fechar apenas se clicar no overlay, não na imagem (que agora é um link)
                 if (event.target === overlay) {
                     closePopup();
                 }
