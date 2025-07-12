@@ -1,514 +1,116 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vitrine de Produtos - GT Fit</title>
+
+    <title>Produtos - GTFIT Store</title>
+    <meta name="description" content="Descubra nossa linha completa de emagrecedores e complementos para sua jornada fitness.">
+    <link rel="icon" href="https://www.projetoslim.fitness/gabi-profile.jpg" type="image/jpeg">
+
+    <meta property="og:title" content="Produtos - GTFIT Store">
+    <meta property="og:description" content="Descubra nossa linha completa de emagrecedores e complementos.">
+    <meta property="og:image" content="https://www.projetoslim.fitness/assets/images/banner.png">
+    <meta property="og:url" content="https://www.gtfit.store">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="GTFIT Store">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Produtos - GTFIT Store">
+    <meta name="twitter:description" content="Descubra nossa linha completa de emagrecedores e complementos.">
+    <meta name="twitter:image" content="https://www.projetoslim.fitness/assets/images/banner.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <link rel="stylesheet" href="produtos.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-68PVKW08G2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-68PVKW08G2');
+    </script>
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '976087778020420');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=976087778020420&ev=PageView&noscript=1"
+    /></noscript>
 
     <style>
-        /* ESTILOS ORIGINAIS */
-        #combo-popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-            animation: fadeIn 0.3s ease;
+        :root {
+            --background-dark: #131314;
+            --surface-dark: #1E1F20;
+            --primary-purple: #c084fc;
+            --primary-green: #4bde80;
+            --font-main: 'Inter', sans-serif;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        body {
+            background-color: var(--background-dark);
+            color: #e5e7eb;
+            font-family: var(--font-main);
+            background-image: radial-gradient(circle at 10% 10%, rgba(192, 132, 252, 0.1) 0%, transparent 30%),
+                              radial-gradient(circle at 90% 80%, rgba(75, 222, 128, 0.1) 0%, transparent 30%);
         }
-
-        #combo-popup {
-            position: relative;
-            background-color: #1E1F20;
-            border-radius: 1.5rem;
-            padding: 1rem;
-            max-width: 95%;
-            max-height: 95vh;
-            overflow: auto;
-            animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0;}
-            to { transform: translateY(0); opacity: 1;}
-        }
-
-        #combo-popup a {
-            display: block;
-        }
-
-        #combo-popup img {
-            display: block;
-            width: 100%;
-            max-width: 800px;
-            height: auto;
-            border-radius: 1rem;
-            cursor: pointer;
-        }
-
-        #close-combo-popup {
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            color: #131314;
-            border: none;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            font-weight: 800;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: all 0.2s ease;
-            z-index: 1001;
-        }
-
-        #close-combo-popup:hover {
-            transform: scale(1.1);
-            background-color: #c084fc;
-            color: white;
-        }
-
-        #footer-combo-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+        .link-button {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(192, 132, 252, 0.3);
             backdrop-filter: blur(10px);
             border-radius: 9999px;
             transition: all 0.3s ease;
             box-shadow: 0 0 15px 2px rgba(192, 132, 252, 0.2);
-            padding: 14px 28px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
         }
-        #footer-combo-btn:hover {
+        .link-button:hover {
             transform: translateY(-2px) scale(1.02);
             box-shadow: 0 0 20px 3px rgba(75, 222, 128, 0.4);
             border-color: rgba(75, 222, 128, 0.6);
         }
-
-        .header-combo-btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            background: linear-gradient(135deg, #c084fc, #a855f7);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            transition: all 0.3s ease;
-        }
-        .header-combo-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(192, 132, 252, 0.5);
-        }
-
-        @media (max-width: 600px) {
-             #close-combo-popup {
-                top: 5px;
-                right: 5px;
-                width: 35px;
-                height: 35px;
-            }
-        }
-
-        /* =================================== */
-        /* ESTILOS DO BOTÃO FLUTUANTE GABI GPT */
-        /* =================================== */
-        .gabi-gpt-float-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background-color: #c084fc;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.8rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 998;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .gabi-gpt-float-btn:hover {
-            transform: scale(1.1);
-            background-color: #a855f7;
-        }
-
-        .gabi-gpt-float-btn .message-bubble {
-            position: absolute;
-            bottom: 15px;
-            right: 80px;
-            background-color: white;
-            color: #1E1F20;
-            padding: 12px 20px;
-            border-radius: 1.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(10px);
-            transition: all 0.3s ease;
-            animation: bounce 2s infinite 1s;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(10px) translateY(0);}
-            40% {transform: translateX(10px) translateY(-10px);}
-            60% {transform: translateX(10px) translateY(-5px);}
-        }
-
-        .gabi-gpt-float-btn:hover .message-bubble,
-        .gabi-gpt-float-btn.show .message-bubble {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
-            animation: none;
-        }
-
-        .gabi-gpt-float-btn::before {
-            content: '💊';
-            transition: transform 0.3s ease;
-        }
-
-        .gabi-gpt-float-btn:hover::before {
-            transform: rotate(360deg) scale(1.1);
-        }
-
-        /* =========================== */
-        /* ESTILOS DO POP-UP DO CHAT   */
-        /* =========================== */
-        #gabi-gpt-popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-            animation: fadeIn 0.3s ease;
-        }
-
-        #gabi-gpt-popup {
-            font-family: 'Inter', sans-serif;
-            position: relative;
-            background-color: #131314;
-            border: 1px solid rgba(192, 132, 252, 0.2);
-            border-radius: 1.5rem;
-            width: 100%;
-            max-width: 450px;
-            height: 90vh;
-            max-height: 700px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: slideUp 0.4s ease;
-            overflow: hidden;
-        }
-
-        #close-gabi-gpt-popup {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 30px;
-            height: 30px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            font-weight: 400;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.2s ease;
-            z-index: 1001;
-        }
-
-        #close-gabi-gpt-popup:hover {
-            background-color: #c084fc;
-        }
-
-        .gabi-gpt-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 1.2rem 1.5rem;
-            background: linear-gradient(135deg, #2a2a2d, #1E1F20);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .gabi-gpt-avatar {
-            width: 48px; /* Tamanho fixo para o container do avatar */
-            height: 48px;
-            border-radius: 50%;
-            overflow: hidden; /* Garante que a imagem não ultrapasse o border-radius */
-            flex-shrink: 0;
-        }
-
-        .gabi-gpt-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
-        }
-        
-        .gabi-gpt-name {
-            color: white;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        
-        .gabi-gpt-status {
-            color: #4adf85;
-            font-size: 0.85rem;
-        }
-
-        .gabi-gpt-chat-body {
-            flex-grow: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .chat-message {
-            max-width: 85%;
-            padding: 12px 18px;
-            border-radius: 1.2rem;
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-
-        .gpt-message {
-            background-color: #2c2d2f;
-            color: #e5e7eb;
-            border-bottom-left-radius: 0.25rem;
-            align-self: flex-start;
-        }
-
-        .user-message {
-            background: linear-gradient(135deg, #c084fc, #a855f7);
-            color: white;
-            border-bottom-right-radius: 0.25rem;
-            align-self: flex-end;
-        }
-
-        .gabi-gpt-footer {
-            display: flex;
-            padding: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            gap: 10px;
-        }
-
-        #gabi-gpt-input {
-            flex-grow: 1;
-            background-color: #2c2d2f;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 9999px;
-            padding: 12px 20px;
-            color: white;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s ease;
-        }
-
-        #gabi-gpt-input:focus {
-            border-color: #c084fc;
-        }
-
-        #gabi-gpt-send-btn {
-            background: linear-gradient(135deg, #c084fc, #a855f7);
-            border: none;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-        #gabi-gpt-send-btn:hover {
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 600px) {
-            #gabi-gpt-popup {
-                height: 100%;
-                max-height: 100%;
-                border-radius: 0;
-                max-width: 100%;
-            }
-        }
     </style>
 </head>
-<body>
+<body class="flex flex-col items-center min-h-screen p-4">
 
-    <header class="showcase-header">
-        <div class="container">
-            <div class="animated-pill-icon">💊</div>
-            <h1>Nossa Linha Completa</h1>
-            <p>Encontre o suplemento ideal para acelerar sua jornada de transformação.</p>
-            <a href="/combos.html" class="header-combo-btn">
-                Ver combos personalizados 🧠
-            </a>
-        </div>
-    </header>
+    <div class="w-full max-w-md mx-auto py-8">
+        <header class="text-center mb-8">
+            <img src="https://www.projetoslim.fitness/gabi-profile.jpg" alt="Foto de Gabriela Torraca" class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-purple-400 shadow-lg">
+            <h1 class="text-2xl font-bold text-white">Nossos Produtos</h1>
+            <p class="text-slate-400">Escolha uma categoria para começar.</p>
+        </header>
 
-    <main>
-        <section class="product-category">
-            <h2 class="category-title">🔥 Emagrecedores</h2>
-            <div class="swiper-container">
-                <div class="swiper-wrapper" id="emagrecedores-wrapper"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+        <main class="w-full">
+            <section id="products-dynamic-section" class="flex flex-col items-center gap-5 w-full"></section>
+        </main>
+
+        <footer class="w-full text-center mt-12 mb-4">
+            <div class="flex justify-center items-center gap-6 mb-6">
+                 <a href="mailto:contato@gabrielatorraca.com.br" target="_blank" class="text-slate-400 hover:text-white transition-transform duration-200 hover:scale-110">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Email" class="h-7 w-7">
+                </a>
+                <a href="https://www.instagram.com/gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white transition-transform duration-200 hover:scale-110">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="h-7 w-7">
+                </a>
+                <a href="https://www.tiktok.com/@gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white transition-transform duration-200 hover:scale-110">
+                    <img src="https://www.projetoslim.fitness/tik.png" alt="TikTok" class="h-7 w-7 rounded-full">
+                </a>
             </div>
-        </section>
-
-        <section class="product-category">
-            <h2 class="category-title">✨ Complementos Essenciais</h2>
-            <div class="swiper-container">
-                <div class="swiper-wrapper" id="essenciais-wrapper"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </section>
-
-        <section class="product-category">
-            <h2 class="category-title">💡 Complementos Úteis</h2>
-            <div class="swiper-container">
-                <div class="swiper-wrapper" id="uteis-wrapper"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </section>
-
-        <section class="product-category">
-            <h2 class="category-title">🎁 Para Presentear (ou se Presentear!)</h2>
-            <div id="masculino-container" class="single-product-container"></div>
-        </section>
-    </main>
-
-    <footer class="showcase-footer">
-        <div class="footer-actions">
-            <a href="https://wa.me/556792552604?text=Oii, vim pela vitrine de produtos e gostaria de conversar com um especialista." target="_blank" class="footer-button">
-                <i class="fab fa-whatsapp"></i> Conversar com Especialista
-            </a>
-        </div>
-        <p class="copyright-text">
-            Copyright &copy; 2025 Gabriela Torraca. Todos os direitos reservados.
-        </p>
-    </footer>
-
-    <button id="gabi-gpt-float-btn" class="gabi-gpt-float-btn">
-        <div class="message-bubble">Ver qual 💊 é ideal para mim com a Gabi GPT</div>
-    </button>
-
-    <div id="gabi-gpt-popup-overlay">
-        <div id="gabi-gpt-popup">
-            <button id="close-gabi-gpt-popup">&times;</button>
-            <div class="gabi-gpt-header">
-                <div class="gabi-gpt-avatar">
-                    <img src="/gabi-profile.jpg" alt="Avatar da Gabi GPT">
-                </div>
-                <div class="gabi-gpt-info">
-                    <div class="gabi-gpt-name">Gabi GPT</div>
-                    <div class="gabi-gpt-status">Online</div>
-                </div>
-            </div>
-            <div class="gabi-gpt-chat-body">
-                <div class="chat-message gpt-message">
-                    <p>Olá! 👋 Sou sua assistente virtual de suplementação. Para começar, me diga qual seu principal objetivo: <strong>emagrecer</strong>, <strong>ganhar massa</strong>, <strong>melhorar a saúde</strong> ou outro?</p>
-                </div>
-            </div>
-            <div class="gabi-gpt-footer">
-                <input type="text" id="gabi-gpt-input" placeholder="Digite seu objetivo...">
-                <button id="gabi-gpt-send-btn">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
+            <p class="text-xs text-slate-500">
+                Copyright &copy; 2025 Gabriela Torraca. Todos os direitos reservados.
+            </p>
+        </footer>
     </div>
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="produtos.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const footerOpenBtn = document.getElementById('footer-combo-btn');
-            const overlay = document.getElementById('combo-popup-overlay');
-            const closeBtn = document.getElementById('close-combo-popup');
-
-            const openPopup = () => {
-                if (overlay) overlay.style.display = 'flex';
-            };
-
-            const closePopup = () => {
-                if (overlay) overlay.style.display = 'none';
-            };
-
-            if (footerOpenBtn) footerOpenBtn.addEventListener('click', openPopup);
-            if (closeBtn) closeBtn.addEventListener('click', closePopup);
-            if (overlay) {
-                overlay.addEventListener('click', (event) => {
-                    if (event.target === overlay) {
-                        closePopup();
-                    }
-                });
-            }
-        });
-    </script>
-    
-    <script src="gabi_gpt_pupup.js"></script>
-
+    <script src="products.js"></script>
 </body>
 </html>
