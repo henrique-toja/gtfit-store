@@ -13,6 +13,7 @@
      * Injeta a estrutura do chat e seus estilos dentro do container do pop-up.
      */
     function injectChatStructure(container) {
+        // O CSS continua o mesmo, sem alterações.
         const chatCss = `
             #gabi-chat-container { width: 100%; height:100%; display: flex; flex-direction: column; align-items: center; padding: 0; flex: 1; min-height: 0; font-family: 'Inter', sans-serif; }
             #gabi-chat-interface { width: 100%; max-width: 800px; flex: 1 1 0; min-height: 0; background-color: transparent; display: flex; flex-direction: column; overflow: hidden; }
@@ -41,8 +42,6 @@
             .gabi-typing-indicator span { width: 10px; height: 10px; background-color: #4b5563; border-radius: 50%; animation: gabi-bounce-typing 1.4s infinite ease-in-out both; }
             .gabi-typing-indicator .bounce-1 { animation-delay: -0.32s; }
             .gabi-typing-indicator .bounce-2 { animation-delay: -0.16s; }
-            
-            /* ESTILOS DA TELA DE RESULTADO */
             #gabi-final-result { padding: 1.5rem 1rem; height: 100%; animation: gabi-fadeIn 0.5s; overflow-y: auto; }
             #gabi-final-result::-webkit-scrollbar { width: 8px; }
             #gabi-final-result::-webkit-scrollbar-track { background: transparent; }
@@ -73,7 +72,6 @@
             .gabi-explanation-section button { background: none; border: none; color: white; width: 100%; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 1rem; font-weight: 600; }
             #gabi-explanation-content { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #4b5563; color: #a1a1aa; white-space: pre-wrap; font-size: 0.9rem; line-height: 1.6; }
         `;
-
         const chatHtml = `
             <div id="gabi-chat-container">
                 <div id="gabi-chat-interface">
@@ -87,7 +85,6 @@
             </div>
             <div id="gabi-final-result" style="display:none;"></div>
         `;
-
         const styleSheet = document.createElement("style");
         styleSheet.id = "gabi-chat-styles";
         styleSheet.innerText = chatCss;
@@ -102,23 +99,31 @@
         const chatMessages = container.querySelector('.gabi-chat-messages');
         const inputArea = container.querySelector('.gabi-input-area');
 
-        const combos = [
-            { id: 'pn-eco', imcCategory: 'Peso Normal', type: 'Econômico', title: 'Projeto Slim 30 dias', duration: '30 Dias', price: 169.90, products: ['1 Super Slim X'], images: ['https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 30 dias (Econômico)'." },
-            { id: 'pn-prem', imcCategory: 'Peso Normal', type: 'Premium', title: 'Projeto Slim 40 dias', duration: '40 Dias', price: 499.99, products: ['1 Guria Shape Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 40 dias (Premium)'." },
-            { id: 'sp-eco', imcCategory: 'Sobrepeso', type: 'Econômico', title: 'Projeto Slim 60 dias', duration: '60 Dias', price: 339.80, products: ['2 Super Slim X'], images: ['https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 60 dias (Econômico)'." },
-            { id: 'sp-ans', imcCategory: 'Sobrepeso', type: 'Ansiedade', title: 'Projeto Slim 60 dias', duration: '60 Dias', price: 285.00, products: ['1 Guria Shape Roxo'], images: ['https://gabi-gpt.web.app/assets/produtos/roxo.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 60 dias (Foco Ansiedade)'." },
-            { id: 'sp-prem', imcCategory: 'Sobrepeso', type: 'Premium', title: 'Projeto Slim 40 dias', duration: '40 Dias', price: 499.99, products: ['1 Guria Shape Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 40 dias (Premium)'." },
-            { id: 'o1-eco', imcCategory: 'Obesidade Grau I', type: 'Econômico', title: 'Projeto Slim 90 dias', duration: '90 Dias', price: 500.00, products: ['1 Detox', '1 Black'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/black.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 90 dias (Econômico)'." },
-            { id: 'o1-ans', imcCategory: 'Obesidade Grau I', type: 'Ansiedade', title: 'Projeto Slim 90 dias', duration: '90 Dias', price: 455.00, products: ['1 Detox', '1 Roxo'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 90 dias (Foco Ansiedade)'." },
-            { id: 'o1-prem', imcCategory: 'Obesidade Grau I', type: 'Premium', title: 'Projeto Slim 70 dias', duration: '70 Dias', price: 669.99, products: ['1 Detox', '1 Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 70 dias (Premium)'." },
-            { id: 'o2-eco', imcCategory: 'Obesidade Grau II', type: 'Econômico', title: 'Projeto Slim 120 dias', duration: '120 Dias', price: 669.90, products: ['1 Detox', '1 Black', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/black.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 120 dias (Econômico)'." },
-            { id: 'o2-ans', imcCategory: 'Obesidade Grau II', type: 'Ansiedade', title: 'Projeto Slim 120 dias', duration: '120 Dias', price: 624.90, products: ['1 Detox', '1 Roxo', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 120 dias (Foco Ansiedade)'." },
-            { id: 'o2-prem', imcCategory: 'Obesidade Grau II', type: 'Premium', title: 'Projeto Slim 100 dias', duration: '100 Dias', price: 839.89, products: ['1 Detox', '1 Gold', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/gold.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 100 dias (Premium)'." },
-            { id: 'o3-eco', imcCategory: 'Obesidade Grau III', type: 'Econômico', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: 1169.90, products: ['2 Detox', '2 Black', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/black.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 160 dias (Econômico)'." },
-            { id: 'o3-ans', imcCategory: 'Obesidade Grau III', type: 'Ansiedade', title: 'Projeto Slim 160 dias', duration: '160 Dias', price: 1079.90, products: ['2 Detox', '2 Roxo', '1 Slim'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/roxo.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 160 dias (Foco Ansiedade)'." },
-            { id: 'o3-prem', imcCategory: 'Obesidade Grau III', type: 'Premium', title: 'Projeto Slim 140 dias', duration: '140 Dias', price: 1179.79, products: ['2 Detox', '2 Slim', '1 Gold'], images: ['https://gabi-gpt.web.app/assets/produtos/detox.png', 'https://gabi-gpt.web.app/assets/produtos/slimx.png', 'https://gabi-gpt.web.app/assets/produtos/gold.png'], link: "https://wa.me/556792552604?text=Oi! Gostaria de adquirir o combo 'Projeto Slim 140 dias (Premium)'." },
-        ];
-
+        // --- CORREÇÃO: Utilizando a fonte única de dados ---
+        const originalCombosData = window.gabiFitApp.combosData || {};
+        const combos = Object.entries(originalCombosData).flatMap(([categoryKey, comboArray]) => {
+            const imcCategoryMap = {
+                'peso-normal': 'Peso Normal',
+                'sobrepeso': 'Sobrepeso',
+                'obesidade-grau-i': 'Obesidade Grau I',
+                'obesidade-grau-ii': 'Obesidade Grau II',
+                'obesidade-grau-iii': 'Obesidade Grau III',
+            };
+            return comboArray.map(c => ({
+                id: c.id,
+                imcCategory: imcCategoryMap[categoryKey],
+                type: c.anxiety ? 'Ansiedade' : (c.tag === 'PLANO PREMIUM' ? 'Premium' : 'Econômico'),
+                title: c.title,
+                duration: c.duration,
+                price: parseFloat(c.price.replace(',', '.')),
+                products: c.products.map(p => p.name), // Extrai apenas os nomes
+                images: c.products.map(p => p.img),   // Extrai apenas as imagens
+                link: c.whatsappLink,
+            }));
+        });
+        
+        // O resto do script (userData, sleep, funções de chat) permanece o mesmo.
+        // ...
         const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, activityLevel: '', dietSweet: '', dietHealthy: '', anxiety: '', digestion: '', challengeText: '' };
         const sleep = ms => new Promise(res => setTimeout(res, ms));
 
@@ -163,7 +168,7 @@
             return { input: inputField, button: container.querySelector(`#${buttonId}`) };
         };
 
-        // --- Lógica de Recomendação e Resultado ---
+        // --- Lógica de Recomendação e Resultado (sem alterações, pois agora usa os dados corretos) ---
         function getRecomendacao(userData) {
             const { imcCategory, anxiety } = userData;
             const combosForIMC = combos.filter(c => c.imcCategory === imcCategory);
@@ -208,48 +213,28 @@
             return { recommendations, reason };
         }
 
-        // --- CORREÇÃO APLICADA AQUI ---
         const createComboCard = (rec) => {
             if (!rec || !rec.combo) return '';
             const { combo, tag, tagClass } = rec;
-
-            // Mapeia cada nome de produto a sua respectiva imagem
             const productItemsHtml = combo.products.map((productName, index) => {
-                // Usa a imagem na mesma posição do produto, ou a última imagem se não houver correspondência
                 const imageUrl = combo.images[index] || combo.images[combo.images.length - 1];
-                return `
-                    <div class="gabi-product-item">
-                        <img src="${imageUrl}" alt="${productName}">
-                        <span>${productName}</span>
-                    </div>`;
+                return `<div class="gabi-product-item"><img src="${imageUrl}" alt="${productName}"><span>${productName}</span></div>`;
             }).join('');
 
             return `
                 <div class="gabi-result-card combo-style">
-                    <div class="gabi-card-header">
-                        <span class="tag ${tagClass}">${tag}</span>
-                        <h3 class="combo-title">${combo.title}</h3>
-                    </div>
+                    <div class="gabi-card-header"><span class="tag ${tagClass}">${tag}</span><h3 class="combo-title">${combo.title}</h3></div>
                     <div class="gabi-combo-details">
-                        <div class="detail-item">
-                            <div class="value duration">${combo.duration}</div>
-                            <div class="label">Duração</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="value price">R$ ${combo.price.toFixed(2).replace('.', ',')}</div>
-                            <div class="label">Total</div>
-                        </div>
+                        <div class="detail-item"><div class="value duration">${combo.duration}</div><div class="label">Duração</div></div>
+                        <div class="detail-item"><div class="value price">R$ ${combo.price.toFixed(2).replace('.', ',')}</div><div class="label">Total</div></div>
                     </div>
-                    <h4 class="product-list-title">Produtos Inclusos:</h4>
-                    <div class="gabi-product-list">
-                        ${productItemsHtml}
-                    </div>
-                    <a href="${combo.link}" target="_blank" class="buy-btn">
-                        🛒 Comprar Combo
-                    </a>
+                    <h4 class="product-list-title">Produtos Inclusos:</h4><div class="gabi-product-list">${productItemsHtml}</div>
+                    <a href="${combo.link}" target="_blank" class="buy-btn">🛒 Comprar Combo</a>
                 </div>`;
         };
-
+        
+        // O resto do script (showFinalRecommendation, fluxo de conversa) continua o mesmo.
+        // ...
         const createExplanationSection = (reason) => {
             return `
                 <div class="gabi-explanation-section">
@@ -306,7 +291,6 @@
             return { imc: imc.toFixed(1), classificacao, conclusao };
         }
 
-        // --- Fluxo da Conversa ---
         async function preRecommendation() {
             await addBotMessage(`Obrigada por compartilhar, ${userData.name}. Sua resposta é muito importante.`, 2500);
             await addBotMessage(`Com todas as suas respostas, já consigo cruzar os dados e montar o plano de ataque ideal para o seu caso. Preparando sua estratégia personalizada... 🧠✨`, 3500);
@@ -357,7 +341,7 @@
             container.querySelector('#dig-media').addEventListener('click', () => handle('media', "Ocasionalmente."));
             container.querySelector('#dig-nao').addEventListener('click', () => handle('nao', "Funciona bem."));
         }
-
+        
         async function askAnxiety() {
             await addBotMessage("Anotado! ✅ Agora, uma pergunta muito importante sobre a ansiedade... Você sente que ela atrapalha suas escolhas alimentares?", 2800);
             const div = document.createElement('div');
@@ -437,7 +421,7 @@
             button.addEventListener('click', handle);
             input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
         }
-
+        
         async function beginChat() {
             await addBotMessage("Olá! Sou a Gabi GPT, sua consultora de bem-estar. Que bom ter você aqui para iniciarmos seu Projeto Slim juntas! ✨", 2200);
             await addBotMessage("Meu objetivo é analisar suas respostas para encontrarmos a melhor estratégia para os seus objetivos. 💪", 3000);
