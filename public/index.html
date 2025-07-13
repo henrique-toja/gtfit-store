@@ -59,13 +59,13 @@
         .chat-bubble::before {
             content: '';
             position: absolute;
-            left: -10px; /* Aponta para a esquerda */
+            right: -10px; /* Aponta para a direita */
             top: 50%;
             transform: translateY(-50%);
             width: 0; height: 0;
             border-top: 8px solid transparent;
             border-bottom: 8px solid transparent;
-            border-right: 10px solid var(--primary-purple); /* Seta com a cor da borda */
+            border-left: 10px solid var(--primary-purple);
         }
         .online-indicator {
             position: absolute;
@@ -144,13 +144,13 @@
         </footer>
     </div>
 
-    <div id="chat-widget" class="fixed top-2/3 left-5 -translate-y-1/2 flex items-center gap-3 cursor-pointer z-40">
+    <div id="chat-widget" class="fixed top-2/3 right-5 -translate-y-1/2 flex items-center gap-3 cursor-pointer z-40">
+        <div class="chat-bubble p-3 rounded-lg max-w-[200px]">
+            <p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p>
+        </div>
         <div class="relative">
             <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Assistente Gabi" class="w-16 h-16 rounded-full border-2 border-purple-400" style="animation: pulse 2s infinite;">
             <div class="online-indicator"></div>
-        </div>
-        <div class="chat-bubble p-3 rounded-lg max-w-[200px]">
-            <p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p>
         </div>
     </div>
 
@@ -183,6 +183,7 @@
     <script src="https://www.gtfit.store/combos.js"></script>
 
     <script>
+        // Script da página principal (não mexe com o chat)
         document.addEventListener('DOMContentLoaded', () => {
             const mainNavigation = document.getElementById('main-navigation');
             const productsSection = document.getElementById('products-dynamic-section');
@@ -200,21 +201,25 @@
                 combosSection.innerHTML = '';
             };
 
-            showEmagrecedoresBtn.addEventListener('click', () => {
-                mainNavigation.classList.add('hidden');
-                productsSection.classList.remove('hidden');
-                window.renderProductList('Emagrecedores', showMainScreen);
-            });
-            showComplementosBtn.addEventListener('click', () => {
-                mainNavigation.classList.add('hidden');
-                productsSection.classList.remove('hidden');
-                window.renderProductList('Complementos', showMainScreen);
-            });
-            showCombosBtn.addEventListener('click', () => {
-                mainNavigation.classList.add('hidden');
-                combosSection.classList.remove('hidden');
-                window.renderCombosContent(showMainScreen);
-            });
+            if(window.renderProductList) {
+                showEmagrecedoresBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    productsSection.classList.remove('hidden');
+                    window.renderProductList('Emagrecedores', showMainScreen);
+                });
+                showComplementosBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    productsSection.classList.remove('hidden');
+                    window.renderProductList('Complementos', showMainScreen);
+                });
+            }
+             if(window.renderCombosContent) {
+                showCombosBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    combosSection.classList.remove('hidden');
+                    window.renderCombosContent(showMainScreen);
+                });
+            }
         });
     </script>
 
