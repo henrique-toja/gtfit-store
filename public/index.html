@@ -79,27 +79,6 @@
             box-shadow: 0 0 20px 3px rgba(75, 222, 128, 0.4);
             border-color: rgba(75, 222, 128, 0.6);
         }
-        #gabi-popup-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-            z-index: 1000; display: none; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
-        #gabi-popup-overlay.visible { display: flex; opacity: 1; }
-        #gabi-popup-container {
-            position: relative; background-color: var(--surface-dark);
-            border: 1px solid rgba(192, 132, 252, 0.3); border-radius: 1.5rem;
-            width: 95%; max-width: 800px; height: 90%; max-height: 700px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column;
-            overflow: hidden; transform: scale(0.95); transition: transform 0.3s ease;
-        }
-        #gabi-popup-overlay.visible #gabi-popup-container { transform: scale(1); }
-        #gabi-popup-close {
-            position: absolute; top: 0.5rem; right: 0.75rem; background: none; border: none;
-            color: #a1a1aa; font-size: 2rem; cursor: pointer; z-index: 1010; transition: color 0.2s;
-        }
-        #gabi-popup-close:hover { color: white; }
-        #gabi-chat-target { flex: 1; min-height: 0; }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen p-4">
@@ -127,15 +106,11 @@
                     <span class="text-2xl">🔥</span>
                     <span class="font-semibold text-slate-200 group-hover:text-white">Ver Combos</span>
                 </button>
-                <button id="show-gabi-gpt-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
-                    <span class="text-2xl">🧠</span>
-                    <span class="font-semibold text-slate-200 group-hover:text-white text-center">Descobrir o ideal para mim</span>
-                </button>
             </section>
 
             <section id="products-dynamic-section" class="hidden flex flex-col items-center gap-5 w-full"></section>
             <section id="combos-section" class="hidden flex flex-col items-center gap-5 w-full"></section>
-            </main>
+        </main>
 
         <footer class="w-full text-center mt-12 mb-4">
             <div class="flex justify-center items-center gap-6 mb-6">
@@ -155,20 +130,9 @@
         </footer>
     </div>
 
-    <div id="gabi-popup-overlay">
-        <div id="gabi-popup-container">
-            <button id="gabi-popup-close" title="Fechar">&times;</button>
-            <div id="gabi-chat-target"></div>
-        </div>
-    </div>
-
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="products.js"></script>
     <script src="combos.js"></script>
-    
-    <script src="detalhes-combos.js"></script> 
-
-    <script src="gabi_gpt_popup.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -181,34 +145,17 @@
             const showEmagrecedoresBtn = document.getElementById('show-emagrecedores-btn');
             const showComplementosBtn = document.getElementById('show-complementos-btn');
             const showCombosBtn = document.getElementById('show-combos-btn');
-            const showGabiGptBtn = document.getElementById('show-gabi-gpt-btn');
-
-            // Gabi GPT Popup elements
-            const overlay = document.getElementById('gabi-popup-overlay');
-            const closeBtn = document.getElementById('gabi-popup-close');
-            const chatTarget = document.getElementById('gabi-chat-target');
-            let chatInitialized = false;
 
             // --- Navigation Functions ---
             const showMainScreen = () => {
                 mainNavigation.classList.remove('hidden');
-                mainNavigation.classList.add('flex'); // Garante que a seção principal volte a ser flex
+                mainNavigation.classList.add('flex');
                 productsSection.classList.add('hidden');
                 combosSection.classList.add('hidden');
                 // Limpar o conteúdo pode economizar memória
                 productsSection.innerHTML = '';
                 combosSection.innerHTML = '';
             };
-
-            const openPopup = () => {
-                overlay.classList.add('visible');
-                if (!chatInitialized && window.startGabiGptPopup) {
-                    window.startGabiGptPopup(chatTarget, closePopup);
-                    chatInitialized = true;
-                }
-            };
-
-            const closePopup = () => overlay.classList.remove('visible');
 
             // --- Event Listeners ---
             showEmagrecedoresBtn.addEventListener('click', () => {
@@ -231,22 +178,6 @@
                 combosSection.classList.remove('hidden');
                 window.renderCombosContent(showMainScreen);
             });
-
-            showGabiGptBtn.addEventListener('click', openPopup);
-            closeBtn.addEventListener('click', closePopup);
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) closePopup();
-            });
-        });
-    </script>
-</body>
-</html>
-
-
-    <script>
-        // Seu script de navegação principal
-        document.addEventListener('DOMContentLoaded', () => {
-            // ...
         });
     </script>
 </body>
