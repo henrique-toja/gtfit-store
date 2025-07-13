@@ -222,3 +222,88 @@ body {
     -webkit-backdrop-filter: blur(16px);
     animation: border-glow 4s linear infinite;
 }
+
+/* --- ESTILOS PARA OS CARDS DE PRODUTOS/COMBOS --- */
+.product-card-detail {
+    background: linear-gradient(145deg, #18181b, #111);
+    border: 1px solid #333;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 50px -15px rgba(192, 132, 252, 0.5), 0 0 15px -5px rgba(75, 222, 128, 0.4);
+}
+.product-detail-header { 
+    padding: 1.5rem; 
+    text-align: center; 
+    background: rgba(0,0,0,0.2); 
+    border-bottom: 1px solid #333; 
+}
+.product-accordion-container { 
+    padding: 1rem; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.5rem; 
+}
+.product-accordion-item { 
+    border-bottom: 1px solid #333; 
+}
+.product-accordion-item:last-child { 
+    border-bottom: none; 
+}
+.product-accordion-header {
+    width: 100%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 1rem 0.5rem; 
+    text-align: left; 
+    background: transparent; 
+    border: none;
+    color: white; 
+    cursor: pointer; 
+    font-size: 1rem; 
+    font-weight: 600;
+}
+.product-accordion-header i { 
+    transition: transform 0.3s ease; 
+    color: var(--primary-purple); 
+}
+.product-accordion-item.open .product-accordion-header i { 
+    transform: rotate(180deg); 
+}
+.product-accordion-content { 
+    max-height: 0px; 
+    overflow: hidden; 
+    transition: max-height 0.4s ease-out; 
+}
+.product-accordion-body { 
+    padding: 0 0.5rem 1rem 0.5rem; 
+    color: #d1d5db; 
+    line-height: 1.7; 
+}
+.product-accordion-body p { 
+    text-align: justify; 
+}
+.product-detail-footer { 
+    padding: 1.5rem; 
+    background: #111; 
+    margin-top: auto; 
+    border-top: 1px solid #333; 
+}
+.whatsapp-cta-button {
+    display: block; 
+    text-align: center; 
+    padding: 1rem; 
+    border-radius: 9999px;
+    font-weight: bold; 
+    font-size: 1.125rem; 
+    text-decoration: none;
+    background-color: #25D366; 
+    color: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.whatsapp-cta-button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px -5px #25D366;
+}
