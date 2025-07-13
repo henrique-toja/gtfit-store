@@ -225,5 +225,3 @@ function initializeGabiGpt() {
 if (typeof window.initializeGabiGpt !== 'function') {
     window.initializeGabiGpt = initializeGabiGpt;
 }
-
-Na primeira interação com o chat ele está iniciando duplicado, preciso que inicie somente uma vez e que a gabi não pergunte sobre suplementos e sim sobre o nivel de ansiedade
