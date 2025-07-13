@@ -436,3 +436,69 @@
         beginChat();
     }
 })();
+
+// Dentro de gabi_gpt_popup.js
+
+const showFinalRecommendation = () => {
+    chatInterface.style.display = 'none';
+    finalResultScreen.style.display = 'block';
+
+    const { recommendations, reason } = getRecomendacao(userData);
+    const cardsHtml = recommendations.map(rec => createComboCard(rec)).join('');
+    
+    // Pega o ID do primeiro (e principal) combo recomendado
+    const mainComboId = recommendations.length > 0 ? recommendations[0].combo.id : null;
+    
+    // Busca os detalhes do combo principal no nosso novo "banco de dados"
+    const comboDetails = mainComboId && window.gabiFitApp.comboDetails ? window.gabiFitApp.comboDetails[mainComboId] : null;
+
+    let explanationHtml = '';
+    if (comboDetails) {
+        // Se encontramos detalhes, montamos a seção de explicação completa
+        explanationHtml = `
+            <div class="gabi-explanation-section">
+                <button id="gabi-toggle-explanation">
+                    <span>${comboDetails.titulo}</span>
+                    <span id="gabi-explanation-arrow">▼</span>
+                </button>
+                <div id="gabi-explanation-content" style="display: block;"> <p><strong>Perfil Ideal:</strong> ${comboDetails.perfilIdeal}</p>
+                    <hr class="border-slate-600 my-4">
+                    <p><strong>A Lógica da Combinação:</strong></p>
+                    ${comboDetails.logicaCombinacao}
+                    <hr class="border-slate-600 my-4">
+                    <p><strong>Resultados Esperados:</strong></p>
+                    <ul class="list-disc list-inside space-y-1">
+                        ${comboDetails.resultadoEsperado.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
+    } else if (reason && recommendations.length > 0) {
+        // Se não houver detalhes, usamos a razão genérica como antes
+        explanationHtml = createExplanationSection(reason); 
+    }
+
+    finalResultScreen.innerHTML = `
+        <div class="gabi-result-header">
+            <h2>Sua estratégia está pronta, ${userData.name}!</h2>
+            <p>Com base em suas respostas, estruturei os melhores combos para acelerar seus resultados.</p>
+        </div>
+        <div class="gabi-card-grid">
+            ${cardsHtml}
+        </div>
+        ${explanationHtml}
+        ${recommendations.length === 0 ? `<div class="gabi-explanation-section"><p style="text-align:center;">${reason}</p></div>` : ''}
+    `;
+
+    const toggleButton = container.querySelector('#gabi-toggle-explanation');
+    if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+            const content = container.querySelector('#gabi-explanation-content');
+            const arrow = container.querySelector('#gabi-explanation-arrow');
+            const isHidden = content.style.display === 'none' || content.style.display === '';
+            content.style.display = isHidden ? 'block' : 'none';
+            arrow.textContent = isHidden ? '▲' : '▼';
+        });
+    }
+};
+
