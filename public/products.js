@@ -371,5 +371,3 @@
     window.gabiFitApp.combosData = originalCombosData;
 
 })();
-
-Falta corrigir os domínios no combos.js
