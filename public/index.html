@@ -251,6 +251,19 @@
     });
     </script>
 
+    <!-- SCRIPT PARA ABRIR/FECHAR O CHAT -->
+    <script>
+    // Abrir o chat ao clicar no float
+    document.getElementById('chat-widget').addEventListener('click', function() {
+      document.getElementById('chat-modal').classList.remove('hidden');
+      if(window.initializeGabiGpt) window.initializeGabiGpt();
+    });
+    // Fechar o chat ao clicar no X do modal
+    document.getElementById('close-chat-btn').addEventListener('click', function() {
+      document.getElementById('chat-modal').classList.add('hidden');
+    });
+    </script>
+
     <script src="gabigpt.js" defer></script>
 
 </body>
