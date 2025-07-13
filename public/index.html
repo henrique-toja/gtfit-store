@@ -10,7 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
         :root {
             --background-dark: #131314;
             --surface-dark: #1E1F20;
@@ -37,23 +39,8 @@
             box-shadow: 0 0 20px 3px rgba(75, 222, 128, 0.4);
             border-color: rgba(75, 222, 128, 0.6);
         }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.7); }
-            50% { transform: scale(1.05); box-shadow: 0 0 10px 10px rgba(192, 132, 252, 0); }
-        }
-        .chat-bubble {
-            position: relative; background-color: var(--surface-dark); border: 1px solid var(--primary-purple);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .chat-bubble::before {
-            content: ''; position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
-            width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent;
-            border-left: 10px solid var(--primary-purple);
-        }
-        .online-indicator {
-            position: absolute; bottom: 2px; right: 2px; width: 15px; height: 15px;
-            background-color: var(--primary-green); border-radius: 9999px; border: 2px solid var(--surface-dark);
-        }
+        
+        /* SCROLLBAR & MENSAGENS (sem alteração) */
         #chat-scroll-area { scroll-behavior: smooth; }
         #chat-scroll-area::-webkit-scrollbar { width: 8px; }
         #chat-scroll-area::-webkit-scrollbar-track { background: transparent; }
@@ -77,14 +64,14 @@
             font-weight: 600; cursor: pointer; text-align: center; text-decoration: none;
             transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
-        .action-button.primary, .action-button:hover {
+        .action-button:hover {
             background: var(--primary-purple); color: white;
         }
         .input-with-button {
             display: flex; gap: 0.5rem; align-items: center; padding: 0.5rem;
             background-color: #2c2c2e; border-radius: 1.5rem;
         }
-        #chat-modal input[type="text"], #chat-modal input[type="number"] {
+        #chat-modal input {
             width: 100%; padding: 0.75rem; background-color: transparent; border: none;
             font-size: 1rem; color: var(--text-light);
         }
@@ -95,6 +82,8 @@
             place-items: center; transition: all 0.2s;
         }
         .input-with-button button:hover { transform: scale(1.1); }
+        
+        /* ANIMAÇÕES (sem alteração) */
         @keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
         @keyframes bounce-typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
         .typing-indicator {
@@ -107,6 +96,20 @@
         }
         .typing-indicator .bounce-1 { animation-delay: -0.32s; }
         .typing-indicator .bounce-2 { animation-delay: -0.16s; }
+        
+        /* --- NOVOS ESTILOS CRIATIVOS PARA O CHAT --- */
+        @keyframes border-glow {
+            0% { border-color: var(--primary-purple); }
+            50% { border-color: var(--primary-green); }
+            100% { border-color: var(--primary-purple); }
+        }
+        #chat-container {
+            border: 1px solid var(--primary-purple);
+            background-color: rgba(30, 31, 32, 0.75); /* Fundo com transparência */
+            backdrop-filter: blur(16px); /* Efeito de vidro */
+            -webkit-backdrop-filter: blur(16px);
+            animation: border-glow 4s linear infinite; /* Animação da borda */
+        }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen p-4">
@@ -146,24 +149,23 @@
         </footer>
     </div>
 
-    <div id="chat-widget" style="top:85%;right:20px;position:fixed;z-index:40;cursor:pointer;" class="flex items-center gap-3">
-        <div class="chat-bubble p-3 rounded-lg max-w-[200px]"><p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p></div>
-        <div class="relative">
-            <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Assistente Gabi" class="w-16 h-16 rounded-full border-2 border-purple-400" style="animation: pulse 2s infinite;">
-            <div class="online-indicator"></div>
-        </div>
+    <div id="chat-widget" class="fixed bottom-8 left-8 z-40">
+        <button id="open-chat-btn" class="w-16 h-16 rounded-full bg-purple-500 text-white flex items-center justify-center shadow-lg transform transition-all duration-300 hover:scale-110 hover:shadow-purple-500/50">
+            <i class="fas fa-comments fa-2x"></i>
+        </button>
     </div>
 
-    <div id="chat-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-        <div class="bg-surface-dark w-full max-w-md h-[90vh] max-h-[700px] rounded-2xl flex flex-col shadow-2xl shadow-purple-500/20">
-            <header class="flex items-center justify-between p-4 border-b border-slate-700">
+    <div id="chat-modal" class="invisible fixed bottom-28 left-8 z-50 p-0">
+        <div id="chat-container" class="w-[400px] h-[600px] max-h-[80vh] rounded-2xl flex flex-col shadow-2xl shadow-purple-500/20 opacity-0 transform -translate-y-4 transition-all duration-500 ease-in-out">
+            <header class="flex items-center justify-between p-4 border-b border-slate-700 flex-shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="relative">
                         <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Gabi GPT" class="w-10 h-10 rounded-full">
                         <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-surface-dark"></div>
                     </div>
                     <div>
-                        <h3 class="font-bold text-white">Gabi GPT</h3><p class="text-xs text-slate-400">Online</p>
+                        <h3 class="font-bold text-white">Gabi GPT</h3>
+                        <p class="text-xs text-slate-400">Online</p>
                     </div>
                 </div>
                 <button id="close-chat-btn" class="text-2xl leading-none font-bold text-slate-400 hover:text-white">&times;</button>
@@ -171,25 +173,31 @@
             <main id="chat-scroll-area" class="flex-1 p-4 overflow-y-auto flex flex-col">
                 <div id="chat-messages" class="flex flex-col gap-4 mt-auto"></div>
             </main>
-            <footer id="chat-input-area" class="p-4 border-t border-slate-700"></footer>
+            <footer id="chat-input-area" class="p-4 border-t border-slate-700 flex-shrink-0"></footer>
         </div>
     </div>
 
     <script src="https://www.gtfit.store/products.js" defer></script>
     <script src="https://www.gtfit.store/combos.js" defer></script>
     <script src="gabigpt.js" defer></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Seletores dos elementos da página principal
             const mainNavigation = document.getElementById('main-navigation');
             const productsSection = document.getElementById('products-dynamic-section');
             const combosSection = document.getElementById('combos-section');
             const showEmagrecedoresBtn = document.getElementById('show-emagrecedores-btn');
             const showComplementosBtn = document.getElementById('show-complementos-btn');
             const showCombosBtn = document.getElementById('show-combos-btn');
-            const chatWidget = document.getElementById('chat-widget');
+            
+            // Seletores dos elementos do chat
+            const openChatBtn = document.getElementById('open-chat-btn');
             const chatModal = document.getElementById('chat-modal');
+            const chatContainer = document.getElementById('chat-container');
             const closeChatBtn = document.getElementById('close-chat-btn');
 
+            // Função para voltar à tela principal de navegação
             const showMainScreen = () => {
                 mainNavigation.classList.remove('hidden');
                 mainNavigation.classList.add('flex');
@@ -199,7 +207,7 @@
                 combosSection.innerHTML = '';
             };
 
-            // Espera pelas funções estarem disponíveis no objeto window
+            // Função para inicializar os botões da navegação principal
             const setupButtonsWhenReady = () => {
                 if (window.renderProductList && window.renderCombosContent) {
                     showEmagrecedoresBtn.addEventListener('click', () => {
@@ -218,18 +226,23 @@
                         window.renderCombosContent(showMainScreen);
                     });
                 } else {
-                    // Tenta novamente em 100ms se as funções ainda não estiverem carregadas
                     setTimeout(setupButtonsWhenReady, 100);
                 }
             };
             
             setupButtonsWhenReady();
 
-            // Lógica do chat
+            // --- NOVA LÓGICA DO CHAT COM ANIMAÇÃO ---
             const openChat = () => {
-                chatModal.classList.remove('hidden');
-                chatModal.classList.add('flex'); // Garante que o modal seja flexível
-                // Inicializa o GPT somente na primeira vez que o chat é aberto
+                // Aplica classes para a animação de entrada
+                chatModal.classList.remove('invisible');
+                chatContainer.classList.remove('opacity-0', '-translate-y-4');
+                chatContainer.classList.add('opacity-100', 'translate-y-0');
+                
+                // Esconde o botão de abrir para não ficar sobreposto
+                openChatBtn.classList.add('opacity-0', 'scale-0');
+
+                // Inicializa o script do GabiGPT na primeira vez
                 if (!chatModal.dataset.initialized && typeof window.initializeGabiGpt === 'function') {
                     window.initializeGabiGpt();
                     chatModal.dataset.initialized = 'true';
@@ -237,12 +250,21 @@
             };
             
             const closeChat = () => {
-                chatModal.classList.add('hidden');
-                chatModal.classList.remove('flex');
+                // Aplica classes para a animação de saída
+                chatContainer.classList.add('opacity-0', '-translate-y-4');
+                chatContainer.classList.remove('opacity-100', 'translate-y-0');
+                
+                // Mostra o botão de abrir novamente
+                openChatBtn.classList.remove('opacity-0', 'scale-0');
+                
+                // Esconde o modal do DOM após a animação para não interferir
+                setTimeout(() => {
+                    chatModal.classList.add('invisible');
+                }, 500); // Duração igual à da transição
             };
             
-            // Lógica de clique simples e segura para o widget
-            chatWidget.addEventListener('click', openChat);
+            // Adiciona os eventos aos botões do chat
+            openChatBtn.addEventListener('click', openChat);
             closeChatBtn.addEventListener('click', closeChat);
         });
     </script>
