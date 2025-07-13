@@ -33,7 +33,11 @@ function initializeGabiGpt() {
             { id: 'o3-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 140 dias', duration: '140 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter um quadro de obesidade severa.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida de todo o seu bem-estar, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento." }
         ]
     };
-    // Objeto de dados do usuário atualizado para incluir todos os campos do novo questionário
+    
+    // Disponibiliza os dados dos combos globalmente para outros scripts (como combos.js) poderem usar
+    window.gabiFitApp = window.gabiFitApp || {};
+    window.gabiFitApp.combosData = combosData;
+
     const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, activityLevel: '', dietSweet: '', dietHealthy: '', anxiety: '', digestion: '', challengeText: '' };
     let recommendationData = {};
 
@@ -87,7 +91,7 @@ function initializeGabiGpt() {
     };
     
     function calcularIMC(peso, altura) {
-        if (!peso || !altura) return null;
+        if (!peso || !altura || peso <= 0 || altura <= 0) return null;
         const imc = peso / (altura * altura);
         let classificacao = '', faixa = '', conclusao = '';
         if (imc < 18.5) { classificacao = 'Abaixo do Peso'; faixa = 'Abaixo de 18.5'; conclusao = 'Seu IMC está abaixo da faixa de peso ideal. É importante buscar orientação para garantir que você está recebendo todos os nutrientes necessários para sua saúde.';} 
@@ -106,27 +110,27 @@ function initializeGabiGpt() {
         if (c.includes('i')) return 'obesidade-grau-i';
         if (c.includes('sobrepeso')) return 'sobrepeso';
         if (c.includes('normal')) return 'peso-normal';
-        return 'peso-normal';
+        return 'peso-normal'; // Fallback
     }
     
     function getRecomendacao() {
-        const { imcCategory, anxiety } = userData;
-        const categoryKey = getCategoryKey(imcCategory);
+        const categoryKey = getCategoryKey(userData.imcCategory);
         const availableCombos = combosData[categoryKey] || [];
         
-        const isAnxious = anxiety === 'sim' || anxiety === 'media';
-        let economicCombo = availableCombos.find(c => c.anxiety === isAnxious);
-        let premiumCombo = availableCombos.find(c => c.tag === 'PLANO PREMIUM');
-
-        // Fallback: se não achar combo para ansiosos, pega o padrão.
+        const isAnxious = userData.anxiety === 'sim' || userData.anxiety === 'media';
+        
+        // Prioriza o combo de ansiedade se aplicável, senão o econômico padrão
+        let economicCombo = availableCombos.find(c => c.tag === 'PLANO ECONÔMICO' && c.anxiety === isAnxious);
         if (!economicCombo) {
-            economicCombo = availableCombos.find(c => c.anxiety === false);
+            economicCombo = availableCombos.find(c => c.tag === 'PLANO ECONÔMICO' && c.anxiety === !isAnxious);
         }
+
+        let premiumCombo = availableCombos.find(c => c.tag === 'PLANO PREMIUM');
 
         return { economicCombo, premiumCombo };
     }
 
-    // --- NOVO FLUXO DA CONVERSA ---
+    // --- FLUXO DA CONVERSA ---
     async function beginChat() {
         await addBotMessage("Olá! Sou a Gabi GPT, sua consultora de bem-estar. Que bom ter você aqui para iniciarmos seu Projeto Slim juntas! ✨", 1500);
         await addBotMessage("Para começarmos, me diga, como você prefere ser chamada?", 2000);
@@ -140,7 +144,7 @@ function initializeGabiGpt() {
         await addBotMessage(`Que ótimo, ${userData.name}! Admiro sua decisão de focar no seu bem-estar. ❤️`, 2800);
         await addBotMessage("Agora vamos refinar a análise com alguns detalhes. Suas respostas são a chave para uma recomendação certeira!", 3000);
         await addBotMessage("Você já utilizou algum tipo de suplemento para emagrecimento antes?");
-        inputArea.innerHTML = `<div class="flex gap-4">${createButton('supp-sim', 'Sim, já usei')}${createButton('supp-nao', 'Não, primeira vez')}</div>`;
+        inputArea.innerHTML = `<div class="flex flex-col sm:flex-row gap-3">${createButton('supp-sim', 'Sim, já usei')}${createButton('supp-nao', 'Não, primeira vez')}</div>`;
         document.getElementById('supp-sim').addEventListener('click', () => { userData.hasTakenSupplements = true; addUserMessage("Sim, já usei."); askActivityLevel(); });
         document.getElementById('supp-nao').addEventListener('click', () => { userData.hasTakenSupplements = false; addUserMessage("Não, primeira vez."); askActivityLevel(); });
     }
@@ -218,15 +222,15 @@ function initializeGabiGpt() {
     }
 
     async function askForHeight() {
-        await addBotMessage("Perfeito. Agora, informe sua altura (ex: 1.65).", 2200);
-        const { input, button } = createInput('height-input', 'Sua altura em metros...', 'height-submit');
+        await addBotMessage("Perfeito. Agora, informe sua altura (ex: 1.65 ou 165cm).", 2200);
+        const { input, button } = createInput('height-input', 'Sua altura em metros...', 'height-submit', 'text');
         const handle = () => { let v = input.value.replace(',', '.'); if (!v || isNaN(v) || v <= 0) return; let h = parseFloat(v); if (h > 3) h /= 100; userData.height = h; addUserMessage(`${userData.height.toFixed(2).replace('.',',')}m.`); askForWeight(); };
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
 
     async function askForWeight() {
         await addBotMessage("Ótimo! E para finalizar o cálculo, qual o seu peso atual? (ex: 70.5 kg)", 2200);
-        const { input, button } = createInput('weight-input', 'Seu peso em kg...', 'weight-submit');
+        const { input, button } = createInput('weight-input', 'Seu peso em kg...', 'weight-submit', 'text');
         const handle = () => { let v = input.value.replace(',', '.'); if (!v || isNaN(v) || v <= 0) return; userData.weight = parseFloat(v); addUserMessage(`${userData.weight.toFixed(1).replace('.',',')} kg.`); processIMC(); };
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
@@ -356,13 +360,14 @@ function initializeGabiGpt() {
         await addBotMessage(`Qualquer dúvida sobre o <strong>${comboName}</strong>, é só me chamar no WhatsApp clicando no botão acima. Estamos juntas nessa! 💪`, 4000);
     }
     
+    // Expõe a função de inicialização para ser chamada pelo script principal
     window.initializeGabiGpt = beginChat;
 }
 
-// --- LÓGICA DE INICIALIZAÇÃO DA PÁGINA (Antes no HTML, agora aqui) ---
+// --- LÓGICA DE INICIALIZAÇÃO DA PÁGINA ---
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Inicializa a lógica do chat Gabi GPT
+    // Inicializa a lógica do chat Gabi GPT, mas NÃO inicia a conversa ainda.
     if (typeof initializeGabiGpt === 'function') {
         initializeGabiGpt();
     }
@@ -381,7 +386,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatContainer = document.getElementById('chat-container');
     const closeChatBtn = document.getElementById('close-chat-btn');
 
-    // Função para voltar à tela principal de navegação
     const showMainScreen = () => {
         mainNavigation.classList.remove('hidden');
         mainNavigation.classList.add('flex');
@@ -391,7 +395,6 @@ document.addEventListener('DOMContentLoaded', () => {
         combosSection.innerHTML = '';
     };
 
-    // Função para inicializar os botões da navegação principal
     const setupButtonsWhenReady = () => {
         if (window.renderProductList && window.renderCombosContent) {
             if (showEmagrecedoresBtn) {
@@ -431,8 +434,10 @@ document.addEventListener('DOMContentLoaded', () => {
         chatWidget.classList.add('opacity-0', 'scale-0');
 
         if (!chatModal.dataset.initialized) {
+            // A função initializeGabiGpt já definiu 'beginChat' na window.
+            // Agora só precisamos chamar essa função para iniciar a conversa.
             if (typeof window.initializeGabiGpt === 'function') {
-                window.initializeGabiGpt();
+                window.initializeGabiGpt(); // Isso chama o beginChat
             }
             chatModal.dataset.initialized = 'true';
         }
@@ -449,7 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     };
     
-    // Adiciona os eventos aos botões do chat
     if(chatWidget && closeChatBtn) {
         chatWidget.addEventListener('click', openChat);
         closeChatBtn.addEventListener('click', closeChat);
