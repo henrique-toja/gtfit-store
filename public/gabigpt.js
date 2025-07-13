@@ -30,10 +30,11 @@ function initializeGabiGpt() {
         'obesidade-grau-iii': [
             { id: 'o3-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 120 dias', duration: '120 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '2 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem está no campo de batalha final contra a obesidade e precisa da artilharia mais pesada para garantir a vitória.<br><br><strong>A Estratégia:</strong> Intervenção máxima. O <strong>Detox</strong> prepara seu corpo para a ofensiva dupla do <strong>Guria Shape Black</strong>. O foco aqui é absoluto: aniquilar a fome e forçar o metabolismo a uma queima de gordura extrema e contínua. É o plano para quem não tem mais tempo a perder.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação será intensa. A fome praticamente desaparecerá, e seu corpo entrará em modo de queima acelerada. É um plano que exige determinação, mas que entrega resultados expressivos e rápidos." },
             { id: 'o3-ans', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 160 dias', duration: '160 Dias', anxiety: true, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '2 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para a guerreira que enfrenta a obesidade severa e a ansiedade, e busca um caminho de longo prazo que respeite seu tempo e sua saúde mental.<br><br><strong>A Estratégia:</strong> É a jornada mais completa que oferecemos. Um <strong>Detox</strong> inicial, seguido por um longo período com o <strong>Guria Shape Roxo</strong> para criar uma base sólida de controle mental e de apetite, e finalizado com o <strong>Slim Super X</strong> para garantir a continuidade da queima de gordura. É a estratégia da paciência, consistência e vitória definitiva.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Será uma transformação gradual e profunda. Você reaprenderá a lidar com a comida e com suas emoções. A perda de peso será constante, e ao final, você não terá apenas um novo corpo, mas uma nova mentalidade." },
-            { id: 'o3-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 140 dias', duration: '140 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter un quadro de obesidade severa.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida de todo o seu bem-estar, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento." }
+            { id: 'o3-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 140 dias', duration: '140 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter um quadro de obesidade severa.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida de todo o seu bem-estar, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento." }
         ]
     };
-    const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, anxiety: '' };
+    // Objeto de dados do usuário atualizado para incluir todos os campos do novo questionário
+    const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, activityLevel: '', dietSweet: '', dietHealthy: '', anxiety: '', digestion: '', challengeText: '' };
     let recommendationData = {};
 
     const sleep = ms => new Promise(res => setTimeout(res, ms));
@@ -113,33 +114,89 @@ function initializeGabiGpt() {
         const categoryKey = getCategoryKey(imcCategory);
         const availableCombos = combosData[categoryKey] || [];
         
-        const isAnxious = anxiety === 'sim';
-        let economicCombo = availableCombos.find(c => c.tag === 'PLANO ECONÔMICO' && c.anxiety === isAnxious) || availableCombos.find(c => c.tag === 'PLANO ECONÔMICO');
-        let principalCombo = availableCombos.find(c => c.tag === 'PLANO PREMIUM');
+        const isAnxious = anxiety === 'sim' || anxiety === 'media';
+        let economicCombo = availableCombos.find(c => c.anxiety === isAnxious);
+        let premiumCombo = availableCombos.find(c => c.tag === 'PLANO PREMIUM');
 
-        return { economicCombo, principalCombo };
+        // Fallback: se não achar combo para ansiosos, pega o padrão.
+        if (!economicCombo) {
+            economicCombo = availableCombos.find(c => c.anxiety === false);
+        }
+
+        return { economicCombo, premiumCombo };
     }
 
+    // --- NOVO FLUXO DA CONVERSA ---
     async function beginChat() {
-        await addBotMessage("Olá! Sou a Gabi GPT, sua consultora de bem-estar. Pronta para iniciarmos seu Projeto Slim juntas? ✨", 1500);
-        await addBotMessage("Para começarmos, como posso te chamar?", 2000);
+        await addBotMessage("Olá! Sou a Gabi GPT, sua consultora de bem-estar. Que bom ter você aqui para iniciarmos seu Projeto Slim juntas! ✨", 1500);
+        await addBotMessage("Para começarmos, me diga, como você prefere ser chamada?", 2000);
         const { input, button } = createInput('name-input', 'Digite seu nome...', 'name-submit');
-        const handle = () => { if (input.value.trim()) { userData.name = input.value.trim(); addUserMessage(userData.name); continueToQuestionnaire(); } };
+        const handle = () => { if (input.value.trim() === '') return; userData.name = input.value.trim(); addUserMessage(userData.name); continueToQuestionnaire(); };
         button.addEventListener('click', handle);
         input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
-    
+
     async function continueToQuestionnaire() {
         await addBotMessage(`Que ótimo, ${userData.name}! Admiro sua decisão de focar no seu bem-estar. ❤️`, 2800);
-        await addBotMessage("Agora, algumas perguntas rápidas para eu entender seu perfil e montar o plano perfeito.", 3000);
+        await addBotMessage("Agora vamos refinar a análise com alguns detalhes. Suas respostas são a chave para uma recomendação certeira!", 3000);
         await addBotMessage("Você já utilizou algum tipo de suplemento para emagrecimento antes?");
-        inputArea.innerHTML = `<div class="flex flex-col gap-3">${createButton('supp-sim', 'Sim, já usei')}${createButton('supp-nao', 'Não, primeira vez')}</div>`;
-        document.getElementById('supp-sim').addEventListener('click', () => { userData.hasTakenSupplements = true; addUserMessage("Sim, já usei."); askAnxiety(); });
-        document.getElementById('supp-nao').addEventListener('click', () => { userData.hasTakenSupplements = false; addUserMessage("Não, primeira vez."); askAnxiety(); });
+        inputArea.innerHTML = `<div class="flex gap-4">${createButton('supp-sim', 'Sim, já usei')}${createButton('supp-nao', 'Não, primeira vez')}</div>`;
+        document.getElementById('supp-sim').addEventListener('click', () => { userData.hasTakenSupplements = true; addUserMessage("Sim, já usei."); askActivityLevel(); });
+        document.getElementById('supp-nao').addEventListener('click', () => { userData.hasTakenSupplements = false; addUserMessage("Não, primeira vez."); askActivityLevel(); });
+    }
+
+    async function askActivityLevel() {
+        await addBotMessage("Ok. E no seu dia a dia, como você descreve sua rotina?", 2500);
+        inputArea.innerHTML = `<div class="flex flex-col gap-3">${createButton('act-agitada', 'Ativa, me movimento bastante 🏃‍♀️')}${createButton('act-media', 'Moderada, um pouco de tudo 🤷‍♀️')}${createButton('act-parada', 'Mais parada / trabalho sentada 💻')}</div>`;
+        const handle = (level, text) => { userData.activityLevel = level; addUserMessage(text); askDigestion(); };
+        document.getElementById('act-agitada').addEventListener('click', () => handle('agitada', "Minha rotina é ativa."));
+        document.getElementById('act-media').addEventListener('click', () => handle('media', "Minha rotina é moderada."));
+        document.getElementById('act-parada').addEventListener('click', () => handle('parada', "Sou mais parada."));
+    }
+
+    async function askDigestion() {
+        await addBotMessage("Perfeito. E como anda sua digestão? Inchaço, gases ou intestino mais lento são comuns para você?", 2800);
+        inputArea.innerHTML = `<div class="flex flex-col gap-3">${createButton('dig-sim', 'Sim, com frequência')}${createButton('dig-media', 'Ocasionalmente')}${createButton('dig-nao', 'Não, funciona bem')}</div>`;
+        const handle = (level, text) => { userData.digestion = level; addUserMessage(text); askDietSweet(); };
+        document.getElementById('dig-sim').addEventListener('click', () => handle('sim', "Sim, sinto inchaço/intestino preso."));
+        document.getElementById('dig-media').addEventListener('click', () => handle('media', "Ocasionalmente."));
+        document.getElementById('dig-nao').addEventListener('click', () => handle('nao', "Funciona bem."));
     }
     
+    async function askDietSweet() {
+        await addBotMessage("Certo! E sua relação com doces, como é? 🐜", 2500);
+        inputArea.innerHTML = `<div class="flex flex-col gap-3">${createButton('sweet-sim', 'Tenho muita vontade de comer')}${createButton('sweet-media', 'Como com moderação')}${createButton('sweet-nao', 'É raro, não sinto falta')}</div>`;
+        const handle = (level, text) => { userData.dietSweet = level; addUserMessage(text); askDietHealthy(); };
+        document.getElementById('sweet-sim').addEventListener('click', () => handle('sim', "Tenho muita vontade de comer doces."));
+        document.getElementById('sweet-media').addEventListener('click', () => handle('media', "Como com moderação."));
+        document.getElementById('sweet-nao').addEventListener('click', () => handle('nao', "Não sinto falta de doces."));
+    }
+
+    async function askDietHealthy() {
+        await addBotMessage("E para fecharmos essa etapa: como você descreveria sua alimentação em geral?", 2800);
+        inputArea.innerHTML = `<div class="flex flex-col gap-3">${createButton('health-besteiras', 'Baseada em industrializados / fast-food 🍕')}${createButton('health-misto', 'Tento equilibrar, mas com deslizes 🥗🍔')}${createButton('health-saudavel', 'Focada em comida de verdade 🥦')}</div>`;
+        const handle = (level, text) => { userData.dietHealthy = level; addUserMessage(text); askBiggestChallenge(); };
+        document.getElementById('health-besteiras').addEventListener('click', () => handle('besteiras', "Mais para industrializados."));
+        document.getElementById('health-misto').addEventListener('click', () => handle('misto', "Tento equilibrar."));
+        document.getElementById('health-saudavel').addEventListener('click', () => handle('saudavel', "Foco em ser saudável."));
+    }
+
+    async function askBiggestChallenge() {
+        await addBotMessage("Obrigada! Estamos quase lá.", 2000);
+        await addBotMessage("Para a recomendação ser certeira, me conte com suas palavras: o que você sente que é o seu maior desafio para emagrecer hoje?", 3200);
+        const { input, button } = createInput('challenge-input', 'Ex: falta de tempo, compulsão, etc...', 'challenge-submit');
+        const handle = () => { 
+            if (input.value.trim() === '') return; 
+            userData.challengeText = input.value.trim(); 
+            addUserMessage(userData.challengeText); 
+            askAnxiety();
+        };
+        button.addEventListener('click', handle);
+        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
+    }
+
     async function askAnxiety() {
-        await addBotMessage("Certo. Agora, uma pergunta-chave... Você sente que a ansiedade atrapalha suas escolhas alimentares?", 2800);
+        await addBotMessage("Anotado! ✅ Agora, a pergunta-chave... Você sente que a ansiedade atrapalha suas escolhas alimentares?", 2800);
         inputArea.innerHTML = `<div class="flex flex-col gap-3">${createButton('anxiety-sim', 'Sim, com certeza')}${createButton('anxiety-media', 'Às vezes, um pouco')}${createButton('anxiety-nao', 'Não, controlo bem')}</div>`;
         const handle = (level, text) => { userData.anxiety = level; addUserMessage(text); preIMC(); };
         document.getElementById('anxiety-sim').addEventListener('click', () => handle('sim', "Sim, a ansiedade me afeta."));
@@ -148,97 +205,105 @@ function initializeGabiGpt() {
     }
     
     async function preIMC() {
-        await addBotMessage("Excelente! Finalizamos o questionário. 🥳", 2500);
-        await addBotMessage("Como prêmio, vou te dar um Raio-X da sua composição corporal. Para isso, preciso dos seus últimos 3 dados.", 3200);
+        await addBotMessage("Excelente! Você finalizou o questionário. 🥳", 2500);
+        await addBotMessage("Como prêmio, vou te dar um Raio-X completo da sua composição corporal atual. Para isso, preciso dos seus últimos 3 dados.", 3200);
         askForAge();
     }
-    
+
     async function askForAge() {
         await addBotMessage("Primeiro, qual a sua idade?", 2200);
-        const { input, button } = createInput('age-input', 'Sua idade...', 'age-submit', 'number');
-        const handle = () => { if (input.value) { userData.age = parseInt(input.value); addUserMessage(`${userData.age} anos.`); askForHeight(); } };
+        const { input, button } = createInput('age-input', 'Digite sua idade...', 'age-submit', 'number');
+        const handle = () => { if (!input.value || input.value <= 0) return; userData.age = parseInt(input.value); addUserMessage(`${userData.age} anos.`); askForHeight(); };
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
-    
+
     async function askForHeight() {
-        await addBotMessage("Perfeito. Agora, sua altura (ex: 1.65 ou 165).", 2200);
-        const { input, button } = createInput('height-input', 'Sua altura em metros ou cm...', 'height-submit', 'text');
-        const handle = () => { 
-            let v = input.value.replace(',', '.'); 
-            if (v && !isNaN(v)) { 
-                let h = parseFloat(v); 
-                if (h > 3) h /= 100;
-                userData.height = h; 
-                addUserMessage(`${h.toFixed(2).replace('.',',')}m.`); 
-                askForWeight(); 
-            } 
-        };
+        await addBotMessage("Perfeito. Agora, informe sua altura (ex: 1.65).", 2200);
+        const { input, button } = createInput('height-input', 'Sua altura em metros...', 'height-submit');
+        const handle = () => { let v = input.value.replace(',', '.'); if (!v || isNaN(v) || v <= 0) return; let h = parseFloat(v); if (h > 3) h /= 100; userData.height = h; addUserMessage(`${userData.height.toFixed(2).replace('.',',')}m.`); askForWeight(); };
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
-    
+
     async function askForWeight() {
-        await addBotMessage("Ótimo! E para finalizar, seu peso atual (ex: 70.5 kg)", 2200);
-        const { input, button } = createInput('weight-input', 'Seu peso em kg...', 'weight-submit', 'text');
-        const handle = () => { 
-            let v = input.value.replace(',', '.'); 
-            if (v && !isNaN(v)) { 
-                userData.weight = parseFloat(v); 
-                addUserMessage(`${userData.weight.toFixed(1).replace('.',',')} kg.`); 
-                processIMC(); 
-            } 
-        };
+        await addBotMessage("Ótimo! E para finalizar o cálculo, qual o seu peso atual? (ex: 70.5 kg)", 2200);
+        const { input, button } = createInput('weight-input', 'Seu peso em kg...', 'weight-submit');
+        const handle = () => { let v = input.value.replace(',', '.'); if (!v || isNaN(v) || v <= 0) return; userData.weight = parseFloat(v); addUserMessage(`${userData.weight.toFixed(1).replace('.',',')} kg.`); processIMC(); };
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
 
     async function processIMC() {
         clearInputArea();
         await addBotMessage("Obrigada. Cruzando todos os dados e preparando seu Raio-X... 🧠", 3000);
+
         const imcResult = calcularIMC(userData.weight, userData.height);
-        if(!imcResult) { await addBotMessage("Houve um erro ao calcular seu IMC. Por favor, tente novamente ou fale com a Gabi.", 3000); return; }
-        userData.imc = imcResult.imc; userData.imcCategory = imcResult.classificacao;
+        if (!imcResult) {
+            await addBotMessage("Ops, parece que houve um erro com os dados. Vamos tentar de novo. Qual sua idade?", 3000);
+            askForAge();
+            return;
+        }
+        
+        userData.imc = imcResult.imc;
+        userData.imcCategory = imcResult.classificacao;
+        
         recommendationData = getRecomendacao();
-        const sumarioTexto = `📌 <b>Resultado do seu IMC (Índice de Massa Corporal)</b>\n\n✅ Idade: ${userData.age} anos\n✅ Altura: ${userData.height.toFixed(2)} m\n✅ Peso: ${userData.weight.toFixed(1).replace('.',',')} kg\n\n📐 <b>Cálculo:</b>\nIMC = ${userData.weight.toFixed(1).replace('.',',')} ÷ (${userData.height.toFixed(2)} × ${userData.height.toFixed(2)}) ≈ ${imcResult.imc.replace('.',',')}\n\n🔍 <b>Classificação segundo a OMS:</b>\n"${imcResult.classificacao}" (IMC ${imcResult.faixa})\n\n<b>Conclusão:</b>\n${imcResult.conclusao}`.replace(/\n/g, '<br>');
-        
-        const imcCardHTML = `<div class="bg-purple-500/10 rounded-lg p-4 border border-purple-400/30 text-sm backdrop-blur-sm">${sumarioTexto}</div>`;
-        
+
+        const imcCardHTML = `
+            <div class="bg-purple-500/10 rounded-lg p-4 border border-purple-400/30 text-sm backdrop-blur-sm">
+                <h3 class="text-lg font-bold text-center text-purple-300 mb-2">🏆 Seu Raio-X Corporal 🏆</h3>
+                <p class="text-sm text-center text-slate-300 mb-4">Classificação da Organização Mundial da Saúde (OMS)</p>
+                <div class="text-center bg-slate-900/50 p-4 rounded-lg mb-3">
+                    <p class="text-sm text-slate-400">Seu IMC é</p>
+                    <p class="text-5xl font-bold text-white my-1">${imcResult.imc.replace('.',',')}</p>
+                    <p class="font-semibold text-purple-300 text-lg">${imcResult.classificacao}</p>
+                </div>
+                <p class="text-xs text-slate-400 text-center">${imcResult.conclusao}</p>
+            </div>`;
         await addBotMessage(imcCardHTML, 4000);
+        
         askInvestmentLevel();
     }
     
     async function askInvestmentLevel() {
-        await addBotMessage("Com seu Raio-X em mãos, preparei as melhores estratégias para você.", 3500);
+        let anxietyText = "";
+        if(userData.anxiety === 'sim') { anxietyText = "vi que a ansiedade é um ponto-chave que precisamos tratar com força total."; } 
+        else if (userData.anxiety === 'media') { anxietyText = "percebi que a ansiedade às vezes te sabota, e podemos blindar isso."; } 
+        else { anxietyText = "vi que você tem um bom controle da ansiedade, então vamos focar 100% na queima de gordura."; }
+        
+        await addBotMessage(`Com seu Raio-X em mãos, ${anxietyText}`, 3500);
+        await addBotMessage("Preparei 2 estratégias para você. Agora a pergunta de ouro: qual seu foco inicial?", 3000);
         
         let buttonsHTML = '';
         if (recommendationData.economicCombo) {
             buttonsHTML += createButton('invest-economico', 'Começar com economia, mas com resultado! 💰');
         }
-        if (recommendationData.principalCombo) {
+        if (recommendationData.premiumCombo) {
             buttonsHTML += createButton('invest-principal', 'Estou decidida a investir no meu melhor! 🚀');
         }
 
         if (buttonsHTML) {
-            await addBotMessage("Agora a pergunta de ouro: qual seu foco inicial?", 1500);
             inputArea.innerHTML = `<div class="flex flex-col gap-3">${buttonsHTML}</div>`;
             if (recommendationData.economicCombo) {
                 document.getElementById('invest-economico').addEventListener('click', () => { addUserMessage("Quero começar com economia."); showRecommendation('economico'); });
             }
-            if (recommendationData.principalCombo) {
-                document.getElementById('invest-principal').addEventListener('click', () => { addUserMessage("Quero investir no meu melhor resultado!"); showRecommendation('principal'); });
+            if (recommendationData.premiumCombo) {
+                document.getElementById('invest-principal').addEventListener('click', () => { addUserMessage("Quero investir no meu melhor resultado!"); showRecommendation('premium'); });
             }
         } else {
-            await addBotMessage("Não encontrei um combo pré-definido para seu perfil exato. Mas não se preocupe! A Gabi pode montar um plano 100% personalizado para você no WhatsApp.", 3000);
+            await addBotMessage("Com base nas suas respostas, não encontrei um combo pré-definido. Mas não se preocupe! A Gabi (a de verdade!) pode montar um plano 100% personalizado para você no WhatsApp.", 3000);
         }
     }
-    
+
     async function showRecommendation(level) {
         clearInputArea();
         await addBotMessage("Escolha perfeita! Com base nisso, sua estratégia ideal é...", 2500);
-        const combo = (level === 'economico') ? recommendationData.economicCombo : recommendationData.principalCombo;
+        
+        const combo = (level === 'economico') ? recommendationData.economicCombo : recommendationData.premiumCombo;
+
         if (!combo) { await addBotMessage("Ops, não encontrei um combo ideal com essa opção. Por favor, fale com a Gabi no WhatsApp para montar um plano personalizado para você!", 3000); return; }
 
         const { id, title, duration, products, explanation, tag } = combo;
         const comboName = title;
-        const message = encodeURIComponent(`Oii, gostaria de saber mais sobre o combo "${comboName}" que a Gabi GPT me recomendou.`);
+        const message = encodeURIComponent(`Oii, gostaria de saber mais sobre o combo "${comboName}" que a Gabi GPT me recomendou (IMC: ${userData.imc}).`);
         const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
 
         const recommendationCardHTML = `
@@ -288,10 +353,9 @@ function initializeGabiGpt() {
             scrollToBottom();
         });
         scrollToBottom();
-        await addBotMessage("Qualquer dúvida, é só clicar no botão acima para falar com a Gabi (a de verdade!) no WhatsApp. Estamos juntas nessa! 💪", 3000);
+        await addBotMessage(`Qualquer dúvida sobre o <strong>${comboName}</strong>, é só me chamar no WhatsApp clicando no botão acima. Estamos juntas nessa! 💪`, 4000);
     }
     
-    // Expõe a função de inicialização para ser chamada pelo script principal
     window.initializeGabiGpt = beginChat;
 }
 
@@ -366,8 +430,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         chatWidget.classList.add('opacity-0', 'scale-0');
 
-        if (!chatModal.dataset.initialized && typeof window.initializeGabiGpt === 'function') {
-            window.initializeGabiGpt();
+        if (!chatModal.dataset.initialized) {
+            if (typeof window.initializeGabiGpt === 'function') {
+                window.initializeGabiGpt();
+            }
             chatModal.dataset.initialized = 'true';
         }
     };
