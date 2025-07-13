@@ -1,9 +1,8 @@
-// combos.js (Completely Overhauled with new styles and URLs)
+// combos.js (Redesigned with a modern, feminine style)
 (function() {
     const combosSection = document.getElementById('combos-section');
 
-    // --- DATA TRANSFORMATION ---
-    const domain = 'https://www.gtfit.store'; // Centralizando o domínio
+    const domain = 'https://www.gtfit.store';
     const originalCombosData = {
         'peso-normal': [
             { id: 'pn-eco', tag: 'PLANO ECONÔMICO', tagClass: 'tag-economico', title: 'Projeto Slim 30 dias', duration: '30 Dias', anxiety: false, products: [{ name: '1 Super Slim X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "Ideal para quem busca uma manutenção do peso, um detox inicial ou quer dar o primeiro passo para definir o corpo. O Super Slim X age diretamente na saciedade e otimiza a queima de gordura leve." },
@@ -30,8 +29,7 @@
             { id: 'o3-prem', tag: 'PLANO PREMIUM', tagClass: 'tag-premium', title: 'Projeto Slim 140 dias', duration: '140 Dias', anxiety: false, products: [{ name: '1 Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '2 Super Slim X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "A abordagem premium para a transformação mais importante. Esta sequência poderosa usa o Detox, a tecnologia do Gold e a consistência do Slim X para promover um emagrecimento saudável, seguro, cuidando da sua saúde como um todo e garantindo resultados duradouros." }
         ]
     };
-    
-    // --- Mapeamento dos novos textos dos botões de categoria ---
+
     const categoryDisplayInfo = {
         'peso-normal': { line1: '🟢 Peso normal 🟢', line2: '🔥 Mínimo 30 dias de Projeto Slim 🔥' },
         'sobrepeso': { line1: '🟡 Sobrepeso 🟡', line2: '🔥 Mínimo 60 dias de Projeto Slim 🔥' },
@@ -51,7 +49,7 @@
 
     function createBackButton(backCallback) {
         const button = document.createElement('button');
-        button.className = 'link-button group flex items-center justify-center gap-4 w-full max-w-sm p-3 mt-8 border-slate-500 hover:border-slate-300';
+        button.className = 'link-button group flex items-center justify-center gap-4 w-full max-w-sm p-3 mt-8 border-slate-700 hover:border-slate-500';
         button.innerHTML = `<span class="font-semibold text-center text-slate-400 group-hover:text-white">↩️ Voltar</span>`;
         button.onclick = backCallback;
         return button;
@@ -67,38 +65,41 @@
 
         const detailHTML = `
             <div class="w-full max-w-md mx-auto">
-                <div class="product-card-detail bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl shadow-black/30">
-                    <div class="p-6 text-center bg-black/20 backdrop-blur-sm border-b border-slate-700/50">
+                <div class="combo-detail-card">
+                    <div class="combo-detail-header">
                         <div class="flex justify-center items-center gap-x-2 mb-5">
-                            ${combo.details.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-primary-purple/50">`).join('')}
+                            ${combo.details.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-primary-purple/30">`).join('')}
                         </div>
                         <h2 class="text-3xl font-extrabold text-white tracking-tight">${combo.details.title}</h2>
-                        <p class="text-primary-purple font-semibold mt-1">${combo.details.duration} de Tratamento</p>
+                        <p class="text-primary-purple font-semibold mt-2 flex items-center justify-center gap-2">
+                            <i class="far fa-clock"></i>
+                            <span>${combo.details.duration} de Tratamento</span>
+                        </p>
                     </div>
 
-                    <div class="accordion-container text-sm">
-                        <div class="accordion-item border-b border-slate-800 open">
-                            <button class="accordion-header w-full flex justify-between items-center p-4 text-left transition-colors duration-300 hover:bg-slate-700/40">
-                                <span class="font-semibold text-slate-100">🤔 Por que este combo é ideal para você?</span>
-                                <i class="fas fa-chevron-down transition-transform duration-300 text-slate-400"></i>
+                    <div class="combo-accordion-container">
+                        <div class="combo-accordion-item open">
+                            <button class="combo-accordion-header">
+                                <span>🤔 Por que este combo é ideal para você?</span>
+                                <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div class="accordion-content overflow-hidden">
-                                <div class="p-4 pt-0 text-slate-300/90 space-y-2">
+                            <div class="combo-accordion-content">
+                                <div class="combo-accordion-body">
                                     <p>${combo.details.explanation}</p>
                                 </div>
                             </div>
                         </div>
-                         <div class="accordion-item border-b border-slate-800">
-                            <button class="accordion-header w-full flex justify-between items-center p-4 text-left transition-colors duration-300 hover:bg-slate-700/40">
-                                <span class="font-semibold text-slate-100">📦 Produtos Inclusos</span>
-                                <i class="fas fa-chevron-down transition-transform duration-300 text-slate-400"></i>
+                         <div class="combo-accordion-item">
+                            <button class="combo-accordion-header">
+                                <span>📦 Produtos Inclusos</span>
+                                <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div class="accordion-content overflow-hidden">
-                                <div class="p-4 pt-0 text-slate-300/90 space-y-2">
+                            <div class="combo-accordion-content">
+                                <div class="combo-accordion-body">
                                     <ul class="space-y-3">
                                         ${combo.details.products.map(p => `
-                                            <li class="flex items-center gap-4 bg-slate-800/50 p-2 rounded-lg">
-                                                <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-primary-purple/40">
+                                            <li class="flex items-center gap-4 bg-slate-800/50 p-3 rounded-xl">
+                                                <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-primary-purple/40 flex-shrink-0">
                                                 <span class="font-semibold text-slate-200">${p.name}</span>
                                             </li>
                                         `).join('')}
@@ -108,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div class="p-6 bg-slate-900/50 mt-auto">
+                    <div class="combo-detail-footer">
                          <a href="${whatsappUrl}" target="_blank" 
                             class="w-full block text-center p-4 rounded-full font-bold text-lg transition-all duration-300 
                                    hover:scale-105 hover:shadow-lg hover:shadow-green-500/30
@@ -122,19 +123,16 @@
         combosSection.innerHTML = detailHTML;
         combosSection.appendChild(createBackButton(() => renderComboList(combo.categoryKey, backCallback)));
 
-        document.querySelectorAll('.accordion-item').forEach(item => {
-            const header = item.querySelector('.accordion-header');
-            const content = item.querySelector('.accordion-content');
-            const icon = header.querySelector('i');
+        document.querySelectorAll('.combo-accordion-item').forEach(item => {
+            const header = item.querySelector('.combo-accordion-header');
+            const content = item.querySelector('.combo-accordion-content');
             const toggleItem = () => {
                 const isOpen = item.classList.contains('open');
                 if (isOpen) {
                     content.style.maxHeight = '0px';
-                    icon.classList.remove('rotate-180');
                     item.classList.remove('open');
                 } else {
                     content.style.maxHeight = content.scrollHeight + 'px';
-                    icon.classList.add('rotate-180');
                     item.classList.add('open');
                 }
             };
@@ -142,7 +140,6 @@
             if (item.classList.contains('open')) {
                 setTimeout(() => {
                     content.style.maxHeight = content.scrollHeight + 'px';
-                    icon.classList.add('rotate-180');
                 }, 10);
             }
         });
@@ -169,13 +166,12 @@
         });
     }
 
-    // --- FUNÇÃO DE CATEGORIAS ATUALIZADA ---
     function showComboCategories(backCallback) {
         const categoriesHTML = Object.entries(categoryDisplayInfo).map(([key, info]) => 
             `<button data-category-key="${key}" class="link-button combo-category-btn group flex justify-center items-center gap-3 w-full max-w-sm p-4 h-auto">
                 <div class="text-center">
                     <p class="font-semibold text-slate-100 group-hover:text-white text-lg">${info.line1}</p>
-                    <p class="text-sm font-medium text-slate-400 group-hover:text-slate-200">${info.line2}</p>
+                    <p class="text-sm font-medium text-primary-green group-hover:text-emerald-300">${info.line2}</p>
                 </div>
             </button>`
         ).join('');
@@ -193,8 +189,70 @@
         const style = document.createElement('style');
         style.id = styleId;
         style.textContent = `
-            .product-card-detail { background-color: var(--surface-dark); border: 1px solid #333; border-radius: 1.5rem; overflow: hidden; display: flex; flex-direction: column; }
-            .accordion-content { transition: max-height 0.5s ease-in-out; }
+            .combo-detail-card {
+                background: linear-gradient(145deg, #1f1f22, #131314);
+                border: 1px solid #333;
+                border-radius: 1.5rem;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 0 60px -20px var(--primary-purple);
+            }
+            .combo-detail-header {
+                padding: 1.5rem;
+                text-align: center;
+                background: rgba(0,0,0,0.2);
+                backdrop-filter: blur(4px);
+                border-bottom: 1px solid #333;
+            }
+            .combo-accordion-container {
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .combo-accordion-item {
+                background: rgba(255, 255, 255, 0.03);
+                border-radius: 1rem;
+                border: 1px solid #333;
+            }
+            .combo-accordion-header {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem;
+                text-align: left;
+                background: transparent;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: 600;
+            }
+            .combo-accordion-header i {
+                transition: transform 0.3s ease;
+                color: var(--primary-purple);
+            }
+            .combo-accordion-item.open .combo-accordion-header i {
+                transform: rotate(180deg);
+            }
+            .combo-accordion-content {
+                max-height: 0px;
+                overflow: hidden;
+                transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+            .combo-accordion-body {
+                padding: 0 1rem 1rem 1rem;
+                color: #d1d5db;
+                line-height: 1.6;
+            }
+            .combo-detail-footer {
+                padding: 1.5rem;
+                background: #131314;
+                margin-top: auto;
+                border-top: 1px solid #333;
+            }
         `;
         document.head.appendChild(style);
     }
