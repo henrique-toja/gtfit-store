@@ -10,9 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"> <style>
         :root {
             --background-dark: #131314;
             --surface-dark: #1E1F20;
@@ -26,8 +24,8 @@
             background-color: var(--background-dark);
             color: #e5e7eb;
             font-family: var(--font-main);
-            background-image: radial-gradient(circle at 10% 10%, rgba(192, 132, 252, 0.1) 0%, transparent, 30%),
-                              radial-gradient(circle at 90% 80%, rgba(75, 222, 128, 0.1) 0%, transparent, 30%);
+            background-image: radial-gradient(circle at 10% 10%, rgba(192, 132, 252, 0.1) 0%, transparent 30%),
+                              radial-gradient(circle at 90% 80%, rgba(75, 222, 128, 0.1) 0%, transparent 30%);
         }
         .link-button {
             background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(192, 132, 252, 0.3);
@@ -41,7 +39,7 @@
         }
         @keyframes pulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.7); }
-            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(192, 132, 252, 0); }
+            50% { transform: scale(1.05); box-shadow: 0 0 10px 10px rgba(192, 132, 252, 0); }
         }
         .chat-bubble {
             position: relative; background-color: var(--surface-dark); border: 1px solid var(--primary-purple);
@@ -56,8 +54,6 @@
             position: absolute; bottom: 2px; right: 2px; width: 15px; height: 15px;
             background-color: var(--primary-green); border-radius: 9999px; border: 2px solid var(--surface-dark);
         }
-        
-        /* --- ESTILOS COMPLETOS DO CHAT RESTAURADOS --- */
         #chat-scroll-area { scroll-behavior: smooth; }
         #chat-scroll-area::-webkit-scrollbar { width: 8px; }
         #chat-scroll-area::-webkit-scrollbar-track { background: transparent; }
@@ -181,7 +177,7 @@
 
     <script src="https://www.gtfit.store/products.js" defer></script>
     <script src="https://www.gtfit.store/combos.js" defer></script>
-
+    <script src="gabigpt.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mainNavigation = document.getElementById('main-navigation');
@@ -195,38 +191,60 @@
             const closeChatBtn = document.getElementById('close-chat-btn');
 
             const showMainScreen = () => {
-                mainNavigation.classList.remove('hidden'); mainNavigation.classList.add('flex');
-                productsSection.classList.add('hidden'); combosSection.classList.add('hidden');
-                productsSection.innerHTML = ''; combosSection.innerHTML = '';
+                mainNavigation.classList.remove('hidden');
+                mainNavigation.classList.add('flex');
+                productsSection.classList.add('hidden');
+                combosSection.classList.add('hidden');
+                productsSection.innerHTML = '';
+                combosSection.innerHTML = '';
             };
 
-            setTimeout(() => {
-                if (window.renderProductList) {
-                    showEmagrecedoresBtn.addEventListener('click', () => { mainNavigation.classList.add('hidden'); productsSection.classList.remove('hidden'); window.renderProductList('Emagrecedores', showMainScreen); });
-                    showComplementosBtn.addEventListener('click', () => { mainNavigation.classList.add('hidden'); productsSection.classList.remove('hidden'); window.renderProductList('Complementos', showMainScreen); });
+            // Espera pelas funções estarem disponíveis no objeto window
+            const setupButtonsWhenReady = () => {
+                if (window.renderProductList && window.renderCombosContent) {
+                    showEmagrecedoresBtn.addEventListener('click', () => {
+                        mainNavigation.classList.add('hidden');
+                        productsSection.classList.remove('hidden');
+                        window.renderProductList('Emagrecedores', showMainScreen);
+                    });
+                    showComplementosBtn.addEventListener('click', () => {
+                        mainNavigation.classList.add('hidden');
+                        productsSection.classList.remove('hidden');
+                        window.renderProductList('Complementos', showMainScreen);
+                    });
+                    showCombosBtn.addEventListener('click', () => {
+                        mainNavigation.classList.add('hidden');
+                        combosSection.classList.remove('hidden');
+                        window.renderCombosContent(showMainScreen);
+                    });
+                } else {
+                    // Tenta novamente em 100ms se as funções ainda não estiverem carregadas
+                    setTimeout(setupButtonsWhenReady, 100);
                 }
-                if (window.renderCombosContent) {
-                    showCombosBtn.addEventListener('click', () => { mainNavigation.classList.add('hidden'); combosSection.classList.remove('hidden'); window.renderCombosContent(showMainScreen); });
-                }
-            }, 500);
+            };
+            
+            setupButtonsWhenReady();
 
-            // Lógica do chat movida para cá para simplicidade e robustez
-            let isDragging = false, clickTimeout;
+            // Lógica do chat
             const openChat = () => {
                 chatModal.classList.remove('hidden');
+                chatModal.classList.add('flex'); // Garante que o modal seja flexível
+                // Inicializa o GPT somente na primeira vez que o chat é aberto
                 if (!chatModal.dataset.initialized && typeof window.initializeGabiGpt === 'function') {
                     window.initializeGabiGpt();
                     chatModal.dataset.initialized = 'true';
                 }
             };
-            const closeChat = () => chatModal.classList.add('hidden');
             
-            chatWidget.addEventListener('mousedown', () => { isDragging = false; clickTimeout = setTimeout(() => isDragging = true, 200); });
-            chatWidget.addEventListener('mouseup', () => { clearTimeout(clickTimeout); if (!isDragging) openChat(); });
+            const closeChat = () => {
+                chatModal.classList.add('hidden');
+                chatModal.classList.remove('flex');
+            };
+            
+            // Lógica de clique simples e segura para o widget
+            chatWidget.addEventListener('click', openChat);
             closeChatBtn.addEventListener('click', closeChat);
         });
     </script>
-    
-    <script src="gabigpt.js" defer></script>
 </body>
 </html>
