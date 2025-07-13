@@ -45,7 +45,6 @@
             border-color: rgba(75, 222, 128, 0.6);
         }
 
-        /* ESTILOS CORRIGIDOS PARA O WIDGET DE CHAT */
         @keyframes pulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.7); }
             50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(192, 132, 252, 0); }
@@ -59,7 +58,7 @@
         .chat-bubble::before {
             content: '';
             position: absolute;
-            right: -10px; /* Aponta para a direita */
+            right: -10px;
             top: 50%;
             transform: translateY(-50%);
             width: 0; height: 0;
@@ -77,7 +76,6 @@
             border-radius: 9999px;
             border: 2px solid var(--surface-dark);
         }
-        /* Estilos para o Chat (adicionados para garantir o funcionamento) */
         .message { padding: 0.75rem 1rem; border-radius: 1rem; line-height: 1.6; animation: fadeIn 0.4s ease-out both; max-width: 85%; white-space: pre-wrap; margin-bottom: 1rem; }
         .bot-message { background-color: #2c2c2e; color: var(--text-light); align-self: flex-start; border-bottom-left-radius: 0.25rem; }
         .user-message { background: linear-gradient(135deg, #8b5cf6, #a855f7); color: white; align-self: flex-end; font-weight: 500; border-top-right-radius: 0.25rem; }
@@ -144,7 +142,8 @@
         </footer>
     </div>
 
-    <div id="chat-widget" class="fixed top-2/3 right-5 -translate-y-1/2 flex items-center gap-3 cursor-pointer z-40">
+    <!-- CHAT WIDGET FLOAT MAIS PRA BAIXO E MÓVEL -->
+    <div id="chat-widget" style="top:85%;right:20px;position:fixed;z-index:40;cursor:pointer;" class="flex items-center gap-3">
         <div class="chat-bubble p-3 rounded-lg max-w-[200px]">
             <p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p>
         </div>
@@ -221,6 +220,35 @@
                 });
             }
         });
+    </script>
+
+    <!-- SCRIPT PARA FLOAT MÓVEL -->
+    <script>
+    const chatWidget = document.getElementById('chat-widget');
+    let isDragging = false, offsetX, offsetY;
+
+    chatWidget.addEventListener('mousedown', function(e) {
+      isDragging = true;
+      offsetX = e.clientX - chatWidget.getBoundingClientRect().left;
+      offsetY = e.clientY - chatWidget.getBoundingClientRect().top;
+      chatWidget.style.transition = 'none';
+      chatWidget.style.userSelect = 'none';
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (isDragging) {
+        chatWidget.style.left = (e.clientX - offsetX) + 'px';
+        chatWidget.style.top = (e.clientY - offsetY) + 'px';
+        chatWidget.style.right = 'auto';
+        chatWidget.style.bottom = 'auto';
+        chatWidget.style.position = 'fixed';
+      }
+    });
+
+    document.addEventListener('mouseup', function() {
+      isDragging = false;
+      chatWidget.style.userSelect = '';
+    });
     </script>
 
     <script src="gabigpt.js" defer></script>
