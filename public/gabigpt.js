@@ -1,10 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- ELEMENTOS DO DOM ---
-    const chatInterface = document.getElementById('chat-interface');
+    const chatWidget = document.getElementById('chat-widget');
+    const chatModal = document.getElementById('chat-modal');
+    const closeChatBtn = document.getElementById('close-chat-btn');
     const chatScrollArea = document.getElementById('chat-scroll-area');
     const chatMessages = document.getElementById('chat-messages');
     const inputArea = document.getElementById('chat-input-area');
+
+    // --- LÓGICA PARA ABRIR E FECHAR O CHAT ---
+    if (chatWidget && chatModal && closeChatBtn) {
+        const openChat = () => {
+            chatModal.classList.remove('hidden');
+            chatModal.classList.add('flex');
+            // Inicia a conversa apenas na primeira vez que o chat é aberto
+            if (!chatModal.dataset.initialized) {
+                beginChat();
+                chatModal.dataset.initialized = 'true';
+            }
+        };
+
+        const closeChat = () => {
+            chatModal.classList.add('hidden');
+            chatModal.classList.remove('flex');
+        };
+
+        chatWidget.addEventListener('click', openChat);
+        closeChatBtn.addEventListener('click', closeChat);
+        chatModal.addEventListener('click', (event) => {
+            if (event.target === chatModal) {
+                closeChat();
+            }
+        });
+    }
 
     // --- DADOS E PRODUTOS ---
     const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, activityLevel: '', dietSweet: '', dietHealthy: '', anxiety: '', digestion: '', challengeText: '' };
@@ -76,46 +104,28 @@ document.addEventListener('DOMContentLoaded', () => {
         else { classificacao = 'Obesidade Grau III'; faixa = 'Acima de 40.0'; conclusao = 'Seu IMC está na faixa de Obesidade Grau III (mórbida).'; }
         return { imc: imc.toFixed(1), classificacao, faixa, conclusao };
     }
-    
+
     function getRecomendacao() {
-        const { imcCategory, anxiety, digestion, activityLevel, dietHealthy } = userData;
+        const { imcCategory, anxiety, digestion } = userData;
         let rec = { main: null, economic: null };
 
-        if (imcCategory.includes('Obesidade Grau II') || imcCategory.includes('Obesidade Grau III')) {
-            rec.main = 5; // Gold
-        } else if (imcCategory.includes('Obesidade')) {
-            rec.main = 3; // Black
-        } else if (imcCategory === 'Sobrepeso') {
-            rec.main = 2; // Roxo
-        } else { // Peso Normal
-            rec.main = 4; // Detox
-        }
-        
-        // A lógica da ansiedade direciona para o Roxo se não for a principal
-        if (anxiety === 'sim' && rec.main !== 2 && rec.main !== 5) {
-            rec.main = 2;
-        }
+        if (imcCategory.includes('Obesidade Grau II') || imcCategory.includes('Obesidade Grau III')) { rec.main = 5; } // Gold
+        else if (imcCategory.includes('Obesidade')) { rec.main = 3; } // Black
+        else if (imcCategory === 'Sobrepeso') { rec.main = 2; } // Roxo
+        else { rec.main = 4; } // Detox
 
-        // Lógica para opção econômica
-        if (digestion === 'sim') {
-            rec.economic = 4; // Detox é uma ótima porta de entrada
-        } else {
-            rec.economic = 1; // SlimX como opção de início padrão
-        }
+        if (anxiety === 'sim' && rec.main !== 2 && rec.main !== 5) { rec.main = 2; }
+        if (digestion === 'sim') { rec.economic = 4; } 
+        else { rec.economic = 1; }
+        if (rec.main === rec.economic) { rec.economic = (rec.main === 1) ? 4 : 1; }
 
-        // Garante que main e economic não sejam iguais
-        if (rec.main === rec.economic) {
-            rec.economic = (rec.main === 1) ? 4 : 1;
-        }
-        
         return rec;
     }
 
-
-    // --- FLUXO DA CONVERSA (ORDEM ATUALIZADA) ---
+    // --- FLUXO DA CONVERSA ---
     async function beginChat() {
-        await addBotMessage("Olá! Sou a Gabi GPT, sua consultora de bem-estar. Que bom ter você aqui para iniciarmos seu Projeto Slim juntas! ✨", 2200);
-        await addBotMessage("Para começarmos, me diga, como você prefere ser chamada?", 2200);
+        await addBotMessage("Olá! Sou a Gabi GPT, sua consultora de bem-estar. Que bom ter você aqui para iniciarmos seu Projeto Slim juntas! ✨", 1500);
+        await addBotMessage("Para começarmos, me diga, como você prefere ser chamada?", 2000);
         const { input, button } = createInput('name-input', 'Digite seu nome...', 'name-submit');
         const handle = () => { if (input.value.trim() === '') return; userData.name = input.value.trim(); addUserMessage(userData.name); continueToQuestionnaire(); };
         button.addEventListener('click', handle);
@@ -175,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (input.value.trim() === '') return; 
             userData.challengeText = input.value.trim(); 
             addUserMessage(userData.challengeText); 
-            askAnxiety(); // Próximo passo
+            askAnxiety();
         };
         button.addEventListener('click', handle);
         input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
@@ -223,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
         userData.imc = imcResult.imc;
         userData.imcCategory = imcResult.classificacao;
         
-        // A recomendação é calculada aqui nos bastidores
         recommendationData = getRecomendacao();
 
         const imcCardHTML = `<div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
@@ -243,13 +252,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function askInvestmentLevel() {
         let anxietyText = "";
-        if(userData.anxiety === 'sim') {
-            anxietyText = "vi que a ansiedade é um ponto-chave que precisamos tratar com força total.";
-        } else if (userData.anxiety === 'media') {
-            anxietyText = "percebi que a ansiedade às vezes te sabota, e podemos blindar isso.";
-        } else {
-            anxietyText = "vi que você tem um bom controle da ansiedade, então vamos focar 100% na queima de gordura.";
-        }
+        if(userData.anxiety === 'sim') { anxietyText = "vi que a ansiedade é um ponto-chave que precisamos tratar com força total."; } 
+        else if (userData.anxiety === 'media') { anxietyText = "percebi que a ansiedade às vezes te sabota, e podemos blindar isso."; } 
+        else { anxietyText = "vi que você tem um bom controle da ansiedade, então vamos focar 100% na queima de gordura."; }
         
         await addBotMessage(`Com seu Raio-X em mãos, ${anxietyText}`, 3500);
         await addBotMessage("Preparei 2 estratégias para você. Agora a pergunta de ouro: qual seu foco inicial?", 3000);
@@ -259,14 +264,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ${createButton('invest-principal', 'Estou decidida a investir no meu melhor! 🚀')}
         </div>`;
         
-        document.getElementById('invest-economico').addEventListener('click', () => {
-            addUserMessage("Quero começar com economia.");
-            showRecommendation('economico');
-        });
-        document.getElementById('invest-principal').addEventListener('click', () => {
-            addUserMessage("Quero investir no meu melhor resultado!");
-            showRecommendation('principal');
-        });
+        document.getElementById('invest-economico').addEventListener('click', () => { addUserMessage("Quero começar com economia."); showRecommendation('economico'); });
+        document.getElementById('invest-principal').addEventListener('click', () => { addUserMessage("Quero investir no meu melhor resultado!"); showRecommendation('principal'); });
     }
 
     async function showRecommendation(level) {
@@ -317,14 +316,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('toggle-card-btn').addEventListener('click', () => {
             document.getElementById('card-content').classList.toggle('hidden');
             document.getElementById('card-arrow').classList.toggle('rotate-180');
+            scrollToBottom();
         });
 
         scrollToBottom();
         await addBotMessage("Qualquer dúvida, é só me chamar ou clicar para falar com a Gabi (a de verdade!) no WhatsApp. Estamos juntas nessa! 💪", 3000);
     }
-
-
-    // --- INICIA A APLICAÇÃO ---
-    // Esta função é chamada pelo script principal no HTML quando o usuário clica em "Começar"
-    window.initializeChat = beginChat;
 });
