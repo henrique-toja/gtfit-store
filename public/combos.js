@@ -47,10 +47,7 @@
             details: combo
         }));
     });
-    
-    // As funções para renderizar a lista de combos continuam aqui...
-    // ... createBackButton, showComboDetail, renderComboList, etc.
-    
+
     function createBackButton(backCallback) {
         const button = document.createElement('button');
         button.className = 'link-button group flex items-center gap-4 w-full max-w-sm p-3 mt-8 border-slate-500 hover:border-slate-300';
@@ -133,8 +130,32 @@
             button.onclick = () => renderComboList(button.dataset.category, backCallback);
         });
     }
-    
-    function injectDetailStyles() { /* ... implementação idêntica ... */ }
+
+    // --- CORREÇÃO APLICADA AQUI: Função de estilos restaurada ---
+    function injectDetailStyles() {
+        const styleId = 'combo-detail-styles';
+        if (document.getElementById(styleId)) return;
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+            .combo-card-detail { background-color: rgba(30, 31, 32, 0.7); border: 1px solid rgba(192, 132, 252, 0.2); backdrop-filter: blur(12px); border-radius: 1.5rem; padding: 2rem; display: flex; flex-direction: column; width: 100%; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+            .combo-card-detail .card-header .type-tag { font-size: 0.8rem; font-weight: 600; padding: 0.4rem 1rem; border-radius: 50px; text-transform: uppercase; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); display: inline-block; }
+            .combo-card-detail .card-header .combo-title { font-size: 1.5rem; font-weight: 700; margin-top: 1rem; color: white; }
+            .combo-card-detail .card-header .anxiety-tag { font-size: 0.9rem; color: var(--primary-purple); font-weight: 500; margin-top: 0.25rem; }
+            .combo-card-detail .combo-details { display: flex; justify-content: space-around; text-align: center; padding: 1.5rem 0; margin: 1.5rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+            .combo-card-detail .detail-item .value { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+            .combo-card-detail .detail-item .value.price { color: var(--primary-green); }
+            .combo-card-detail .detail-item .value.duration { color: var(--primary-purple); }
+            .combo-card-detail .detail-item .label { font-size: 0.75rem; text-transform: uppercase; color: #a1a1aa; }
+            .combo-card-detail .product-list-title { font-size: 1rem; font-weight: 600; color: white; margin: 1rem 0; }
+            .combo-card-detail .product-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; flex-grow: 1; }
+            .combo-card-detail .product-item { display: flex; align-items: center; gap: 1rem; background-color: rgba(0, 0, 0, 0.2); padding: 0.75rem; border-radius: 0.75rem; }
+            .combo-card-detail .product-item img { width: 45px; height: 45px; object-fit: contain; }
+            .combo-card-detail .buy-button { display: block; width: 100%; text-align: center; padding: 1rem; border-radius: 50px; font-weight: 600; font-size: 1rem; text-decoration: none; transition: all 0.3s ease; background: var(--primary-green); color: var(--background-dark); cursor: pointer; border: none; margin-top: auto; }
+            .combo-card-detail .buy-button:hover { transform: scale(1.03); }
+        `;
+        document.head.appendChild(style);
+    }
 
     // --- Main Exposed Function ---
     window.renderCombosContent = (backCallback) => {
@@ -142,8 +163,7 @@
         showComboCategories(backCallback);
     };
 
-    // --- CORREÇÃO APLICADA AQUI ---
-    // Expor os dados brutos dos combos para o script do Gabi GPT poder usar
+    // --- Expor os dados para o Gabi GPT ---
     window.gabiFitApp = window.gabiFitApp || {};
     window.gabiFitApp.combosData = originalCombosData;
 
