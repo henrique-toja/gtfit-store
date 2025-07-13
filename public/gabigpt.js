@@ -1,3 +1,4 @@
+// --- LÓGICA PRINCIPAL DO CHAT GABI GPT ---
 function initializeGabiGpt() {
 
     const chatScrollArea = document.getElementById('chat-scroll-area');
@@ -5,7 +6,6 @@ function initializeGabiGpt() {
     const inputArea = document.getElementById('chat-input-area');
 
     const domain = 'https://www.gtfit.store';
-    // O objeto combosData permanece o mesmo
     const combosData = {
         'peso-normal': [
             { id: 'pn-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 30 dias', duration: '30 Dias', anxiety: false, products: [{ name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para você que já está no peso ideal, mas busca aquela definição final, secar gordurinhas teimosas e manter o corpo modelado. É o toque de mestre para quem não quer relaxar nos resultados.<br><br><strong>A Estratégia:</strong> O <strong>Slim Super X</strong> atua como um otimizador metabólico. Ele age diretamente na saciedade com seu poderoso mix de fibras, fazendo você se sentir satisfeita com menos. Ao mesmo tempo, seus componentes diuréticos ajudam a eliminar a retenção de líquidos, revelando a definição muscular. <br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nas primeiras semanas, você sentirá a fome mais controlada e menos inchaço. Ao final dos 30 dias, seu corpo estará mais 'seco', com contornos mais aparentes e um metabolismo afinado para manter os resultados." },
@@ -30,13 +30,12 @@ function initializeGabiGpt() {
         'obesidade-grau-iii': [
             { id: 'o3-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 120 dias', duration: '120 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '2 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem está no campo de batalha final contra a obesidade e precisa da artilharia mais pesada para garantir a vitória.<br><br><strong>A Estratégia:</strong> Intervenção máxima. O <strong>Detox</strong> prepara seu corpo para a ofensiva dupla do <strong>Guria Shape Black</strong>. O foco aqui é absoluto: aniquilar a fome e forçar o metabolismo a uma queima de gordura extrema e contínua. É o plano para quem não tem mais tempo a perder.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação será intensa. A fome praticamente desaparecerá, e seu corpo entrará em modo de queima acelerada. É um plano que exige determinação, mas que entrega resultados expressivos e rápidos." },
             { id: 'o3-ans', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 160 dias', duration: '160 Dias', anxiety: true, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '2 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para a guerreira que enfrenta a obesidade severa e a ansiedade, e busca um caminho de longo prazo que respeite seu tempo e sua saúde mental.<br><br><strong>A Estratégia:</strong> É a jornada mais completa que oferecemos. Um <strong>Detox</strong> inicial, seguido por um longo período com o <strong>Guria Shape Roxo</strong> para criar uma base sólida de controle mental e de apetite, e finalizado com o <strong>Slim Super X</strong> para garantir a continuidade da queima de gordura. É a estratégia da paciência, consistência e vitória definitiva.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Será uma transformação gradual e profunda. Você reaprenderá a lidar com a comida e com suas emoções. A perda de peso será constante, e ao final, você não terá apenas um novo corpo, mas uma nova mentalidade." },
-            { id: 'o3-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 140 dias', duration: '140 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter um quadro de obesidade severa.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida de todo o seu bem-estar, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento." }
+            { id: 'o3-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 140 dias', duration: '140 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter un quadro de obesidade severa.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida de todo o seu bem-estar, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento." }
         ]
     };
     const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, anxiety: '' };
     let recommendationData = {};
 
-    // As funções auxiliares (sleep, scrollToBottom, showTyping, etc.) permanecem as mesmas
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const scrollToBottom = () => { setTimeout(() => { chatScrollArea.scrollTop = chatScrollArea.scrollHeight; }, 100); };
 
@@ -86,7 +85,6 @@ function initializeGabiGpt() {
         return { input: inputField, button: document.getElementById(buttonId) };
     };
     
-    // O fluxo da conversa (beginChat, ..., askInvestmentLevel) permanece o mesmo
     function calcularIMC(peso, altura) {
         if (!peso || !altura) return null;
         const imc = peso / (altura * altura);
@@ -201,8 +199,6 @@ function initializeGabiGpt() {
         recommendationData = getRecomendacao();
         const sumarioTexto = `📌 <b>Resultado do seu IMC (Índice de Massa Corporal)</b>\n\n✅ Idade: ${userData.age} anos\n✅ Altura: ${userData.height.toFixed(2)} m\n✅ Peso: ${userData.weight.toFixed(1).replace('.',',')} kg\n\n📐 <b>Cálculo:</b>\nIMC = ${userData.weight.toFixed(1).replace('.',',')} ÷ (${userData.height.toFixed(2)} × ${userData.height.toFixed(2)}) ≈ ${imcResult.imc.replace('.',',')}\n\n🔍 <b>Classificação segundo a OMS:</b>\n"${imcResult.classificacao}" (IMC ${imcResult.faixa})\n\n<b>Conclusão:</b>\n${imcResult.conclusao}`.replace(/\n/g, '<br>');
         
-        // --- ALTERAÇÃO DE ESTILO AQUI ---
-        // Card de IMC com fundo transparente e borda sutil para combinar com o tema
         const imcCardHTML = `<div class="bg-purple-500/10 rounded-lg p-4 border border-purple-400/30 text-sm backdrop-blur-sm">${sumarioTexto}</div>`;
         
         await addBotMessage(imcCardHTML, 4000);
@@ -245,8 +241,6 @@ function initializeGabiGpt() {
         const message = encodeURIComponent(`Oii, gostaria de saber mais sobre o combo "${comboName}" que a Gabi GPT me recomendou.`);
         const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
 
-        // --- ALTERAÇÃO DE ESTILO AQUI ---
-        // Card de recomendação com fundo mais transparente e sem o anel (ring) para não duplicar a borda da janela principal.
         const recommendationCardHTML = `
             <div class="bg-black/20 backdrop-blur-sm rounded-2xl shadow-lg w-full">
                 <button id="toggle-card-btn-${id}" class="flex justify-between items-center w-full text-left p-4">
@@ -301,9 +295,97 @@ function initializeGabiGpt() {
     window.initializeGabiGpt = beginChat;
 }
 
-// Garante que o código só execute após o DOM estar pronto
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeGabiGpt);
-} else {
-    initializeGabiGpt();
-}
+// --- LÓGICA DE INICIALIZAÇÃO DA PÁGINA (Antes no HTML, agora aqui) ---
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // Inicializa a lógica do chat Gabi GPT
+    if (typeof initializeGabiGpt === 'function') {
+        initializeGabiGpt();
+    }
+
+    // Seletores dos elementos da página principal
+    const mainNavigation = document.getElementById('main-navigation');
+    const productsSection = document.getElementById('products-dynamic-section');
+    const combosSection = document.getElementById('combos-section');
+    const showEmagrecedoresBtn = document.getElementById('show-emagrecedores-btn');
+    const showComplementosBtn = document.getElementById('show-complementos-btn');
+    const showCombosBtn = document.getElementById('show-combos-btn');
+    
+    // Seletores dos elementos do chat
+    const chatWidget = document.getElementById('chat-widget'); 
+    const chatModal = document.getElementById('chat-modal');
+    const chatContainer = document.getElementById('chat-container');
+    const closeChatBtn = document.getElementById('close-chat-btn');
+
+    // Função para voltar à tela principal de navegação
+    const showMainScreen = () => {
+        mainNavigation.classList.remove('hidden');
+        mainNavigation.classList.add('flex');
+        productsSection.classList.add('hidden');
+        combosSection.classList.add('hidden');
+        productsSection.innerHTML = '';
+        combosSection.innerHTML = '';
+    };
+
+    // Função para inicializar os botões da navegação principal
+    const setupButtonsWhenReady = () => {
+        if (window.renderProductList && window.renderCombosContent) {
+            if (showEmagrecedoresBtn) {
+                showEmagrecedoresBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    productsSection.classList.remove('hidden');
+                    window.renderProductList('Emagrecedores', showMainScreen);
+                });
+            }
+            if (showComplementosBtn) {
+                showComplementosBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    productsSection.classList.remove('hidden');
+                    window.renderProductList('Complementos', showMainScreen);
+                });
+            }
+            if (showCombosBtn) {
+                showCombosBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    combosSection.classList.remove('hidden');
+                    window.renderCombosContent(showMainScreen);
+                });
+            }
+        } else {
+            setTimeout(setupButtonsWhenReady, 100);
+        }
+    };
+    
+    setupButtonsWhenReady();
+
+    // LÓGICA DE ABRIR/FECHAR O CHAT
+    const openChat = () => {
+        chatModal.classList.remove('invisible');
+        chatContainer.classList.remove('opacity-0', '-translate-y-4');
+        chatContainer.classList.add('opacity-100', 'translate-y-0');
+        
+        chatWidget.classList.add('opacity-0', 'scale-0');
+
+        if (!chatModal.dataset.initialized && typeof window.initializeGabiGpt === 'function') {
+            window.initializeGabiGpt();
+            chatModal.dataset.initialized = 'true';
+        }
+    };
+    
+    const closeChat = () => {
+        chatContainer.classList.add('opacity-0', '-translate-y-4');
+        chatContainer.classList.remove('opacity-100', 'translate-y-0');
+        
+        chatWidget.classList.remove('opacity-0', 'scale-0');
+        
+        setTimeout(() => {
+            chatModal.classList.add('invisible');
+        }, 500);
+    };
+    
+    // Adiciona os eventos aos botões do chat
+    if(chatWidget && closeChatBtn) {
+        chatWidget.addEventListener('click', openChat);
+        closeChatBtn.addEventListener('click', closeChat);
+    }
+});
