@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Produtos - GTFIT Store</title>
+    <meta name="description" content="Descubra nossa linha completa de emagrecedores e complementos para sua jornada fitness.">
+    <link rel="icon" href="https://www.gtfit.store/gtfit.png" type="image/jpeg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --background-dark: #131314;
+            --surface-dark: #1E1F20;
+            --primary-purple: #c084fc;
+            --primary-green: #4bde80;
+            --font-main: 'Inter', sans-serif;
+        }
+        body {
+            background-color: var(--background-dark);
+            color: #e5e7eb;
+            font-family: var(--font-main);
+            background-image: radial-gradient(circle at 10% 10%, rgba(192, 132, 252, 0.1) 0%, transparent 30%),
+                              radial-gradient(circle at 90% 80%, rgba(75, 222, 128, 0.1) 0%, transparent 30%);
+        }
+        .link-button {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px 2px rgba(192, 132, 252, 0.2);
+            text-decoration: none;
+        }
+        .link-button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 20px 3px rgba(75, 222, 128, 0.4);
+            border-color: rgba(75, 222, 128, 0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(192, 132, 252, 0); }
+        }
+        .chat-bubble {
+            position: relative;
+            background-color: var(--surface-dark);
+            border: 1px solid var(--primary-purple);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .chat-bubble::before {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0; height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 10px solid var(--primary-purple);
+        }
+        .online-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 15px;
+            height: 15px;
+            background-color: var(--primary-green);
+            border-radius: 9999px;
+            border: 2px solid var(--surface-dark);
+        }
+        .message { padding: 0.75rem 1rem; border-radius: 1rem; line-height: 1.6; animation: fadeIn 0.4s ease-out both; max-width: 85%; white-space: pre-wrap; margin-bottom: 1rem; }
+        .bot-message { background-color: #2c2c2e; color: var(--text-light); align-self: flex-start; border-bottom-left-radius: 0.25rem; }
+        .user-message { background: linear-gradient(135deg, #8b5cf6, #a855f7); color: white; align-self: flex-end; font-weight: 500; border-top-right-radius: 0.25rem; }
+        .action-button { width: 100%; padding: 0.8rem 1rem; border-radius: 0.75rem; border: 1px solid var(--primary-purple); background: transparent; color: var(--primary-purple); font-size: 0.9rem; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .action-button:hover { background: var(--primary-purple); color: white; }
+        .input-with-button { display: flex; gap: 0.5rem; align-items: center; padding: 0.25rem; background-color: #2c2c2e; border-radius: 1.5rem; }
+        #chat-modal input { width: 100%; padding: 0.75rem; background-color: transparent; border: none; font-size: 1rem; color: var(--text-light); }
+        #chat-modal input:focus { outline: none; }
+        .input-with-button button { height: 40px; width: 40px; flex-shrink: 0; border-radius: 50%; border: none; background: #8B5CF6; color: white; cursor: pointer; display: grid; place-items: center; transition: all 0.2s; }
+        @keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+        @keyframes bounce-typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+        .typing-indicator { align-self: flex-start; display: flex; gap: 0.25rem; padding: 0.75rem 1rem; background-color: #2c2c2e; border-radius: 1rem; border-bottom-left-radius: 0.25rem; }
+        .typing-indicator span { width: 8px; height: 8px; background-color: #4b5563; border-radius: 50%; animation: bounce-typing 1.4s infinite ease-in-out both; }
+        .typing-indicator .bounce-1 { animation-delay: -0.32s; }
+        .typing-indicator .bounce-2 { animation-delay: -0.16s; }
+    </style>
+</head>
+<body class="flex flex-col items-center min-h-screen p-4">
+
+    <div class="w-full max-w-md mx-auto py-8">
+        <header class="text-center mb-8">
+            <a href="javascript:location.reload();" class="cursor-pointer">
+                <img src="https://www.gtfit.store/gabi-profile2.jpg" alt="Foto de Gabriela Torraca" class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-purple-400 shadow-lg">
+            </a>
+            <h1 class="text-2xl font-bold text-white">Descubra quais 💊 você precisa para seu Projeto Slim</h1>
+            <p class="text-slate-400">🔥 AGORA VOCÊ EMAGRECE 🔥</p>
+        </header>
+
+        <main class="w-full">
+            <section id="main-navigation" class="flex flex-col items-center gap-5 w-full">
+                <button id="show-emagrecedores-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                    <span class="text-2xl">💊</span>
+                    <span class="font-semibold text-slate-200 group-hover:text-white">Ver Emagrecedores</span>
+                </button>
+                <button id="show-complementos-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                    <span class="text-2xl">💪🏼</span>
+                    <span class="font-semibold text-slate-200 group-hover:text-white">Ver Complementos</span>
+                </button>
+                <button id="show-combos-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
+                    <span class="text-2xl">🔥</span>
+                    <span class="font-semibold text-slate-200 group-hover:text-white">Ver Combos</span>
+                </button>
+            </section>
+
+            <section id="products-dynamic-section" class="hidden flex flex-col items-center gap-5 w-full"></section>
+            <section id="combos-section" class="hidden flex flex-col items-center gap-5 w-full"></section>
+        </main>
+
+        <footer class="w-full text-center mt-12 mb-4">
+            <div class="flex justify-center items-center gap-6 mb-6">
+                 <a href="mailto:contato@gabrielatorraca.com.br" target="_blank" class="text-slate-400 hover:text-white transition-transform duration-200 hover:scale-110">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Email" class="h-7 w-7">
+                </a>
+                <a href="https://www.instagram.com/gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white transition-transform duration-200 hover:scale-110">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="h-7 w-7">
+                </a>
+                <a href="https://www.tiktok.com/@gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white transition-transform duration-200 hover:scale-110">
+                    <img src="https://www.gtfit.store/tik.png" alt="TikTok" class="h-7 w-7 rounded-full">
+                </a>
+            </div>
+            <p class="text-xs text-slate-500">
+                Copyright &copy; 2025 Gabriela Torraca. Todos os direitos reservados.
+            </p>
+        </footer>
+    </div>
+
+    <!-- CHAT WIDGET FLOAT MAIS PRA BAIXO E MÓVEL -->
+    <div id="chat-widget" style="top:85%;right:20px;position:fixed;z-index:40;cursor:pointer;" class="flex items-center gap-3">
+        <div class="chat-bubble p-3 rounded-lg max-w-[200px]">
+            <p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p>
+        </div>
+        <div class="relative">
+            <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Assistente Gabi" class="w-16 h-16 rounded-full border-2 border-purple-400" style="animation: pulse 2s infinite;">
+            <div class="online-indicator"></div>
+        </div>
+    </div>
+
+    <div id="chat-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div class="bg-surface-dark w-full max-w-md h-[90vh] max-h-[700px] rounded-2xl flex flex-col shadow-2xl shadow-purple-500/20">
+            <header class="flex items-center justify-between p-4 border-b border-slate-700">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Gabi GPT" class="w-10 h-10 rounded-full">
+                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-surface-dark"></div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white">Gabi GPT</h3>
+                        <p class="text-xs text-slate-400">Online</p>
+                    </div>
+                </div>
+                <button id="close-chat-btn" class="text-2xl leading-none font-bold text-slate-400 hover:text-white">&times;</button>
+            </header>
+            <main id="chat-scroll-area" class="flex-1 p-4 overflow-y-auto flex flex-col">
+                <div id="chat-messages" class="flex-1 flex flex-col justify-end">
+                    </div>
+            </main>
+             <footer id="chat-input-area" class="p-4 border-t border-slate-700">
+                </footer>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://www.gtfit.store/products.js"></script>
+    <script src="https://www.gtfit.store/combos.js"></script>
+
+    <script>
+        // Script da página principal (não mexe com o chat)
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainNavigation = document.getElementById('main-navigation');
+            const productsSection = document.getElementById('products-dynamic-section');
+            const combosSection = document.getElementById('combos-section');
+            const showEmagrecedoresBtn = document.getElementById('show-emagrecedores-btn');
+            const showComplementosBtn = document.getElementById('show-complementos-btn');
+            const showCombosBtn = document.getElementById('show-combos-btn');
+
+            const showMainScreen = () => {
+                mainNavigation.classList.remove('hidden');
+                mainNavigation.classList.add('flex');
+                productsSection.classList.add('hidden');
+                combosSection.classList.add('hidden');
+                productsSection.innerHTML = '';
+                combosSection.innerHTML = '';
+            };
+
+            if(window.renderProductList) {
+                showEmagrecedoresBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    productsSection.classList.remove('hidden');
+                    window.renderProductList('Emagrecedores', showMainScreen);
+                });
+                showComplementosBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    productsSection.classList.remove('hidden');
+                    window.renderProductList('Complementos', showMainScreen);
+                });
+            }
+             if(window.renderCombosContent) {
+                showCombosBtn.addEventListener('click', () => {
+                    mainNavigation.classList.add('hidden');
+                    combosSection.classList.remove('hidden');
+                    window.renderCombosContent(showMainScreen);
+                });
+            }
+        });
+    </script>
+
+    <!-- SCRIPT PARA FLOAT MÓVEL -->
+    <script>
+    const chatWidget = document.getElementById('chat-widget');
+    let isDragging = false, offsetX, offsetY;
+
+    chatWidget.addEventListener('mousedown', function(e) {
+      isDragging = true;
+      offsetX = e.clientX - chatWidget.getBoundingClientRect().left;
+      offsetY = e.clientY - chatWidget.getBoundingClientRect().top;
+      chatWidget.style.transition = 'none';
+      chatWidget.style.userSelect = 'none';
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (isDragging) {
+        chatWidget.style.left = (e.clientX - offsetX) + 'px';
+        chatWidget.style.top = (e.clientY - offsetY) + 'px';
+        chatWidget.style.right = 'auto';
+        chatWidget.style.bottom = 'auto';
+        chatWidget.style.position = 'fixed';
+      }
+    });
+
+    document.addEventListener('mouseup', function() {
+      isDragging = false;
+      chatWidget.style.userSelect = '';
+    });
+    </script>
+
+    <!-- SCRIPT PARA ABRIR/FECHAR O CHAT -->
+    <script>
+    // Abrir o chat ao clicar no float
+    document.getElementById('chat-widget').addEventListener('click', function() {
+      document.getElementById('chat-modal').classList.remove('hidden');
+      if(window.initializeGabiGpt) window.initializeGabiGpt();
+    });
+    // Fechar o chat ao clicar no X do modal
+    document.getElementById('close-chat-btn').addEventListener('click', function() {
+      document.getElementById('chat-modal').classList.add('hidden');
+    });
+    </script>
+
+    <script src="gabigpt.js" defer></script>
+
+</body>
+</html>
