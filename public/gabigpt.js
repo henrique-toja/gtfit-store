@@ -32,11 +32,12 @@ function initializeGabiGpt() {
             { id: 'o3-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 140 dias', duration: '140 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter um quadro de obesidade severa.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida de todo o seu bem-estar, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento." }
         ]
     };
-    const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, activityLevel: '', dietSweet: '', dietHealthy: '', anxiety: '', digestion: '', challengeText: '' };
+    const userData = { name: '', age: null, height: null, weight: null, imc: null, imcCategory: '', hasTakenSupplements: null, anxiety: '' };
     let recommendationData = {};
 
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const scrollToBottom = () => { setTimeout(() => { chatScrollArea.scrollTop = chatScrollArea.scrollHeight; }, 100); };
+
     const showTyping = (show = true) => {
         let indicator = document.getElementById('typing-indicator');
         if (show && !indicator) {
@@ -46,8 +47,11 @@ function initializeGabiGpt() {
             indicator.innerHTML = `<span></span><span class="bounce-1"></span><span class="bounce-2"></span>`;
             chatMessages.appendChild(indicator);
             scrollToBottom();
-        } else if (!show && indicator) { indicator.remove(); }
+        } else if (!show && indicator) {
+            indicator.remove();
+        }
     };
+
     const addBotMessage = async (html, delay = 2500) => {
         showTyping();
         await sleep(delay);
@@ -58,6 +62,7 @@ function initializeGabiGpt() {
         chatMessages.appendChild(messageEl);
         scrollToBottom();
     };
+
     const addUserMessage = (text) => {
         const messageEl = document.createElement('div');
         messageEl.className = 'message user-message';
@@ -66,9 +71,11 @@ function initializeGabiGpt() {
         scrollToBottom();
         clearInputArea();
     };
+
     const clearInputArea = () => inputArea.innerHTML = '';
     const createButton = (id, text) => `<button id="${id}" class="action-button">${text}</button>`;
     const sendIconSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" /></svg>`;
+
     const createInput = (id, placeholder, buttonId, type = 'text') => {
         inputArea.innerHTML = `<div class="input-with-button"><input type="${type}" id="${id}" placeholder="${placeholder}" /><button id="${buttonId}">${sendIconSVG}</button></div>`;
         scrollToBottom();
@@ -148,15 +155,24 @@ function initializeGabiGpt() {
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
     async function askForHeight() {
-        await addBotMessage("Perfeito. Agora, sua altura (ex: 1.65).", 2200);
-        const { input, button } = createInput('height-input', 'Sua altura em metros...', 'height-submit', 'text');
-        const handle = () => { let v = input.value.replace(',', '.'); if (v && !isNaN(v)) { let h = parseFloat(v); if (h > 3) h /= 100; userData.height = h; addUserMessage(`${h.toFixed(2).replace('.',',')}m.`); askForWeight(); } };
+        await addBotMessage("Perfeito. Agora, sua altura (ex: 1.65 ou 165).", 2200);
+        const { input, button } = createInput('height-input', 'Sua altura em metros ou cm...', 'height-submit', 'text');
+        const handle = () => { 
+            let v = input.value.replace(',', '.'); 
+            if (v && !isNaN(v)) { 
+                let h = parseFloat(v); 
+                if (h > 3) h /= 100; // Converte cm para m
+                userData.height = h; 
+                addUserMessage(`${h.toFixed(2).replace('.',',')}m.`); 
+                askForWeight(); 
+            } 
+        };
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
     async function askForWeight() {
         await addBotMessage("Ótimo! E para finalizar, seu peso atual (ex: 70.5 kg)", 2200);
         const { input, button } = createInput('weight-input', 'Seu peso em kg...', 'weight-submit', 'text');
-        const handle = () => { let v = input.value.replace(',', '.'); if (v && !isNaN(v)) { userData.weight = parseFloat(v); addUserMessage(`${userData.weight.toFixed(1)} kg.`); processIMC(); } };
+        const handle = () => { let v = input.value.replace(',', '.'); if (v && !isNaN(v)) { userData.weight = parseFloat(v); addUserMessage(`${userData.weight.toFixed(1).replace('.',',')} kg.`); processIMC(); } };
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
     async function processIMC() {
@@ -166,7 +182,7 @@ function initializeGabiGpt() {
         if(!imcResult) { await addBotMessage("Houve um erro ao calcular seu IMC. Por favor, tente novamente ou fale com a Gabi.", 3000); return; }
         userData.imc = imcResult.imc; userData.imcCategory = imcResult.classificacao;
         recommendationData = getRecomendacao();
-        const sumarioTexto = `📌 <b>Resultado do seu IMC (Índice de Massa Corporal)</b>\n\n✅ Idade: ${userData.age} anos\n✅ Altura: ${userData.height.toFixed(2)} m\n✅ Peso: ${userData.weight.toFixed(1)} kg\n\n📐 <b>Cálculo:</b>\nIMC = ${userData.weight.toFixed(1)} ÷ (${userData.height.toFixed(2)} × ${userData.height.toFixed(2)}) ≈ ${imcResult.imc}\n\n🔍 <b>Classificação segundo a OMS:</b>\n"${imcResult.classificacao}" (IMC ${imcResult.faixa})\n\n<b>Conclusão:</b>\n${imcResult.conclusao}`.replace(/\n/g, '<br>');
+        const sumarioTexto = `📌 <b>Resultado do seu IMC (Índice de Massa Corporal)</b>\n\n✅ Idade: ${userData.age} anos\n✅ Altura: ${userData.height.toFixed(2)} m\n✅ Peso: ${userData.weight.toFixed(1).replace('.',',')} kg\n\n📐 <b>Cálculo:</b>\nIMC = ${userData.weight.toFixed(1).replace('.',',')} ÷ (${userData.height.toFixed(2)} × ${userData.height.toFixed(2)}) ≈ ${imcResult.imc.replace('.',',')}\n\n🔍 <b>Classificação segundo a OMS:</b>\n"${imcResult.classificacao}" (IMC ${imcResult.faixa})\n\n<b>Conclusão:</b>\n${imcResult.conclusao}`.replace(/\n/g, '<br>');
         const imcCardHTML = `<div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700 text-sm">${sumarioTexto}</div>`;
         await addBotMessage(imcCardHTML, 4000);
         askInvestmentLevel();
@@ -205,7 +221,7 @@ function initializeGabiGpt() {
         const comboName = title;
         const message = encodeURIComponent(`Oii, gostaria de saber mais sobre o combo "${comboName}" que a Gabi GPT me recomendou.`);
         const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
-        const recommendationCardHTML = `<div class="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-1 shadow-lg w-full ring-2 ring-purple-500"><button id="toggle-card-btn-${id}" class="flex justify-between items-center w-full text-left p-4"><div class="flex items-center gap-3"><img src="${products[0].img}" alt="${comboName}" class="w-12 h-12 rounded-full object-contain border-2 border-purple-400"><div><span class="block bg-purple-500 text-white text-xs font-bold px-2 py-0.5 rounded-full inline-block">${tag}</span><span class="font-bold text-md text-white mt-1 block">${comboName}</span></div></div><svg id="card-arrow-${id}" class="w-6 h-6 text-fuchsia-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div id="card-content-${id}" class="px-4 pb-4 border-t border-slate-700 hidden"><div class="text-center my-4"><p class="text-green-400 font-semibold flex items-center justify-center gap-2"><i class="far fa-clock"></i><span>${duration} de Tratamento</span></p></div><div class="text-sm text-slate-300 text-left my-4">${explanation}</div><h4 class="font-bold text-white mt-4 mb-2">Produtos Inclusos:</h4><ul class="space-y-2 mb-4">${products.map(p => `<li class="flex items-center gap-3 bg-slate-900/50 p-2 rounded-lg"><img src="${p.img}" class="w-10 h-10 rounded-full border border-purple-400/50" alt="${p.name}"><span class="font-medium">${p.name}</span></li>`).join('')}</ul><div class="flex flex-col gap-3 mt-4"><a href="${whatsappUrl}" target="_blank" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl transition-transform duration-200 hover:scale-105 shadow-lg shadow-green-600/20 text-center flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> Comprar Combo no WhatsApp</a></div></div></div>`;
+        const recommendationCardHTML = `<div class="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-1 shadow-lg w-full ring-2 ring-purple-500"><button id="toggle-card-btn-${id}" class="flex justify-between items-center w-full text-left p-4"><div class="flex items-center gap-3"><img src="${products[0].img}" alt="${comboName}" class="w-12 h-12 rounded-full object-contain border-2 border-purple-400"><div><span class="block bg-purple-500 text-white text-xs font-bold px-2 py-0.5 rounded-full inline-block">${tag}</span><span class="font-bold text-md text-white mt-1 block">${comboName}</span></div></div><svg id="card-arrow-${id}" class="w-6 h-6 text-fuchsia-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div id="card-content-${id}" class="px-4 pb-4 border-t border-slate-700 hidden"><div class="text-center my-4"><p class="text-green-400 font-semibold flex items-center justify-center gap-2"><i class="fa-regular fa-clock"></i><span>${duration} de Tratamento</span></p></div><div class="text-sm text-slate-300 text-left my-4">${explanation}</div><h4 class="font-bold text-white mt-4 mb-2">Produtos Inclusos:</h4><ul class="space-y-2 mb-4">${products.map(p => `<li class="flex items-center gap-3 bg-slate-900/50 p-2 rounded-lg"><img src="${p.img}" class="w-10 h-10 rounded-full border border-purple-400/50" alt="${p.name}"><span class="font-medium">${p.name}</span></li>`).join('')}</ul><div class="flex flex-col gap-3 mt-4"><a href="${whatsappUrl}" target="_blank" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl transition-transform duration-200 hover:scale-105 shadow-lg shadow-green-600/20 text-center flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> Comprar Combo no WhatsApp</a></div></div></div>`;
         const messageEl = document.createElement('div');
         messageEl.className = 'message bot-message !p-0 !bg-transparent';
         messageEl.innerHTML = recommendationCardHTML;
@@ -220,8 +236,14 @@ function initializeGabiGpt() {
         scrollToBottom();
         await addBotMessage("Qualquer dúvida, é só clicar no botão acima para falar com a Gabi (a de verdade!) no WhatsApp. Estamos juntas nessa! 💪", 3000);
     }
+    
+    // Expõe a função de inicialização para ser chamada pelo script principal
     window.initializeGabiGpt = beginChat;
 }
-if (typeof window.initializeGabiGpt !== 'function') {
-    window.initializeGabiGpt = initializeGabiGpt;
+
+// Garante que o código só execute após o DOM estar pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeGabiGpt);
+} else {
+    initializeGabiGpt();
 }
