@@ -1,4 +1,4 @@
-// combos.js (Redesigned with an impactful, textured style)
+// combos.js (Final version with sober style and WhatsApp button)
 (function() {
     const combosSection = document.getElementById('combos-section');
 
@@ -58,42 +58,44 @@
     function showComboDetail(comboId, backCallback) {
         const combo = combosList.find(c => c.id === comboId);
         if (!combo) return;
+
         const comboName = combo.details.title;
         const message = encodeURIComponent(`Oii, gostaria de saber mais sobre o combo "${comboName}"`);
         const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
+
         const detailHTML = `
             <div class="w-full max-w-md mx-auto">
-                <div class="combo-detail-card">
-                    <div class="combo-detail-header">
+                <div class="product-card-detail">
+                    <div class="product-detail-header">
                         <div class="flex justify-center items-center gap-x-3 mb-5">
-                            ${combo.details.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-primary-purple/30">`).join('')}
+                            ${combo.details.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-primary-purple/50">`).join('')}
                         </div>
                         <h2 class="text-3xl font-extrabold text-white tracking-tight">${combo.details.title}</h2>
-                        <p class="text-primary-green font-semibold mt-2 flex items-center justify-center gap-2">
+                        <p class="text-primary-purple font-semibold mt-2 flex items-center justify-center gap-2">
                             <i class="far fa-clock"></i>
                             <span>${combo.details.duration} de Tratamento</span>
                         </p>
                     </div>
-                    <div class="combo-accordion-container">
-                        <div class="combo-accordion-item open">
-                            <button class="combo-accordion-header">
+                    <div class="product-accordion-container">
+                        <div class="product-accordion-item open">
+                            <button class="product-accordion-header">
                                 <span>🤔 Por que este combo é ideal para você?</span>
                                 <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div class="combo-accordion-content">
-                                <div class="combo-accordion-body"><p>${combo.details.explanation}</p></div>
+                            <div class="product-accordion-content">
+                                <div class="product-accordion-body"><p>${combo.details.explanation}</p></div>
                             </div>
                         </div>
-                         <div class="combo-accordion-item">
-                            <button class="combo-accordion-header">
+                         <div class="product-accordion-item">
+                            <button class="product-accordion-header">
                                 <span>📦 Produtos Inclusos</span>
                                 <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div class="combo-accordion-content">
-                                <div class="combo-accordion-body">
+                            <div class="product-accordion-content">
+                                <div class="product-accordion-body">
                                     <ul class="space-y-3">
                                         ${combo.details.products.map(p => `
-                                            <li class="flex items-center gap-4 bg-black/20 p-3 rounded-xl border border-slate-700">
+                                            <li class="flex items-center gap-4 bg-slate-800/50 p-3 rounded-xl">
                                                 <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-primary-purple/40 flex-shrink-0" alt="${p.name}">
                                                 <span class="font-semibold text-slate-200">${p.name}</span>
                                             </li>
@@ -103,18 +105,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="combo-detail-footer">
-                         <a href="${whatsappUrl}" target="_blank" class="interactive-cta-button">
-                            <span>Conversar com Especialista 🧠</span>
+                    <div class="product-detail-footer">
+                         <a href="${whatsappUrl}" target="_blank" class="whatsapp-cta-button">
+                            Conversar com Especialista 🧠
                         </a>
                     </div>
                 </div>
             </div>`;
+
         combosSection.innerHTML = detailHTML;
         combosSection.appendChild(createBackButton(() => renderComboList(combo.categoryKey, backCallback)));
-        document.querySelectorAll('.combo-accordion-item').forEach(item => {
-            const header = item.querySelector('.combo-accordion-header');
-            const content = item.querySelector('.combo-accordion-content');
+
+        document.querySelectorAll('.product-accordion-item').forEach(item => {
+            const header = item.querySelector('.product-accordion-header');
+            const content = item.querySelector('.product-accordion-content');
             const toggleItem = () => {
                 const isOpen = item.classList.contains('open');
                 if (isOpen) {
@@ -133,6 +137,7 @@
     }
 
     function renderComboList(categoryKey, backCallback) {
+        // ... (lógica dos botões permanece a mesma)
         const filteredCombos = combosList.filter(c => c.categoryKey === categoryKey);
         const comboButtons = [
             { type: 'eco', text: '😅 Combo Econômico 😅' },
@@ -154,6 +159,7 @@
     }
 
     function showComboCategories(backCallback) {
+        // ... (lógica das categorias permanece a mesma)
         const categoriesHTML = Object.entries(categoryDisplayInfo).map(([key, info]) => 
             `<button data-category-key="${key}" class="link-button combo-category-btn group flex justify-center items-center gap-3 w-full max-w-sm p-4 h-auto">
                 <div class="text-center">
@@ -169,76 +175,50 @@
         });
     }
 
+    // --- ESTILOS ATUALIZADOS AQUI ---
     function injectDetailStyles() {
         const styleId = 'combo-detail-styles';
         if (document.getElementById(styleId)) return;
         const style = document.createElement('style');
         style.id = styleId;
         style.textContent = `
-            .combo-detail-card {
-                background: radial-gradient(ellipse at center, #1a1a1d, #111);
+            .product-card-detail {
+                background: linear-gradient(145deg, #222224, #131314);
                 border: 1px solid #333;
                 border-radius: 1.5rem;
                 overflow: hidden;
                 display: flex;
                 flex-direction: column;
-                box-shadow: 0 0 80px -25px var(--primary-purple);
-                background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-                background-size: cover;
-                position: relative;
+                box-shadow: 0 10px 30px -10px rgba(0,0,0,0.7);
             }
-            .combo-detail-card::before {
-                content: '';
-                position: absolute;
-                top: 0; left: 0; right: 0; bottom: 0;
-                background: radial-gradient(ellipse at center, #1a1a1d, #111);
-                opacity: 0.9;
-                z-index: -1;
+            .product-detail-header {
+                padding: 1.5rem; text-align: center;
+                background: rgba(0,0,0,0.2);
+                border-bottom: 1px solid #333;
             }
-            .combo-detail-header { padding: 1.5rem; text-align: center; border-bottom: 1px solid #333; }
-            .combo-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
-            .combo-accordion-item {
-                background: rgba(192, 132, 252, 0.05);
-                border-radius: 1rem;
-                border: 1px solid #333;
-                backdrop-filter: blur(2px);
-            }
-            .combo-accordion-header {
+            .product-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+            .product-accordion-item { border-bottom: 1px solid #333; }
+            .product-accordion-item:last-child { border-bottom: none; }
+            .product-accordion-header {
                 width: 100%; display: flex; justify-content: space-between; align-items: center;
-                padding: 1rem; text-align: left; background: transparent; border: none;
+                padding: 1rem 0.5rem; text-align: left; background: transparent; border: none;
                 color: white; cursor: pointer; font-size: 1rem; font-weight: 600;
             }
-            .combo-accordion-header i { transition: transform 0.3s ease; color: var(--primary-purple); }
-            .combo-accordion-item.open .combo-accordion-header i { transform: rotate(180deg); }
-            .combo-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
-            .combo-accordion-body { padding: 0 1rem 1rem 1rem; color: #d1d5db; line-height: 1.6; }
-            .combo-detail-footer { padding: 1.5rem; background: #111; margin-top: auto; border-top: 1px solid #333; }
-            
-            .interactive-cta-button {
+            .product-accordion-header i { transition: transform 0.3s ease; color: var(--primary-purple); }
+            .product-accordion-item.open .product-accordion-header i { transform: rotate(180deg); }
+            .product-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.4s ease-out; }
+            .product-accordion-body { padding: 0 0.5rem 1rem 0.5rem; color: #d1d5db; line-height: 1.6; }
+            .product-detail-footer { padding: 1.5rem; background: #131314; margin-top: auto; border-top: 1px solid #333; }
+            .whatsapp-cta-button {
                 display: block; text-align: center; padding: 1rem; border-radius: 9999px;
                 font-weight: bold; font-size: 1.125rem; text-decoration: none;
-                background: linear-gradient(90deg, var(--primary-green), var(--primary-purple));
-                color: black;
-                position: relative;
-                overflow: hidden;
+                background-color: #25D366; /* Cor oficial do WhatsApp */
+                color: white;
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
             }
-            .interactive-cta-button:hover {
-                transform: scale(1.05);
-                box-shadow: 0 0 20px var(--primary-green);
-            }
-            .interactive-cta-button::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 75%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-                transition: left 0.6s ease;
-            }
-            .interactive-cta-button:hover::before {
-                left: 125%;
+            .whatsapp-cta-button:hover {
+                transform: scale(1.03);
+                box-shadow: 0 0 25px -5px #25D366;
             }
         `;
         document.head.appendChild(style);
