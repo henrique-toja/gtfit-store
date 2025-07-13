@@ -1,4 +1,4 @@
-// combos.js (Final version with persuasive explanations and new styles)
+// combos.js (Final version with "Peso Normal - Ansiedade" combo added)
 (function() {
     const combosSection = document.getElementById('combos-section');
 
@@ -6,6 +6,8 @@
     const originalCombosData = {
         'peso-normal': [
             { id: 'pn-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 30 dias', duration: '30 Dias', anxiety: false, products: [{ name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para você que já está no peso ideal, mas busca aquela definição final, secar gordurinhas teimosas e manter o corpo modelado. É o toque de mestre para quem não quer relaxar nos resultados.<br><br><strong>A Estratégia:</strong> O <strong>Slim Super X</strong> atua como um otimizador metabólico. Ele age diretamente na saciedade com seu poderoso mix de fibras, fazendo você se sentir satisfeita com menos. Ao mesmo tempo, seus componentes diuréticos ajudam a eliminar a retenção de líquidos, revelando a definição muscular. <br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nas primeiras semanas, você sentirá a fome mais controlada e menos inchaço. Ao final dos 30 dias, seu corpo estará mais 'seco', com contornos mais aparentes e um metabolismo afinado para manter os resultados." },
+            // --- NOVO COMBO ADICIONADO AQUI ---
+            { id: 'pn-ans', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim Equilíbrio', duration: '60 Dias', anxiety: true, products: [{ name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }], explanation: "<strong>Para quem é este plano?</strong> Para você que está no peso certo, mas sente que a ansiedade e o 'comer emocional' sabotam sua busca pela definição. É para quem precisa de paz mental para dar o último passo na transformação do corpo.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Roxo</strong> é seu aliado para o equilíbrio. Ele atua diretamente na causa da compulsão, usando a Valeriana para acalmar a mente e diminuir a vontade de 'beliscar'. Isso te dá o controle necessário para manter uma dieta limpa e focada na definição, sem a interferência da ansiedade.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você notará uma serenidade maior no seu dia a dia e um controle sobre o apetite que parecia perdido. Isso permitirá que seus esforços na dieta e no treino finalmente apareçam, resultando em um corpo mais definido e uma mente em paz." },
             { id: 'pn-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 40 dias', duration: '40 Dias', anxiety: false, products: [{ name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }], explanation: "<strong>Para quem é este plano?</strong> Para a mulher que busca a excelência. Você não quer apenas definir, quer brilhar. Este plano é para quem deseja a máxima performance na queima de gordura enquanto cuida da pele, humor e imunidade.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Gold</strong> é a nossa fórmula mais avançada. Ele trabalha em 3 pilares: queima de gordura acelerada com ativos nobres, equilíbrio do humor com 5-HTP para eliminar a compulsão por doces, e fortalecimento da imunidade e da pele. É um tratamento de beleza e bem-estar de dentro para fora.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Desde o início, você sentirá mais energia e disposição. A vontade por doces diminuirá drasticamente. Com 40 dias, seu corpo não só estará mais definido, mas você se sentirá mais equilibrada, radiante e com a saúde em dia." }
         ],
         'sobrepeso': [
@@ -30,8 +32,6 @@
         ]
     };
 
-    // O restante do código (funções de renderização, etc.) permanece o mesmo.
-    // ...
     const categoryDisplayInfo = {
         'peso-normal': { line1: '🟢 Peso normal 🟢', line2: '🔥 Mínimo 30 dias de Projeto Slim 🔥' },
         'sobrepeso': { line1: '🟡 Sobrepeso 🟡', line2: '🔥 Mínimo 60 dias de Projeto Slim 🔥' },
@@ -39,6 +39,7 @@
         'obesidade-grau-ii': { line1: '🔴 Obesidade Grau 2 🔴', line2: '🔥 Mínimo 90 dias de Projeto Slim 🔥' },
         'obesidade-grau-iii': { line1: '⚫ Obesidade Grau 3 ⚫', line2: '🔥 Mínimo 120 dias de Projeto Slim 🔥' }
     };
+
     const combosList = Object.entries(originalCombosData).flatMap(([categoryKey, combos]) => 
         combos.map(combo => ({
             id: combo.id,
@@ -47,6 +48,7 @@
             type: combo.tag === 'PLANO PREMIUM' ? 'premium' : (combo.anxiety ? 'anxiety' : 'eco')
         }))
     );
+
     function createBackButton(backCallback) {
         const button = document.createElement('button');
         button.className = 'link-button group flex items-center justify-center gap-4 w-full max-w-sm p-3 mt-8 border-slate-700 hover:border-slate-500';
@@ -54,18 +56,21 @@
         button.onclick = backCallback;
         return button;
     }
+
     function showComboDetail(comboId, backCallback) {
         const combo = combosList.find(c => c.id === comboId);
         if (!combo) return;
+
         const comboName = combo.details.title;
         const message = encodeURIComponent(`Oii, gostaria de saber mais sobre o combo "${comboName}"`);
         const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
+
         const detailHTML = `
             <div class="w-full max-w-md mx-auto">
-                <div class="combo-detail-card">
-                    <div class="combo-detail-header">
+                <div class="product-card-detail">
+                    <div class="product-detail-header">
                         <div class="flex justify-center items-center gap-x-3 mb-5">
-                            ${combo.details.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-primary-purple/30">`).join('')}
+                            ${combo.details.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-primary-purple/50">`).join('')}
                         </div>
                         <h2 class="text-3xl font-extrabold text-white tracking-tight">${combo.details.title}</h2>
                         <p class="text-primary-green font-semibold mt-2 flex items-center justify-center gap-2">
@@ -73,26 +78,26 @@
                             <span>${combo.details.duration} de Tratamento</span>
                         </p>
                     </div>
-                    <div class="combo-accordion-container">
-                        <div class="combo-accordion-item open">
-                            <button class="combo-accordion-header">
+                    <div class="product-accordion-container">
+                        <div class="product-accordion-item open">
+                            <button class="product-accordion-header">
                                 <span>🤔 Por que este combo é ideal para você?</span>
                                 <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div class="combo-accordion-content">
-                                <div class="combo-accordion-body"><p>${combo.details.explanation}</p></div>
+                            <div class="product-accordion-content">
+                                <div class="product-accordion-body"><p>${combo.details.explanation}</p></div>
                             </div>
                         </div>
-                         <div class="combo-accordion-item">
-                            <button class="combo-accordion-header">
+                         <div class="product-accordion-item">
+                            <button class="product-accordion-header">
                                 <span>📦 Produtos Inclusos</span>
                                 <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div class="combo-accordion-content">
-                                <div class="combo-accordion-body">
+                            <div class="product-accordion-content">
+                                <div class="product-accordion-body">
                                     <ul class="space-y-3">
                                         ${combo.details.products.map(p => `
-                                            <li class="flex items-center gap-4 bg-black/20 p-3 rounded-xl border border-slate-700">
+                                            <li class="flex items-center gap-4 bg-slate-800/50 p-3 rounded-xl">
                                                 <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-primary-purple/40 flex-shrink-0" alt="${p.name}">
                                                 <span class="font-semibold text-slate-200">${p.name}</span>
                                             </li>
@@ -102,18 +107,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="combo-detail-footer">
+                    <div class="product-detail-footer">
                          <a href="${whatsappUrl}" target="_blank" class="whatsapp-cta-button">
                             Conversar com Especialista 🧠
                         </a>
                     </div>
                 </div>
             </div>`;
+
         combosSection.innerHTML = detailHTML;
         combosSection.appendChild(createBackButton(() => renderComboList(combo.categoryKey, backCallback)));
-        document.querySelectorAll('.combo-accordion-item').forEach(item => {
-            const header = item.querySelector('.combo-accordion-header');
-            const content = item.querySelector('.combo-accordion-content');
+
+        document.querySelectorAll('.product-accordion-item').forEach(item => {
+            const header = item.querySelector('.product-accordion-header');
+            const content = item.querySelector('.product-accordion-content');
             const toggleItem = () => {
                 const isOpen = item.classList.contains('open');
                 if (isOpen) {
@@ -130,22 +137,40 @@
             }
         });
     }
+
     function renderComboList(categoryKey, backCallback) {
         const filteredCombos = combosList.filter(c => c.categoryKey === categoryKey);
-        const comboButtons = [ { type: 'eco', text: '😅 Combo Econômico 😅' }, { type: 'anxiety', text: '🥵 Combo Ansiedade 🥵' }, { type: 'premium', text: '🤑 Combo Premium 🤑' }];
+        const comboButtons = [
+            { type: 'eco', text: '😅 Combo Econômico 😅' },
+            { type: 'anxiety', text: '🥵 Combo Ansiedade 🥵' },
+            { type: 'premium', text: '🤑 Combo Premium 🤑' }
+        ];
+
         let combosHTML = '';
         comboButtons.forEach(btn => {
             const combo = filteredCombos.find(c => c.type === btn.type);
             if (combo) {
                 combosHTML += `<button data-combo-id="${combo.id}" class="link-button combo-item-btn group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16"><span class="font-semibold text-center text-slate-200 group-hover:text-white">${btn.text}</span></button>`;
+            } else {
+                const categoryName = categoryDisplayInfo[categoryKey].line1;
+                const message = encodeURIComponent(`Olá! Tenho interesse em uma opção de combo do tipo '${btn.text}' para meu perfil de '${categoryName}', mas não vi uma opção pré-definida. Poderiam me ajudar?`);
+                const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
+                combosHTML += `
+                    <a href="${whatsappUrl}" target="_blank" class="link-button combo-item-btn-contact group flex flex-col justify-center items-center w-full max-w-sm p-3 h-auto">
+                        <span class="font-semibold text-center text-slate-200 group-hover:text-white">${btn.text}</span>
+                        <span class="text-xs text-primary-green group-hover:text-emerald-300">Consultar opção</span>
+                    </a>`;
             }
         });
+
         combosSection.innerHTML = combosHTML;
         combosSection.appendChild(createBackButton(() => showComboCategories(backCallback)));
+        
         document.querySelectorAll('.combo-item-btn').forEach(button => {
             button.onclick = () => showComboDetail(button.dataset.comboId, backCallback);
         });
     }
+
     function showComboCategories(backCallback) {
         const categoriesHTML = Object.entries(categoryDisplayInfo).map(([key, info]) => 
             `<button data-category-key="${key}" class="link-button combo-category-btn group flex justify-center items-center gap-3 w-full max-w-sm p-4 h-auto">
@@ -161,13 +186,14 @@
             button.onclick = () => renderComboList(button.dataset.categoryKey, backCallback);
         });
     }
+    
     function injectDetailStyles() {
         const styleId = 'combo-detail-styles';
         if (document.getElementById(styleId)) return;
         const style = document.createElement('style');
         style.id = styleId;
         style.textContent = `
-            .combo-detail-card {
+            .product-card-detail {
                 background: linear-gradient(145deg, #18181b, #111);
                 border: 1px solid #333;
                 border-radius: 1.5rem;
@@ -176,21 +202,21 @@
                 flex-direction: column;
                 box-shadow: 0 0 50px -15px rgba(192, 132, 252, 0.5), 0 0 15px -5px rgba(75, 222, 128, 0.4);
             }
-            .combo-detail-header { padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid #333; }
-            .combo-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
-            .combo-accordion-item { border-bottom: 1px solid #333; }
-            .combo-accordion-item:last-child { border-bottom: none; }
-            .combo-accordion-header {
+            .product-detail-header { padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid #333; }
+            .product-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+            .product-accordion-item { border-bottom: 1px solid #333; }
+            .product-accordion-item:last-child { border-bottom: none; }
+            .product-accordion-header {
                 width: 100%; display: flex; justify-content: space-between; align-items: center;
                 padding: 1rem 0.5rem; text-align: left; background: transparent; border: none;
                 color: white; cursor: pointer; font-size: 1rem; font-weight: 600;
             }
-            .combo-accordion-header i { transition: transform 0.3s ease; color: var(--primary-purple); }
-            .combo-accordion-item.open .combo-accordion-header i { transform: rotate(180deg); }
-            .combo-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.4s ease-out; }
-            .combo-accordion-body { padding: 0 0.5rem 1rem 0.5rem; color: #d1d5db; line-height: 1.7; }
-            .combo-accordion-body p { text-align: justify; }
-            .combo-detail-footer { padding: 1.5rem; background: #111; margin-top: auto; border-top: 1px solid #333; }
+            .product-accordion-header i { transition: transform 0.3s ease; color: var(--primary-purple); }
+            .product-accordion-item.open .product-accordion-header i { transform: rotate(180deg); }
+            .product-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.4s ease-out; }
+            .product-accordion-body { padding: 0 0.5rem 1rem 0.5rem; color: #d1d5db; line-height: 1.7; }
+            .product-accordion-body p { text-align: justify; }
+            .product-detail-footer { padding: 1.5rem; background: #111; margin-top: auto; border-top: 1px solid #333; }
             .whatsapp-cta-button {
                 display: block; text-align: center; padding: 1rem; border-radius: 9999px;
                 font-weight: bold; font-size: 1.125rem; text-decoration: none;
@@ -200,6 +226,12 @@
             .whatsapp-cta-button:hover {
                 transform: scale(1.03);
                 box-shadow: 0 0 25px -5px #25D366;
+            }
+            .combo-item-btn-contact {
+                border-style: dashed;
+                border-color: rgba(75, 222, 128, 0.5);
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
             }
         `;
         document.head.appendChild(style);
