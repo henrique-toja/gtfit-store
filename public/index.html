@@ -45,16 +45,10 @@
             border-color: rgba(75, 222, 128, 0.6);
         }
 
-        /* ESTILOS PARA O WIDGET DE CHAT FLUTUANTE */
+        /* ESTILOS CORRIGIDOS PARA O WIDGET DE CHAT */
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.7);
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(192, 132, 252, 0);
-            }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(192, 132, 252, 0); }
         }
         .chat-bubble {
             position: relative;
@@ -65,14 +59,13 @@
         .chat-bubble::before {
             content: '';
             position: absolute;
-            right: -10px; /* Aponta para a direita */
+            left: -10px; /* Aponta para a esquerda */
             top: 50%;
             transform: translateY(-50%);
-            width: 0;
-            height: 0;
+            width: 0; height: 0;
             border-top: 8px solid transparent;
             border-bottom: 8px solid transparent;
-            border-left: 10px solid var(--primary-purple); /* Seta com a cor da borda */
+            border-right: 10px solid var(--primary-purple); /* Seta com a cor da borda */
         }
         .online-indicator {
             position: absolute;
@@ -84,6 +77,22 @@
             border-radius: 9999px;
             border: 2px solid var(--surface-dark);
         }
+        /* Estilos para o Chat (adicionados para garantir o funcionamento) */
+        .message { padding: 0.75rem 1rem; border-radius: 1rem; line-height: 1.6; animation: fadeIn 0.4s ease-out both; max-width: 85%; white-space: pre-wrap; margin-bottom: 1rem; }
+        .bot-message { background-color: #2c2c2e; color: var(--text-light); align-self: flex-start; border-bottom-left-radius: 0.25rem; }
+        .user-message { background: linear-gradient(135deg, #8b5cf6, #a855f7); color: white; align-self: flex-end; font-weight: 500; border-top-right-radius: 0.25rem; }
+        .action-button { width: 100%; padding: 0.8rem 1rem; border-radius: 0.75rem; border: 1px solid var(--primary-purple); background: transparent; color: var(--primary-purple); font-size: 0.9rem; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .action-button:hover { background: var(--primary-purple); color: white; }
+        .input-with-button { display: flex; gap: 0.5rem; align-items: center; padding: 0.25rem; background-color: #2c2c2e; border-radius: 1.5rem; }
+        #chat-modal input { width: 100%; padding: 0.75rem; background-color: transparent; border: none; font-size: 1rem; color: var(--text-light); }
+        #chat-modal input:focus { outline: none; }
+        .input-with-button button { height: 40px; width: 40px; flex-shrink: 0; border-radius: 50%; border: none; background: #8B5CF6; color: white; cursor: pointer; display: grid; place-items: center; transition: all 0.2s; }
+        @keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+        @keyframes bounce-typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+        .typing-indicator { align-self: flex-start; display: flex; gap: 0.25rem; padding: 0.75rem 1rem; background-color: #2c2c2e; border-radius: 1rem; border-bottom-left-radius: 0.25rem; }
+        .typing-indicator span { width: 8px; height: 8px; background-color: #4b5563; border-radius: 50%; animation: bounce-typing 1.4s infinite ease-in-out both; }
+        .typing-indicator .bounce-1 { animation-delay: -0.32s; }
+        .typing-indicator .bounce-2 { animation-delay: -0.16s; }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen p-4">
@@ -91,7 +100,7 @@
     <div class="w-full max-w-md mx-auto py-8">
         <header class="text-center mb-8">
             <a href="javascript:location.reload();" class="cursor-pointer">
-                <img src="https://www.gtfit.store/gabi-profile2.jpg" alt="Foto de Gabriela Torraca" class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-purple-400 shadow-lg">
+                <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Foto de Gabriela Torraca" class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-purple-400 shadow-lg">
             </a>
             <h1 class="text-2xl font-bold text-white">Descubra quais 💊 você precisa para seu Projeto Slim</h1>
             <p class="text-slate-400">🔥 AGORA VOCÊ EMAGRECE 🔥</p>
@@ -135,16 +144,16 @@
         </footer>
     </div>
 
-    <div id="chat-widget" class="fixed top-1/2 right-5 -translate-y-1/2 flex items-center gap-3 cursor-pointer z-40">
-        <div class="chat-bubble p-3 rounded-lg max-w-[200px]">
-            <p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p>
-        </div>
+    <div id="chat-widget" class="fixed top-2/3 left-5 -translate-y-1/2 flex items-center gap-3 cursor-pointer z-40">
         <div class="relative">
             <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Assistente Gabi" class="w-16 h-16 rounded-full border-2 border-purple-400" style="animation: pulse 2s infinite;">
             <div class="online-indicator"></div>
         </div>
+        <div class="chat-bubble p-3 rounded-lg max-w-[200px]">
+            <p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p>
+        </div>
     </div>
-    
+
     <div id="chat-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
         <div class="bg-surface-dark w-full max-w-md h-[90vh] max-h-[700px] rounded-2xl flex flex-col shadow-2xl shadow-purple-500/20">
             <header class="flex items-center justify-between p-4 border-b border-slate-700">
@@ -158,43 +167,30 @@
                         <p class="text-xs text-slate-400">Online</p>
                     </div>
                 </div>
-                <button id="close-chat-btn" class="text-slate-400 hover:text-white">&times;</button>
+                <button id="close-chat-btn" class="text-2xl leading-none font-bold text-slate-400 hover:text-white">&times;</button>
             </header>
-            <main id="chat-body" class="flex-1 p-4 overflow-y-auto">
-                <div class="flex flex-col items-center justify-center h-full text-center">
-                    <span class="text-4xl mb-4">🤖</span>
-                    <h4 class="font-bold text-lg text-white mb-2">Como posso te ajudar hoje?</h4>
-                    <p class="text-slate-400 text-sm">Este é o início da sua conversa com a Gabi GPT. O fluxo de interação será definido a seguir.</p>
-                </div>
+            <main id="chat-scroll-area" class="flex-1 p-4 overflow-y-auto flex flex-col">
+                <div id="chat-messages" class="flex-1 flex flex-col justify-end">
+                    </div>
             </main>
-             <footer class="p-4 border-t border-slate-700">
-                <div class="flex items-center gap-2">
-                    <input type="text" placeholder="Digite sua mensagem..." class="w-full bg-background-dark border border-slate-600 rounded-full py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-primary-purple">
-                    <button class="bg-primary-purple text-white rounded-full p-2 w-10 h-10 flex items-center justify-center">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </footer>
+             <footer id="chat-input-area" class="p-4 border-t border-slate-700">
+                </footer>
         </div>
     </div>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://www.gtfit.store/products.js"></script>
     <script src="https://www.gtfit.store/combos.js"></script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Sections
             const mainNavigation = document.getElementById('main-navigation');
             const productsSection = document.getElementById('products-dynamic-section');
             const combosSection = document.getElementById('combos-section');
-
-            // Buttons
             const showEmagrecedoresBtn = document.getElementById('show-emagrecedores-btn');
             const showComplementosBtn = document.getElementById('show-complementos-btn');
             const showCombosBtn = document.getElementById('show-combos-btn');
 
-            // --- Navigation Functions ---
             const showMainScreen = () => {
                 mainNavigation.classList.remove('hidden');
                 mainNavigation.classList.add('flex');
@@ -204,24 +200,18 @@
                 combosSection.innerHTML = '';
             };
 
-            // --- Event Listeners ---
             showEmagrecedoresBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
-                mainNavigation.classList.remove('flex');
                 productsSection.classList.remove('hidden');
                 window.renderProductList('Emagrecedores', showMainScreen);
             });
-
             showComplementosBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
-                mainNavigation.classList.remove('flex');
                 productsSection.classList.remove('hidden');
                 window.renderProductList('Complementos', showMainScreen);
             });
-
             showCombosBtn.addEventListener('click', () => {
                 mainNavigation.classList.add('hidden');
-                mainNavigation.classList.remove('flex');
                 combosSection.classList.remove('hidden');
                 window.renderCombosContent(showMainScreen);
             });
