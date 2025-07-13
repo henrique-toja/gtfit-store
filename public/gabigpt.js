@@ -110,7 +110,9 @@ function initializeGabiGpt() {
         const categoryKey = getCategoryKey(imcCategory);
         const availableCombos = combosData[categoryKey] || [];
         
-        let economicCombo = availableCombos.find(c => c.anxiety === (anxiety === 'sim')) || availableCombos.find(c => !c.anxiety);
+        // Prioriza o combo para ansiedade se o usuário marcou, senão pega o combo 'eco' padrão
+        let economicCombo = availableCombos.find(c => c.anxiety === (anxiety === 'sim') && c.tag !== 'PLANO PREMIUM') || availableCombos.find(c => c.anxiety === false && c.tag !== 'PLANO PREMIUM');
+        // O combo principal é sempre o premium, se existir. Senão, usa o econômico como fallback.
         let principalCombo = availableCombos.find(c => c.tag === 'PLANO PREMIUM') || economicCombo;
 
         return { economicCombo, principalCombo };
@@ -204,7 +206,6 @@ function initializeGabiGpt() {
         const handle = () => { let v = input.value.replace(',', '.'); if (!v || isNaN(v) || v <= 0) return; userData.weight = parseFloat(v); addUserMessage(`${userData.weight.toFixed(1)} kg.`); processIMC(); };
         button.addEventListener('click', handle); input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handle(); });
     }
-
     async function processIMC() {
         clearInputArea();
         await addBotMessage("Obrigada. Cruzando todos os dados e preparando seu Raio-X... 🧠", 3000);
@@ -223,7 +224,6 @@ function initializeGabiGpt() {
         await addBotMessage(imcCardHTML, 4000);
         askInvestmentLevel();
     }
-    
     async function askInvestmentLevel() {
         let anxietyText = "";
         if(userData.anxiety === 'sim') { anxietyText = "vi que a ansiedade é um ponto-chave que precisamos tratar com força total."; } 
@@ -235,7 +235,6 @@ function initializeGabiGpt() {
         document.getElementById('invest-economico').addEventListener('click', () => { addUserMessage("Quero começar com economia."); showRecommendation('economico'); });
         document.getElementById('invest-principal').addEventListener('click', () => { addUserMessage("Quero investir no meu melhor resultado!"); showRecommendation('principal'); });
     }
-
     async function showRecommendation(level) {
         clearInputArea();
         await addBotMessage("Escolha perfeita! Com base nisso, sua estratégia ideal é...", 2500);
@@ -243,14 +242,14 @@ function initializeGabiGpt() {
         const combo = (level === 'economico') ? recommendationData.economicCombo : recommendationData.principalCombo;
         if (!combo) { await addBotMessage("Ops, não encontrei um combo ideal com essa opção. Por favor, fale com a Gabi no WhatsApp para montar um plano personalizado para você!", 3000); return; }
 
-        const { title, duration, products, explanation, tag } = combo;
+        const { id, title, duration, products, explanation, tag } = combo;
         const comboName = title;
         const message = encodeURIComponent(`Oii, gostaria de saber mais sobre o combo "${comboName}" que a Gabi GPT me recomendou.`);
         const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
 
         const recommendationCardHTML = `
             <div class="bg-slate-800/80 backdrop-blur-sm rounded-2xl p-1 shadow-lg w-full ring-2 ring-purple-500">
-                <button id="toggle-card-btn-${combo.id}" class="flex justify-between items-center w-full text-left p-4">
+                <button id="toggle-card-btn-${id}" class="flex justify-between items-center w-full text-left p-4">
                     <div class="flex items-center gap-3">
                         <img src="${products[0].img}" alt="${comboName}" class="w-12 h-12 rounded-full object-contain border-2 border-purple-400">
                         <div>
@@ -258,9 +257,9 @@ function initializeGabiGpt() {
                             <span class="font-bold text-md text-white mt-1 block">${comboName}</span>
                         </div>
                     </div>
-                    <svg id="card-arrow-${combo.id}" class="w-6 h-6 text-fuchsia-400 transition-transform duration-300 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg id="card-arrow-${id}" class="w-6 h-6 text-fuchsia-400 transition-transform duration-300 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <div id="card-content-${combo.id}" class="px-4 pb-4 border-t border-slate-700">
+                <div id="card-content-${id}" class="px-4 pb-4 border-t border-slate-700">
                     <div class="text-center my-4">
                         <p class="text-green-400 font-semibold flex items-center justify-center gap-2"><i class="far fa-clock"></i><span>${duration} de Tratamento</span></p>
                     </div>
@@ -280,9 +279,9 @@ function initializeGabiGpt() {
         messageEl.className = 'message bot-message !p-0 !bg-transparent';
         messageEl.innerHTML = recommendationCardHTML;
         chatMessages.appendChild(messageEl);
-        document.getElementById(`toggle-card-btn-${combo.id}`).addEventListener('click', () => {
-            document.getElementById(`card-content-${combo.id}`).classList.toggle('hidden');
-            document.getElementById(`card-arrow-${combo.id}`).classList.toggle('rotate-180');
+        document.getElementById(`toggle-card-btn-${id}`).addEventListener('click', () => {
+            document.getElementById(`card-content-${id}`).classList.toggle('hidden');
+            document.getElementById(`card-arrow-${id}`).classList.toggle('rotate-180');
             scrollToBottom();
         });
         scrollToBottom();
