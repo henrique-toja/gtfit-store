@@ -6,33 +6,199 @@ function initializeGabiGpt() {
     const inputArea = document.getElementById('chat-input-area');
 
     const domain = 'https://www.gtfit.store';
-    const combosData = {
-        'peso-normal': [
-            { id: 'pn-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 30 dias', duration: '30 Dias', anxiety: false, products: [{ name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para você que já está no peso ideal, mas busca aquela definição final, secar gordurinhas teimosas e manter o corpo modelado. É o toque de mestre para quem não quer relaxar nos resultados.<br><br><strong>A Estratégia:</strong> O <strong>Slim Super X</strong> atua como um otimizador metabólico. Ele age diretamente na saciedade com seu poderoso mix de fibras, fazendo você se sentir satisfeita com menos. Ao mesmo tempo, seus componentes diuréticos ajudam a eliminar a retenção de líquidos, revelando a definição muscular. <br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nas primeiras semanas, você sentirá a fome mais controlada e menos inchaço. Ao final dos 30 dias, seu corpo estará mais 'seco', com contornos mais aparentes e um metabolismo afinado para manter os resultados." },
-            { id: 'pn-ans', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim Equilíbrio', duration: '60 Dias', anxiety: true, products: [{ name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }], explanation: "<strong>Para quem é este plano?</strong> Para você que está no peso certo, mas sente que a ansiedade e o 'comer emocional' sabotam sua busca pela definição. É para quem precisa de paz mental para dar o último passo na transformação do corpo.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Roxo</strong> é seu aliado para o equilíbrio. Ele atua diretamente na causa da compulsão, usando a Valeriana para acalmar a mente e diminuir a vontade de 'beliscar'. Isso te dá o controle necessário para manter uma dieta limpa e focada na definição, sem a interferência da ansiedade.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você notará uma serenidade maior no seu dia a dia e um controle sobre o apetite que parecia perdido. Isso permitirá que seus esforços na dieta e no treino finalmente apareçam, resultando em um corpo mais definido e uma mente em paz." },
-            { id: 'pn-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 40 dias', duration: '40 Dias', anxiety: false, products: [{ name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }], explanation: "<strong>Para quem é este plano?</strong> Para a mulher que busca a excelência. Você não quer apenas definir, quer brilhar. Este plano é para quem deseja a máxima performance na queima de gordura enquanto cuida da pele, humor e imunidade.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Gold</strong> é a nossa fórmula mais avançada. Ele trabalha em 3 pilares: queima de gordura acelerada com ativos nobres, equilíbrio do humor com 5-HTP para eliminar a compulsão por doces, e fortalecimento da imunidade e da pele. É um tratamento de beleza e bem-estar de dentro para fora.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Desde o início, você sentirá mais energia e disposição. A vontade por doces diminuirá drasticamente. Com 40 dias, seu corpo não só estará mais definido, mas você se sentirá mais equilibrada, radiante e com a saúde em dia." }
-        ],
-        'sobrepeso': [
-            { id: 'sp-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 60 dias', duration: '60 Dias', anxiety: false, products: [{ name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem decidiu dar um basta no sobrepeso e busca um caminho seguro, consistente e com ótimo custo-benefício para reeducar o corpo e a mente.<br><br><strong>A Estratégia:</strong> Com dois potes de <strong>Slim Super X</strong>, criamos um tratamento contínuo de 60 dias. O primeiro mês reeduca seu apetite e regula seu intestino. No segundo mês, com o corpo já adaptado, a queima de gordura se intensifica. A consistência é a chave aqui: mantemos o estímulo de saciedade e queima de gordura por tempo suficiente para criar novos hábitos duradouros.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> O primeiro mês trará controle. O segundo trará a transformação. Ao final dos 60 dias, você terá perdido peso de forma visível e, mais importante, terá criado uma nova relação com a comida, sentindo-se no controle." },
-            { id: 'sp-ans', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 60 dias', duration: '60 Dias', anxiety: true, products: [{ name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }], explanation: "<strong>Para quem é este plano?</strong> Para você, que sabe que a sua maior batalha é contra a mente. Se a ansiedade e a compulsão ditam suas escolhas, este combo foi desenhado para te devolver o poder.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Roxo</strong> é um especialista. Ele não foca apenas no corpo, mas principalmente na causa emocional do ganho de peso. A Valeriana acalma seus pensamentos, diminuindo o gatilho da ansiedade, enquanto as fibras de alta performance te dão uma sensação de plenitude que te liberta da fome nervosa.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nos primeiros dias, você sentirá uma calma mental que não sentia há tempos. A necessidade de 'beliscar' desaparecerá. Ao longo dos 60 dias, essa serenidade se torna seu novo normal, e o emagrecimento vira uma consequência natural e pacífica." },
-            { id: 'sp-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 40 dias', duration: '40 Dias', anxiety: false, products: [{ name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem está com sobrepeso, mas não aceita nada menos que a solução mais rápida, completa e luxuosa para resolver o problema de uma vez por todas.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Gold</strong> é um tratamento 360°. Ele ataca o sobrepeso por todos os ângulos: acelera o metabolismo como nenhum outro, equilibra os hormônios do bem-estar para aniquilar a compulsão e ainda nutre sua pele para evitar a flacidez durante a perda de peso. É a tecnologia da beleza a favor do seu emagrecimento.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação é rápida e prazerosa. Você sentirá mais energia, menos fome e uma melhora visível na qualidade da pele já nas primeiras semanas. Ao final dos 40 dias, a mudança no espelho e na sua disposição será impactante." }
-        ],
-        'obesidade-grau-i': [
-            { id: 'o1-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 60 dias', duration: '60 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem está no primeiro estágio da obesidade e precisa de um plano de partida inteligente e eficaz para virar o jogo.<br><br><strong>A Estratégia:</strong> É um ataque em duas fases. Primeiro, o <strong>Guria Shape Detox</strong> faz uma 'faxina' no seu organismo, eliminando toxinas que travam seu metabolismo. Com o corpo 'limpo', o <strong>Slim Super X</strong> entra com força total, promovendo uma saciedade intensa e acelerando a queima de gordura. Um prepara o campo, o outro marca o gol.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A primeira fase com Detox te trará leveza e desinchaço. Ao entrar com o Slim X, a perda de peso se torna notável, pois seu corpo estará 100% preparado para responder ao estímulo emagrecedor." },
-            { id: 'o1-ans', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 90 dias', duration: '90 Dias', anxiety: true, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem lida com o peso extra e uma mente que não para. Se a ansiedade é sua sombra, este combo é a luz.<br><br><strong>A Estratégia:</strong> Começamos com o <strong>Guria Shape Detox</strong> para purificar seu corpo e otimizar seu metabolismo. Em seguida, o <strong>Guria Shape Roxo</strong> assume o controle, acalmando sua ansiedade e silenciando a fome emocional. É a combinação da paz de espírito com a eficiência metabólica.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você primeiro sentirá seu corpo desinchar. Depois, sua mente se acalmar. A combinação desses fatores tornará a jornada de 90 dias surpreendentemente leve. A perda de peso acontecerá sem a luta interna constante, tornando o processo prazeroso." },
-            { id: 'o1-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 70 dias', duration: '70 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota expressa e mais sofisticada para sair da obesidade grau I, com um tratamento que cuida do corpo como um todo.<br><br><strong>A Estratégia:</strong> A dupla de elite. O <strong>Guria Shape Detox</strong> faz o 'reset' metabólico, preparando seu corpo para a estrela do show: o <strong>Guria Shape Gold</strong>. Ele entra com sua tecnologia de ponta, acelerando a queima de gordura, melhorando o humor e a pele, e garantindo que você emagreça de forma saudável e radiante.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação é uma experiência de bem-estar. Você sentirá mais energia, menos inchaço e uma melhora geral na sua saúde. A perda de peso será rápida, mas acompanhada de uma sensação de vitalidade e cuidado." }
-        ],
-        'obesidade-grau-ii': [
-            { id: 'o2-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 90 dias', duration: '90 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem precisa de uma ação de choque para destravar um metabolismo resistente e vencer a obesidade grau II.<br><br><strong>A Estratégia:</strong> É um plano de intervenção. O <strong>Guria Shape Detox</strong> primeiro prepara seu corpo. Depois, o <strong>Guria Shape Black</strong>, nosso inibidor mais forte, entra para calar a fome e forçar o corpo a usar a gordura (especialmente a abdominal) como fonte de energia. É a força máxima para resultados máximos.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você sentirá uma redução drástica do apetite. Seu corpo será obrigado a se adaptar a um novo estado metabólico, de queima intensa. É um plano forte, para quem está determinada a mudar." },
-            { id: 'o2-ans', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 120 dias', duration: '120 Dias', anxiety: true, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem enfrenta a dupla jornada de lutar contra a obesidade e a ansiedade, e precisa de um plano de longo prazo que seja gentil, mas implacável com a gordura.<br><br><strong>A Estratégia:</strong> É uma jornada em 3 atos. Ato 1: <strong>Detox</strong> para limpar. Ato 2: <strong>Roxo</strong> para acalmar a mente e o apetite. Ato 3: <strong>Slim Super X</strong> para consolidar os resultados e manter a queima de gordura. É a maratona completa para a vitória.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Seu corpo e mente se adaptarão em fases. Primeiro a leveza, depois a calma, e por fim, a perda de peso consistente. Ao final, você terá as ferramentas para manter seu novo estilo de vida." },
-            { id: 'o2-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 100 dias', duration: '100 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca uma transformação corporal completa e definitiva, com o melhor que a tecnologia pode oferecer, cuidando da saúde de forma integral.<br><br><strong>A Estratégia:</strong> A Tríade de Ouro. <strong>Detox</strong> reseta, <strong>Gold</strong> trata e acelera, e <strong>Slim Super X</strong> mantém e define. Essa sequência garante que seu corpo receba os estímulos certos na hora certa, evitando platôs e garantindo um emagrecimento saudável, com cuidado para a pele e o bem-estar.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Será uma jornada de redescoberta. Seu corpo se sentirá mais leve, sua mente mais equilibrada e sua energia renovada. A perda de peso será uma consequência visível de um corpo que está sendo nutrido e cuidado da forma correta." }
-        ],
-        'obesidade-grau-iii': [
-            { id: 'o3-eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 120 dias', duration: '120 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '2 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem está no campo de batalha final contra a obesidade e precisa da artilharia mais pesada para garantir a vitória.<br><br><strong>A Estratégia:</strong> Intervenção máxima. O <strong>Detox</strong> prepara seu corpo para a ofensiva dupla do <strong>Guria Shape Black</strong>. O foco aqui é absoluto: aniquilar a fome e forçar o metabolismo a uma queima de gordura extrema e contínua. É o plano para quem não tem mais tempo a perder.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação será intensa. A fome praticamente desaparecerá, e seu corpo entrará em modo de queima acelerada. É um plano que exige determinação, mas que entrega resultados expressivos e rápidos." },
-            { id: 'o3-ans', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 160 dias', duration: '160 Dias', anxiety: true, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '2 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para a guerreira que enfrenta a obesidade severa e a ansiedade, e busca um caminho de longo prazo que respeite seu tempo e sua saúde mental.<br><br><strong>A Estratégia:</strong> É a jornada mais completa que oferecemos. Um <strong>Detox</strong> inicial, seguido por um longo período com o <strong>Guria Shape Roxo</strong> para criar uma base sólida de controle mental e de apetite, e finalizado com o <strong>Slim Super X</strong> para garantir a continuidade da queima de gordura. É a estratégia da paciência, consistência e vitória definitiva.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Será uma transformação gradual e profunda. Você reaprenderá a lidar com a comida e com suas emoções. A perda de peso será constante, e ao final, você não terá apenas um novo corpo, mas uma nova mentalidade." },
-            { id: 'o3-prem', tag: 'PLANO PREMIUM', title: 'Projeto Slim 140 dias', duration: '140 Dias', anxiety: false, products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter um quadro de obesidade severa.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida de todo o seu bem-estar, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento." }
-        ]
-    };
+    
+const combosData = {
+    'peso-normal': [
+        {
+            id: 'pn-eco',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Peso Normal PLANO ECONÔMICO - 1 Slim Super X',
+            duration: '30 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para você que já está no peso ideal, mas busca aquela definição final, secar gordurinhas teimosas e manter o corpo modelado. É o toque de mestre para quem não quer relaxar nos resultados.<br><br><strong>A Estratégia:</strong> O <strong>Slim Super X</strong> atua como um otimizador metabólico. Ele age diretamente na saciedade com seu poderoso mix de fibras, fazendo você se sentir satisfeita com menos. Ao mesmo tempo, seus componentes diuréticos ajudam a eliminar a retenção de líquidos, revelando a definição muscular. <br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nas primeiras semanas, você sentirá a fome mais controlada e menos inchaço. Ao final dos 30 dias, seu corpo estará mais 'seco', com contornos mais aparentes e um metabolismo afinado para manter os resultados."
+        },
+        {
+            id: 'pn-ans',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Peso Normal PLANO ANSIEDADE - 1 Guria Shape Roxo',
+            duration: '60 Dias',
+            anxiety: true,
+            products: [
+                { name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para você que está no peso certo, mas sente que a ansiedade e o 'comer emocional' sabotam sua busca pela definição. É para quem precisa de paz mental para dar o último passo na transformação do corpo.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Roxo</strong> é seu aliado para o equilíbrio. Ele atua diretamente na causa da compulsão, usando a Valeriana para acalmar a mente e diminuir a vontade de 'beliscar'. Isso te dá o controle necessário para manter uma dieta limpa e focada na definição, sem a interferência da ansiedade.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você notará uma serenidade maior no seu dia a dia e um controle sobre o apetite que parecia perdido. Isso permitirá que seus esforços na dieta e no treino finalmente apareçam, resultando em um corpo mais definido e uma mente em paz."
+        },
+        {
+            id: 'pn-prem',
+            tag: 'PLANO PREMIUM',
+            title: 'Peso Normal PLANO PREMIUM - 1 Guria Shape Gold',
+            duration: '40 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para a mulher que busca a excelência. Você não quer apenas definir, quer brilhar. Este plano é para quem deseja a máxima performance na queima de gordura enquanto cuida da pele, humor e imunidade.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Gold</strong> é a nossa fórmula mais avançada. Ele trabalha em 3 pilares: queima de gordura acelerada com ativos nobres, equilíbrio do humor com 5-HTP para eliminar a compulsão por doces, e fortalecimento da imunidade e da pele. É um tratamento de beleza e bem-estar de dentro para fora.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Desde o início, você sentirá mais energia e disposição. A vontade por doces diminuirá drasticamente. Com 40 dias, seu corpo não só estará mais definido, mas você se sentirá mais equilibrada, radiante e com a saúde em dia."
+        }
+    ],
+    'sobrepeso': [
+        {
+            id: 'sp-eco',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Sobrepeso PLANO ECONÔMICO - 2 Slim Super X',
+            duration: '60 Dias',
+            anxiety: false,
+            products: [
+                { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem decidiu dar um basta no sobrepeso e busca um caminho seguro, consistente e com ótimo custo-benefício para reeducar o corpo e a mente.<br><br><strong>A Estratégia:</strong> Com dois potes de <strong>Slim Super X</strong>, criamos um tratamento contínuo de 60 dias. O primeiro mês reeduca seu apetite e regula seu intestino. No segundo mês, com o corpo já adaptado, a queima de gordura se intensifica. A consistência é a chave aqui: mantemos o estímulo de saciedade e queima de gordura por tempo suficiente para criar novos hábitos duradouros.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> O primeiro mês trará controle. O segundo trará a transformação. Ao final dos 60 dias, você terá perdido peso de forma visível e, mais importante, terá criado uma nova relação com a comida, sentindo-se no controle."
+        },
+        {
+            id: 'sp-ans',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Sobrepeso PLANO ANSIEDADE - 1 Guria Shape Roxo',
+            duration: '60 Dias',
+            anxiety: true,
+            products: [
+                { name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para você, que sabe que a sua maior batalha é contra a mente. Se a ansiedade e a compulsão ditam suas escolhas, este combo foi desenhado para te devolver o poder.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Roxo</strong> é um especialista. Ele não foca apenas no corpo, mas principalmente na causa emocional do ganho de peso. A Valeriana acalma seus pensamentos, diminuindo o gatilho da ansiedade, enquanto as fibras de alta performance te dão uma sensação de plenitude que te liberta da fome nervosa.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nos primeiros dias, você sentirá uma calma mental que não sentia há tempos. A necessidade de 'beliscar' desaparecerá. Ao longo dos 60 dias, essa serenidade se torna seu novo normal, e o emagrecimento vira uma consequência natural e pacífica."
+        },
+        {
+            id: 'sp-prem',
+            tag: 'PLANO PREMIUM',
+            title: 'Sobrepeso PLANO PREMIUM - 1 Guria Shape Gold',
+            duration: '40 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem está com sobrepeso, mas não aceita nada menos que a solução mais rápida, completa e luxuosa para resolver o problema de uma vez por todas.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Gold</strong> é um tratamento 360°. Ele ataca o sobrepeso por todos os ângulos: acelera o metabolismo como nenhum outro, equilibra os hormônios do bem-estar para aniquilar a compulsão e ainda nutre sua pele para evitar a flacidez durante a perda de peso. É a tecnologia da beleza a favor do seu emagrecimento.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação é rápida e prazerosa. Você sentirá mais energia, menos fome e uma melhora visível na qualidade da pele já nas primeiras semanas. Ao final dos 40 dias, a mudança no espelho e na sua disposição será impactante."
+        }
+    ],
+    'obesidade-grau-i': [
+        {
+            id: 'o1-eco',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Obesidade Grau I PLANO ECONÔMICO - 1 Guria Shape Detox + 1 Slim Super X',
+            duration: '60 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem está no primeiro estágio da obesidade e precisa de um plano de partida inteligente e eficaz para virar o jogo.<br><br><strong>A Estratégia:</strong> É um ataque em duas fases. Primeiro, o <strong>Guria Shape Detox</strong> faz uma 'faxina' no seu organismo, eliminando toxinas que travam seu metabolismo. Com o corpo 'limpo', o <strong>Slim Super X</strong> entra com força total, promovendo uma saciedade intensa e acelerando a queima de gordura. Um prepara o campo, o outro marca o gol.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A primeira fase com Detox te trará leveza e desinchaço. Ao entrar com o Slim X, a perda de peso se torna notável, pois seu corpo estará 100% preparado para responder ao estímulo emagrecedor."
+        },
+        {
+            id: 'o1-ans',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Obesidade Grau I PLANO ANSIEDADE - 1 Guria Shape Detox + 1 Guria Shape Roxo',
+            duration: '90 Dias',
+            anxiety: true,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem lida com o peso extra e uma mente que não para. Se a ansiedade é sua sombra, este combo é a luz.<br><br><strong>A Estratégia:</strong> Começamos com o <strong>Guria Shape Detox</strong> para purificar seu corpo e otimizar seu metabolismo. Em seguida, o <strong>Guria Shape Roxo</strong> assume o controle, acalmando sua ansiedade e silenciando a fome emocional. É a combinação da paz de espírito com a eficiência metabólica.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você primeiro sentirá seu corpo desinchar. Depois, sua mente se acalmar. A combinação desses fatores tornará a jornada de 90 dias surpreendentemente leve. A perda de peso acontecerá sem a luta interna constante, tornando o processo prazeroso."
+        },
+        {
+            id: 'o1-prem',
+            tag: 'PLANO PREMIUM',
+            title: 'Obesidade Grau I PLANO PREMIUM - 1 Guria Shape Detox + 1 Guria Shape Gold',
+            duration: '70 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota expressa e mais sofisticada para sair da obesidade grau I, com um tratamento que cuida do corpo como um todo.<br><br><strong>A Estratégia:</strong> A dupla de elite. O <strong>Guria Shape Detox</strong> faz o 'reset' metabólico, preparando seu corpo para a estrela do show: o <strong>Guria Shape Gold</strong>. Ele entra com sua tecnologia de ponta, acelerando a queima de gordura, melhorando o humor e a pele, e garantindo que você emagreça de forma saudável e radiante.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação é uma experiência de bem-estar. Você sentirá mais energia, menos inchaço e uma melhora geral na sua saúde. A perda de peso será rápida, mas acompanhada de uma sensação de vitalidade e cuidado."
+        }
+    ],
+    'obesidade-grau-ii': [
+        {
+            id: 'o2-eco',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Obesidade Grau II PLANO ECONÔMICO - 1 Guria Shape Detox + 1 Guria Shape Black',
+            duration: '90 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '1 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem precisa de uma ação de choque para destravar um metabolismo resistente e vencer a obesidade grau II.<br><br><strong>A Estratégia:</strong> É um plano de intervenção. O <strong>Guria Shape Detox</strong> primeiro prepara seu corpo. Depois, o <strong>Guria Shape Black</strong>, nosso inibidor mais forte, entra para calar a fome e forçar o corpo a usar a gordura (especialmente a abdominal) como fonte de energia. É a força máxima para resultados máximos.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você sentirá uma redução drástica do apetite. Seu corpo será obrigado a se adaptar a um novo estado metabólico, de queima intensa. É um plano forte, para quem está determinada a mudar."
+        },
+        {
+            id: 'o2-ans',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Obesidade Grau II PLANO ANSIEDADE - 1 Guria Shape Detox + 1 Guria Shape Roxo + 1 Slim Super X',
+            duration: '120 Dias',
+            anxiety: true,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` },
+                { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem enfrenta a dupla jornada de lutar contra a obesidade e a ansiedade, e precisa de um plano de longo prazo que seja gentil, mas implacável com a gordura.<br><br><strong>A Estratégia:</strong> É uma jornada em 3 atos. Ato 1: <strong>Detox</strong> para limpar. Ato 2: <strong>Roxo</strong> para acalmar a mente e o apetite. Ato 3: <strong>Slim Super X</strong> para consolidar os resultados e manter a queima de gordura. É a maratona completa para a vitória.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Seu corpo e mente se adaptarão em fases. Primeiro a leveza, depois a calma, e por fim, a perda de peso consistente. Ao final, você terá as ferramentas para manter seu novo estilo de vida."
+        },
+        {
+            id: 'o2-prem',
+            tag: 'PLANO PREMIUM',
+            title: 'Obesidade Grau II PLANO PREMIUM - 1 Guria Shape Detox + 1 Guria Shape Gold + 1 Slim Super X',
+            duration: '100 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` },
+                { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem busca uma transformação corporal completa e definitiva, com o melhor que a tecnologia pode oferecer, cuidando da saúde de forma integral.<br><br><strong>A Estratégia:</strong> A Tríade de Ouro. <strong>Detox</strong> reseta, <strong>Gold</strong> trata e acelera, e <strong>Slim Super X</strong> mantém e define. Essa sequência garante que seu corpo receba os estímulos certos na hora certa, evitando platôs e garantindo um emagrecimento saudável, com cuidado para a pele e o bem-estar.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Será uma jornada de redescoberta. Seu corpo se sentirá mais leve, sua mente mais equilibrada e sua energia renovada. A perda de peso será uma consequência visível de um corpo que está sendo nutrido e cuidado da forma correta."
+        }
+    ],
+    'obesidade-grau-iii': [
+        {
+            id: 'o3-eco',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Obesidade Grau III PLANO ECONÔMICO - 1 Guria Shape Detox + 2 Guria Shape Black',
+            duration: '120 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '2 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem está no campo de batalha final contra a obesidade e precisa da artilharia mais pesada para garantir a vitória.<br><br><strong>A Estratégia:</strong> Intervenção máxima. O <strong>Detox</strong> prepara seu corpo para a ofensiva dupla do <strong>Guria Shape Black</strong>. O foco aqui é absoluto: aniquilar a fome e forçar o metabolismo a uma queima de gordura extrema e contínua. É o plano para quem não tem mais tempo a perder.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação será intensa. A fome praticamente desaparecerá, e seu corpo entrará em modo de queima acelerada. É um plano que exige determinação, mas que entrega resultados expressivos e rápidos."
+        },
+        {
+            id: 'o3-ans',
+            tag: 'PLANO ECONÔMICO',
+            title: 'Obesidade Grau III PLANO ANSIEDADE - 1 Guria Shape Detox + 2 Guria Shape Roxo + 1 Slim Super X',
+            duration: '160 Dias',
+            anxiety: true,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '2 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` },
+                { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para a guerreira que enfrenta a obesidade severa e a ansiedade, e busca um caminho de longo prazo que respeite seu tempo e sua saúde mental.<br><br><strong>A Estratégia:</strong> É a jornada mais completa que oferecemos. Um <strong>Detox</strong> inicial, seguido por um longo período com o <strong>Guria Shape Roxo</strong> para criar uma base sólida de controle mental e de apetite, e finalizado com o <strong>Slim Super X</strong> para garantir a continuidade da queima de gordura. É a estratégia da paciência, consistência e vitória definitiva.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Será uma transformação gradual e profunda. Você reaprenderá a lidar com a comida e com suas emoções. A perda de peso será constante, e ao final, você não terá apenas um novo corpo, mas uma nova mentalidade."
+        },
+        {
+            id: 'o3-prem',
+            tag: 'PLANO PREMIUM',
+            title: 'Obesidade Grau III PLANO PREMIUM - 1 Guria Shape Detox + 1 Guria Shape Gold + 2 Slim Super X',
+            duration: '140 Dias',
+            anxiety: false,
+            products: [
+                { name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` },
+                { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` },
+                { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }
+            ],
+            explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter um quadro de obesidade severa.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida de todo o seu bem-estar, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento."
+        }
+    ]
+};
+
+
     
     // Disponibiliza os dados dos combos globalmente para outros scripts (como combos.js) poderem usar
     window.gabiFitApp = window.gabiFitApp || {};
