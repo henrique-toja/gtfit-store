@@ -1,7 +1,6 @@
 // main.js
 (function() {
-    // Aguarda os dados globais serem carregados
-    const { produtos, domain } = window.gabiFitData;
+    let appContainer; // Referência ao container principal
 
     // --- CATEGORY DEFINITIONS AND ORDER ---
     const productCategories = {
@@ -10,21 +9,20 @@
         uteis: { title: '⚡ Suplementos Úteis ⚡', ids: [13, 14, 15, 16, 17] },
     };
 
-    let appContainer; // Referência ao container principal
-
     // --- HTML TEMPLATE GENERATORS ---
 
     const createProductCard = (product) => `
         <div class="product-card flex-shrink-0 w-40 cursor-pointer group" data-product-id="${product.id}">
             <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
-                <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
+                <img src="${window.gabiFitData.domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
                 <h3 class="h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center">${product.nome}</h3>
             </div>
         </div>
     `;
 
     const createProductRow = (category) => {
-        const productMap = new Map(produtos.map(p => [p.id, p]));
+        // Usa window.gabiFitData.produtos aqui
+        const productMap = new Map(window.gabiFitData.produtos.map(p => [p.id, p]));
         const categoryProducts = category.ids.map(id => productMap.get(id)).filter(Boolean);
         return `
             <section class="mb-10">
@@ -46,7 +44,8 @@
     `;
 
     const renderProductDetailView = (productId) => {
-        const product = produtos.find(p => p.id === parseInt(productId));
+        // Usa window.gabiFitData.produtos e window.gabiFitData.domain aqui
+        const product = window.gabiFitData.produtos.find(p => p.id === parseInt(productId));
         if (!product) return;
 
         const generateAccordionItem = (title, content, isOpen = false) => {
@@ -69,7 +68,7 @@
             <div class="w-full max-w-lg mx-auto animate-fade-in">
                 <div class="product-card-detail">
                     <div class="product-detail-header">
-                        <img src="${domain}${product.imagem}" alt="${product.nome}" class="w-32 h-32 object-contain rounded-full mx-auto mb-5 border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">
+                        <img src="${window.gabiFitData.domain}${product.imagem}" alt="${product.nome}" class="w-32 h-32 object-contain rounded-full mx-auto mb-5 border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">
                         <h2 class="text-3xl font-extrabold text-white tracking-tight">${product.nome}</h2>
                     </div>
                     <div class="product-accordion-container">
@@ -129,7 +128,13 @@
             card.addEventListener('click', () => renderProductDetailView(card.dataset.productId));
         });
 
-        // Dispara evento customizado para integração com outros módulos (combos, etc)
+        // Adiciona o listener para o botão de combos AQUI, depois que ele é renderizado
+        document.getElementById('show-combos-flow').addEventListener('click', () => {
+            if (window.gabiFitApp && window.gabiFitApp.initializeComboFlow) {
+                window.gabiFitApp.initializeComboFlow(appContainer);
+            }
+        });
+
         appContainer.dispatchEvent(new CustomEvent('showcaseRendered'));
     };
 
