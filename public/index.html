@@ -163,37 +163,26 @@
         </div>
     </a>
 
-    <script src="products.js" defer></script>
-<script src="combos.js" defer></script>
-<script defer>
-    document.addEventListener('DOMContentLoaded', () => {
-        const appContainer = document.getElementById('app-container');
-        const chatBubble = document.querySelector('.chat-bubble'); // Seleciona a bolha do chat
+    <script src="produtos.js" defer></script>
+    <script src="combs.js" defer></script>
+    <script src="main.js" defer></script>
 
-        // Garante que a bolha de chat esteja visível ao carregar a página
-        if (chatBubble) {
-            chatBubble.style.display = 'block';
-        }
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const appContainer = document.getElementById('app-container');
+            const chatBubble = document.querySelector('.chat-bubble');
 
-        // Verifica se os objetos do namespace existem
-        if (!window.gabiFitApp || !window.gabiFitApp.initializeProductShowcase || !window.gabiFitApp.initializeComboFlow) {
-            appContainer.innerHTML = '<p class="text-center text-red-500">Erro ao carregar os módulos da aplicação. Verifique os arquivos products.js e combos.js.</p>';
-            return;
-        }
+            if (chatBubble) {
+                chatBubble.style.display = 'block';
+            }
 
-        // --- Controlador Principal da Navegação SPA ---
-        appContainer.addEventListener('showcaseRendered', () => {
-            const showCombosButton = document.getElementById('show-combos-flow');
-            if (showCombosButton) {
-                showCombosButton.addEventListener('click', () => {
-                    window.gabiFitApp.initializeComboFlow(appContainer);
-                });
+            // Inicia a aplicação através do main.js
+            if (window.gabiFitApp && window.gabiFitApp.initialize) {
+                window.gabiFitApp.initialize(appContainer);
+            } else {
+                appContainer.innerHTML = '<p class="text-center text-red-500">Erro ao carregar os módulos da aplicação. Verifique os arquivos JavaScript.</p>';
             }
         });
-
-        // Inicia a aplicação renderizando a vitrine de produtos
-        window.gabiFitApp.initializeProductShowcase(appContainer);
-    });
-</script>
+    </script>
 </body>
 </html>
