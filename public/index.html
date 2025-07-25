@@ -6,14 +6,13 @@
     <title>Vitrine de Produtos - GTFIT Store</title>
     <meta name="description" content="Descubra nossa linha completa de emagrecedores, suplementos e combos para sua jornada fitness.">
     <link rel="icon" href="https://www.gtfit.store/gtfit.png" type="image/jpeg">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q16L0HYBH6"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -37,56 +36,57 @@
     src="https://www.facebook.com/tr?id=976087778020420&ev=PageView&noscript=1"
     /></noscript>
 
-    <style>
-        :root {
-            --primary-purple: #9333ea;
-            --primary-green: #22c55e;
-        }
-        body {
-            background-color: #0c0a09;
-            font-family: 'Inter', sans-serif;
-            color: #e5e7eb;
-        }
-        .scrollbar-thin::-webkit-scrollbar { height: 6px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--primary-purple); border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover { background-color: #a855f7; }
+<style>
+    :root {
+        --primary-purple: #9333ea;
+        --primary-green: #22c55e;
+    }
+    body {
+        background-color: #0c0a09;
+        font-family: 'Inter', sans-serif;
+        color: #e5e7eb;
+    }
+    .scrollbar-thin::-webkit-scrollbar { height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--primary-purple); border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background-color: #a855f7; }
 
-        .link-button {
-            background: linear-gradient(145deg, #1f2937, #111827);
-            border: 1px solid #374151;
-            border-radius: 1rem;
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .link-button:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary-purple);
-            box-shadow: 0 4px 20px -5px rgba(147, 51, 234, 0.4);
-        }
-        .link-button.back-button { margin: 2rem auto 0; max-width: 24rem; padding: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 1rem; }
-        
-        .product-card-detail { background: linear-gradient(145deg, #18181b, #111111); border: 1px solid #333; border-radius: 1.5rem; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 50px -15px rgba(192, 132, 252, 0.5), 0 0 15px -5px rgba(34, 197, 94, 0.4); }
-        .product-detail-header { padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid #333; }
-        .product-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
-        .product-accordion-item { border-bottom: 1px solid #333; }
-        .product-accordion-item:last-child { border-bottom: none; }
-        .product-accordion-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1rem 0.5rem; text-align: left; background: transparent; border: none; color: white; cursor: pointer; font-size: 1rem; font-weight: 600; }
-        .product-accordion-header i { transition: transform 0.3s ease; }
-        .product-accordion-item.open .product-accordion-header i { transform: rotate(180deg); }
-        .product-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.4s ease-out; }
-        .product-accordion-body { padding: 0 0.5rem 1rem 0.5rem; color: #d1d5db; line-height: 1.7; text-align: justify; }
-        .product-detail-footer { padding: 1.5rem; background: #111111; margin-top: auto; border-top: 1px solid #333; }
+    .link-button {
+        background: linear-gradient(145deg, #1f2937, #111827);
+        border: 1px solid #374151;
+        border-radius: 1rem;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+    }
+    .link-button:hover {
+        transform: translateY(-3px);
+        border-color: var(--primary-purple);
+        box-shadow: 0 4px 20px -5px rgba(147, 51, 234, 0.4);
+    }
+    .link-button.back-button { margin: 2rem auto 0; max-width: 24rem; padding: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 1rem; }
 
-        .store-cta-button, .whatsapp-cta-button { display: block; text-align: center; padding: 1rem; border-radius: 9999px; font-weight: bold; font-size: 1.125rem; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .store-cta-button { background: linear-gradient(90deg, var(--primary-purple), var(--primary-green)); color: #111; }
-        .store-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px var(--primary-purple); }
-        .whatsapp-cta-button { background-color: #25D366; color: white; }
-        .whatsapp-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px #25D366; }
+    .product-card-detail { background: linear-gradient(145deg, #18181b, #111111); border: 1px solid #333; border-radius: 1.5rem; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 0 50px -15px rgba(192, 132, 252, 0.5), 0 0 15px -5px rgba(34, 197, 94, 0.4); }
+    .product-detail-header { padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid #333; }
+    .product-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .product-accordion-item { border-bottom: 1px solid #333; }
+    .product-accordion-item:last-child { border-bottom: none; }
+    .product-accordion-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1rem 0.5rem; text-align: left; background: transparent; border: none; color: white; cursor: pointer; font-size: 1rem; font-weight: 600; }
+    .product-accordion-header i { transition: transform 0.3s ease; }
+    .product-accordion-item.open .product-accordion-header i { transform: rotate(180deg); }
+    .product-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.4s ease-out; }
+    .product-accordion-body { padding: 0 0.5rem 1rem 0.5rem; color: #d1d5db; line-height: 1.7; text-align: justify; }
+    .product-detail-footer { padding: 1.5rem; background: #111111; margin-top: auto; border-top: 1px solid #333; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-    </style>
+    .store-cta-button, .whatsapp-cta-button { display: block; text-align: center; padding: 1rem; border-radius: 9999px; font-weight: bold; font-size: 1.125rem; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .store-cta-button { background: linear-gradient(90deg, var(--primary-purple), var(--primary-green)); color: #111; }
+    .store-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px var(--primary-purple); }
+    .whatsapp-cta-button { background-color: #25D366; color: white; }
+    .whatsapp-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px #25D366; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+</style>
+
 </head>
 <body class="flex flex-col items-center min-h-screen p-4">
     <div class="w-full max-w-4xl mx-auto py-8">
@@ -97,12 +97,11 @@
             <h1 class="text-3xl font-extrabold text-white">Nossa Vitrine de Produtos</h1>
             <p class="text-slate-400 mt-1">🔥 Explore, descubra e transforme-se! 🔥</p>
         </header>
-
         <main id="app-container" class="w-full"></main>
 
         <footer class="w-full text-center mt-16 mb-4">
             <div class="flex justify-center items-center gap-6 mb-6">
-                 <a href="mailto:contato@gabrielatorraca.com.br" target="_blank" class="text-slate-400 hover:text-white"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Email" class="h-7 w-7"></a>
+                <a href="mailto:contato@gabrielatorraca.com.br" target="_blank" class="text-slate-400 hover:text-white"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Email" class="h-7 w-7"></a>
                 <a href="https://www.instagram.com/gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="h-7 w-7"></a>
                 <a href="https://www.tiktok.com/@gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white"><img src="https://www.gtfit.store/tik.png" alt="TikTok" class="h-7 w-7 rounded-full"></a>
             </div>
@@ -130,148 +129,106 @@
 
     <script src="products.js" defer></script>
     <script src="combos.js" defer></script>
-    
-    <script defer>
-        document.addEventListener('DOMContentLoaded', () => {
-            const appContainer = document.getElementById('app-container');
 
-            // --- Lógica para expor dados do combos.js (simulando a exportação) ---
-            // Esta parte deve ser executada após o combos.js ter sido carregado.
-            // O código original do combos.js foi mantido, mas precisamos acessar seus dados.
-            // Para isso, o combos.js original foi modificado para colocar seus dados no namespace `gabiFitApp`.
-            // Vamos adicionar as informações de categoria de combo ao namespace global para que `products.js` possa usá-las.
-            if (window.gabiFitApp && window.gabiFitApp.combosData) {
-                 window.gabiFitApp.comboCategories = {
-                    'peso-saudavel-sobrepeso': { line1: '🟢 Peso Saudável/Sobrepeso 🟢', line2: '🔥 Mínimo 30 dias de Projeto Slim 🔥' },
-                    'obesidade-grau-i': { line1: '🟡 Obesidade Grau 1 🟡', line2: '🔥 Mínimo 60 dias de Projeto Slim 🔥' },
-                    'obesidade-grau-ii': { line1: '🟠 Obesidade Grau 2 🟠', line2: '🔥 Mínimo 90 dias de Projeto Slim 🔥' },
-                    'obesidade-grau-iii': { line1: '🔴 Obesidade Grau 3 🔴', line2: '🔥 Mínimo 120 dias de Projeto Slim 🔥' }
-                };
-            }
-            
-            // --- Controlador Principal da Navegação SPA ---
-            
-            // ATUALIZADO: Define a função que inicia o fluxo de subcategorias do combo
-            window.gabiFitApp.startComboSubcategoryFlow = (container, categoryKey) => {
-                // Esta função chama a renderização da tela de subcategorias
-                if (window.gabiFitApp.renderComboSubcategories) {
-                    window.gabiFitApp.renderComboSubcategories(container, categoryKey);
-                }
+    <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+        const appContainer = document.getElementById('app-container');
+
+        // --- Lógica para expor dados do combos.js (simulando a exportação) ---
+        // Esta parte deve ser executada após o combos.js ter sido carregado.
+        // O código original do combos.js foi mantido, mas precisamos acessar seus dados.
+        // Para isso, o combos.js original foi modificado para colocar seus dados no namespace `gabiFitApp`.
+        // Vamos adicionar as informações de categoria de combo ao namespace global para que `products.js` possa usá-las.
+        if (window.gabiFitApp && window.gabiFitApp.combosData) {
+             window.gabiFitApp.comboCategories = {
+                'peso-saudavel-sobrepeso': { line1: '🟢 Peso Saudável/Sobrepeso 🟢', line2: '🔥 Mínimo 30 dias de Projeto Slim 🔥' },
+                'obesidade-grau-i': { line1: '🟡 Obesidade Grau 1 🟡', line2: '🔥 Mínimo 60 dias de Projeto Slim 🔥' },
+                'obesidade-grau-ii': { line1: '🟠 Obesidade Grau 2 🟠', line2: '🔥 Mínimo 90 dias de Projeto Slim 🔥' },
+                'obesidade-grau-iii': { line1: '🔴 Obesidade Grau 3 🔴', line2: '🔥 Mínimo 120 dias de Projeto Slim 🔥' }
             };
-            
-            // Adiciona um listener para quando a vitrine principal for renderizada
-            appContainer.addEventListener('showcaseRendered', () => {
-                // ATUALIZADO: Procura todos os botões de categoria de combo
-                const comboCategoryButtons = document.querySelectorAll('.combo-category-start-btn');
-                
-                comboCategoryButtons.forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const categoryKey = e.currentTarget.dataset.categoryKey;
-                        // Inicia o fluxo de combos diretamente na tela de subcategorias
-                        if(window.gabiFitApp.initializeComboFlow) {
-                           window.gabiFitApp.initializeComboFlow(appContainer, categoryKey, true); // Passa um flag para ir direto para subcategorias
-                        }
-                    });
+        }
+
+        // --- Controlador Principal da Navegação SPA ---
+
+        // ATUALIZADO: Define a função que inicia o fluxo de subcategorias do combo
+        window.gabiFitApp.startComboSubcategoryFlow = (container, categoryKey) => {
+            // Esta função chama a renderização da tela de subcategorias
+            if (window.gabiFitApp.renderComboSubcategories) {
+                window.gabiFitApp.renderComboSubcategories(container, categoryKey);
+            }
+        };
+
+        // Adiciona um listener para quando a vitrine principal for renderizada
+        appContainer.addEventListener('showcaseRendered', () => {
+            // ATUALIZADO: Procura todos os botões de categoria de combo
+            const comboCategoryButtons = document.querySelectorAll('.combo-category-start-btn');
+
+            comboCategoryButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const categoryKey = e.currentTarget.dataset.categoryKey;
+                    // Inicia o fluxo de combos diretamente na tela de subcategorias
+                    if(window.gabiFitApp.initializeComboFlow) {
+                       window.gabiFitApp.initializeComboFlow(appContainer, categoryKey, true); // Passa um flag para ir direto para subcategorias
+                    }
                 });
             });
-            
-            // Inicia a aplicação renderizando a vitrine de produtos
-            if (window.gabiFitApp && window.gabiFitApp.initializeProductShowcase) {
-                window.gabiFitApp.initializeProductShowcase(appContainer);
-            } else {
-                 appContainer.innerHTML = '<p class="text-center text-red-500">Erro ao carregar os módulos da aplicação.</p>';
-            }
-
-            // --- Lógica do Chat Widget (mantida) ---
-            const chatWidget = document.getElementById('chat-widget');
-            const chatModal = document.getElementById('chat-modal');
-            const chatContainer = document.getElementById('chat-container');
-            const closeChatBtn = document.getElementById('close-chat-btn');
-            const chatBubble = document.querySelector('.chat-bubble');
-
-            const openChat = () => { chatModal.classList.remove('invisible'); chatModal.classList.add('visible'); chatContainer.classList.remove('opacity-0', '-translate-y-4'); chatContainer.classList.add('opacity-100', 'translate-y-0'); chatBubble.style.display = 'none'; };
-            const closeChat = () => { chatContainer.classList.add('opacity-0', '-translate-y-4'); chatContainer.classList.remove('opacity-100', 'translate-y-0'); setTimeout(() => { chatModal.classList.add('invisible'); chatModal.classList.remove('visible'); chatBubble.style.display = 'block'; }, 500); };
-
-            chatWidget.addEventListener('click', openChat);
-            closeChatBtn.addEventListener('click', closeChat);
         });
+
+        // Inicia a aplicação renderizando a vitrine de produtos
+        if (window.gabiFitApp && window.gabiFitApp.initializeProductShowcase) {
+            window.gabiFitApp.initializeProductShowcase(appContainer);
+        } else {
+             appContainer.innerHTML = '<p class="text-center text-red-500">Erro ao carregar os módulos da aplicação.</p>';
+        }
+
+        // --- Lógica do Chat Widget (mantida) ---
+        const chatWidget = document.getElementById('chat-widget');
+        const chatModal = document.getElementById('chat-modal');
+        const chatContainer = document.getElementById('chat-container');
+        const closeChatBtn = document.getElementById('close-chat-btn');
+        const chatBubble = document.querySelector('.chat-bubble');
+
+        const openChat = () => {
+            chatModal.classList.remove('invisible');
+            chatModal.classList.add('visible');
+            chatContainer.classList.remove('opacity-0', '-translate-y-4');
+            chatContainer.classList.add('opacity-100', 'translate-y-0');
+            chatBubble.style.display = 'none';
+        };
+        const closeChat = () => {
+            chatContainer.classList.add('opacity-0', '-translate-y-4');
+            chatContainer.classList.remove('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                chatModal.classList.add('invisible');
+                chatModal.classList.remove('visible');
+                chatBubble.style.display = 'block';
+            }, 500);
+        };
+
+        chatWidget.addEventListener('click', openChat);
+        closeChatBtn.addEventListener('click', closeChat);
+    });
     </script>
-    
+
     <script>
     // Este script deve ser executado DEPOIS do combos.js original
     document.addEventListener('DOMContentLoaded', () => {
         if(window.gabiFitApp && window.gabiFitApp.initializeComboFlow) {
             const originalInitializer = window.gabiFitApp.initializeComboFlow;
-            
+
             // Sobrescreve a função original para aceitar um parâmetro extra
             window.gabiFitApp.initializeComboFlow = (containerElement, categoryKey = null, startWithSubcategories = false) => {
                 // A função original renderiza a lista de categorias.
                 // A nova lógica permite pular essa etapa.
                 if(startWithSubcategories && categoryKey && window.gabiFitApp.renderComboSubcategories) {
-                    // A função `renderComboSubcategories` precisa ser exposta no namespace `gabiFitApp` dentro de combos.js
-                    // Vamos adaptar o combos.js para que isso funcione
-                    
-                    // Supondo que combos.js exponha as funções de renderização, chamamos a correta
-                     window.gabiFitApp.renderComboSubcategories(containerElement, categoryKey);
+                    window.gabiFitApp.renderComboSubcategories(containerElement, categoryKey);
                 } else {
-                    // Comportamento original
                     originalInitializer(containerElement);
                 }
             };
         }
     });
-    // Para que isso funcione 100%, o combos.js precisaria de uma pequena alteração
-    // para expor a função `renderComboSubcategories`. Vamos simular essa alteração aqui.
-    // O ideal seria editar o combos.js diretamente.
     </script>
-    
-    <script>
-    // A melhor abordagem é modificar a lógica dentro do próprio combos.js.
-    // Como não posso editar o arquivo anterior, vou fornecer um `combos.js` revisado
-    // que funcionaria com a nova estrutura. O usuário deve substituir o `combos.js` antigo por este.
 
-    const revisedCombosJs = `
-    // combos.js (REVISADO para a nova estrutura)
-    (function() {
-        window.gabiFitApp = window.gabiFitApp || {};
-        let appContainer; 
-
-        const domain = 'https://www.gtfit.store';
-        const combosData = { /* ... dados dos combos aqui ... */ };
-        const categoryDisplayInfo = { /* ... info de display aqui ... */ };
-
-        // Expondo os dados para que products.js possa usá-los
-        window.gabiFitApp.comboCategories = categoryDisplayInfo;
-
-        const renderComboDetail = (comboId, originatingCategoryKey) => {
-            // ... (lógica de renderComboDetail como na versão anterior)
-        };
-
-        const renderComboSubcategories = (categoryKey) => {
-            // ... (lógica de renderComboSubcategories como na versão anterior)
-        };
-        
-        // Expondo a função para ser chamada externamente
-        window.gabiFitApp.renderComboSubcategories = (container, key) => {
-            appContainer = container;
-            renderComboSubcategories(key);
-        };
-
-        const renderComboCategories = () => {
-            // ... (lógica de renderComboCategories como na versão anterior)
-        };
-        
-        window.gabiFitApp.initializeComboFlow = (containerElement) => {
-            appContainer = containerElement;
-            renderComboCategories();
-        };
-    })();
-    `;
-    // A instrução para o usuário seria: "Por favor, substitua o conteúdo do seu
-    // arquivo combos.js pelo código revisado que torna a função de subcategorias
-    // acessível, permitindo que a nova vitrine funcione como solicitado."
-    // Como não posso fazer isso, a lógica no controlador principal (`gabigpt.js`)
-    // foi ajustada para chamar a função correta.
-    </script>
 </body>
 </html>
