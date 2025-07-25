@@ -3,72 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos - GTFIT Store</title>
-    <meta name="description" content="Descubra nossa linha completa de emagrecedores e complementos para sua jornada fitness.">
+    <title>Vitrine de Produtos - GTFIT Store</title>
+    <meta name="description" content="Descubra nossa linha completa de emagrecedores, suplementos e combos para sua jornada fitness.">
     <link rel="icon" href="https://www.gtfit.store/gtfit.png" type="image/jpeg">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="gabigpt.css">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q16L0HYBH6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-Q16L0HYBH6');
-</script>
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '976087778020420');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=976087778020420&ev=PageView&noscript=1"
-/></noscript>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q16L0HYBH6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Q16L0HYBH6');
+    </script>
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '976087778020420');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=976087778020420&ev=PageView&noscript=1"
+    /></noscript>
+
+    <style>
+        :root {
+            --primary-purple: #9333ea; /* Cor roxa principal */
+            --primary-green: #22c55e;  /* Cor verde principal */
+        }
+        body {
+            background-color: #0c0a09; /* Fundo escuro */
+            font-family: 'Inter', sans-serif;
+            color: #e5e7eb;
+        }
+        /* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
+        .scrollbar-thin::-webkit-scrollbar {
+            height: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background-color: var(--primary-purple);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background-color: #a855f7;
+        }
+
+        /* Botão base para produtos e categorias */
+        .link-button {
+            background: linear-gradient(145deg, #1f2937, #111827);
+            border: 1px solid #374151;
+            border-radius: 1rem;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .link-button:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-purple);
+            box-shadow: 0 4px 20px -5px rgba(147, 51, 234, 0.4);
+        }
+        .link-button.back-button {
+            margin: 2rem auto 0;
+            max-width: 24rem;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        /* Estilos do card de detalhe (usado para produtos e combos) */
+        .product-card-detail {
+            background: linear-gradient(145deg, #18181b, #111111);
+            border: 1px solid #333;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px -15px rgba(192, 132, 252, 0.5), 0 0 15px -5px rgba(34, 197, 94, 0.4);
+        }
+        .product-detail-header { padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid #333; }
+        .product-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .product-accordion-item { border-bottom: 1px solid #333; }
+        .product-accordion-item:last-child { border-bottom: none; }
+        .product-accordion-header {
+            width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 0.5rem; text-align: left; background: transparent; border: none;
+            color: white; cursor: pointer; font-size: 1rem; font-weight: 600;
+        }
+        .product-accordion-header i { transition: transform 0.3s ease; }
+        .product-accordion-item.open .product-accordion-header i { transform: rotate(180deg); }
+        .product-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.4s ease-out; }
+        .product-accordion-body { padding: 0 0.5rem 1rem 0.5rem; color: #d1d5db; line-height: 1.7; text-align: justify; }
+        .product-detail-footer { padding: 1.5rem; background: #111111; margin-top: auto; border-top: 1px solid #333; }
+
+        /* Botões CTA específicos */
+        .store-cta-button, .whatsapp-cta-button {
+            display: block; text-align: center; padding: 1rem; border-radius: 9999px;
+            font-weight: bold; font-size: 1.125rem; text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .store-cta-button {
+            background: linear-gradient(90deg, var(--primary-purple), var(--primary-green)); color: #111;
+        }
+        .store-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px var(--primary-purple); }
+        .whatsapp-cta-button { background-color: #25D366; color: white; }
+        .whatsapp-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px #25D366; }
+
+        /* Animação */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+    </style>
 </head>
 <body class="flex flex-col items-center min-h-screen p-4">
-    <div class="w-full max-w-md mx-auto py-8">
-        <header class="text-center mb-8">
+    <div class="w-full max-w-4xl mx-auto py-8">
+        <header class="text-center mb-12">
             <a href="javascript:location.reload();" class="cursor-pointer">
                 <img src="https://www.gtfit.store/gabi-profile2.jpg" alt="Foto de Gabriela Torraca" class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-purple-400 shadow-lg">
             </a>
-            <h1 class="text-2xl font-bold text-white">Aqui você pode ver todos 💊 que servem como base para seu Projeto Slim 💪🏼</h1>
-            <p class="text-slate-400">🔥 AGORA VOCÊ EMAGRECE 🔥</p>
+            <h1 class="text-3xl font-extrabold text-white">Nossa Vitrine de Produtos</h1>
+            <p class="text-slate-400 mt-1">🔥 Explore, descubra e transforme-se! 🔥</p>
         </header>
 
-        <main class="w-full">
-            <section id="main-navigation" class="flex flex-col items-center gap-5 w-full">
-                <button id="show-emagrecedores-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
-                    <span class="text-2xl">💊</span><span class="font-semibold text-slate-200 group-hover:text-white">Ver Emagrecedores</span>
-                </button>
-                <button id="show-complementos-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
-                    <span class="text-2xl">💪🏼</span><span class="font-semibold text-slate-200 group-hover:text-white">Ver Complementos</span>
-                </button>
-                <button id="show-combos-btn" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
-                    <span class="text-2xl">🔥</span><span class="font-semibold text-slate-200 group-hover:text-white">Ver Combos</span>
-                </button>
-                <a href="https://www.gabrielatorraca.com.br" target="_blank" class="link-button group flex justify-center items-center gap-3 w-full max-w-sm p-3 h-16">
-                    <span class="text-2xl">✅</span>
-                    <span class="font-semibold text-slate-200 group-hover:text-white">Ver Loja Oficial</span>
-                </a>
-            </section>
-            <section id="products-dynamic-section" class="hidden flex flex-col items-center gap-5 w-full"></section>
-            <section id="combos-section" class="hidden flex flex-col items-center gap-5 w-full"></section>
-        </main>
+        <main id="app-container" class="w-full"></main>
 
-        <footer class="w-full text-center mt-12 mb-4">
+        <footer class="w-full text-center mt-16 mb-4">
             <div class="flex justify-center items-center gap-6 mb-6">
                  <a href="mailto:contato@gabrielatorraca.com.br" target="_blank" class="text-slate-400 hover:text-white"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Email" class="h-7 w-7"></a>
                 <a href="https://www.instagram.com/gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="h-7 w-7"></a>
@@ -79,40 +154,89 @@ src="https://www.facebook.com/tr?id=976087778020420&ev=PageView&noscript=1"
     </div>
 
     <div id="chat-widget" class="fixed bottom-10 right-8 z-40 flex items-center gap-3 cursor-pointer transition-all duration-300">
-        <div class="chat-bubble p-3 rounded-lg max-w-[200px]">
+        <div class="chat-bubble p-3 rounded-lg max-w-[200px]" style="background-color: #1e293b;">
             <p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p>
         </div>
         <div class="relative">
             <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Assistente Gabi" class="w-16 h-16 rounded-full border-2 border-purple-400" style="animation: pulse 2s infinite;">
-            <div class="online-indicator"></div>
+            <div class="absolute bottom-1 right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-stone-900"></div>
         </div>
     </div>
 
     <div id="chat-modal" class="invisible fixed bottom-28 right-8 z-50 p-0">
-        <div id="chat-container" class="w-[400px] h-[600px] max-h-[80vh] rounded-2xl flex flex-col shadow-2xl shadow-purple-500/20 opacity-0 transform -translate-y-4 transition-all duration-500 ease-in-out">
+        <div id="chat-container" class="w-[400px] h-[600px] max-h-[80vh] rounded-2xl flex flex-col shadow-2xl shadow-purple-500/20 opacity-0 transform -translate-y-4 transition-all duration-500 ease-in-out" style="background-color: #18181b;">
             <header class="flex items-center justify-between p-4 border-b border-slate-700 flex-shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="relative">
                         <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Gabi GPT" class="w-10 h-10 rounded-full">
-                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-surface-dark"></div>
+                        <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-[#18181b]"></div>
                     </div>
-                    <div>
-                        <h3 class="font-bold text-white">Gabi GPT</h3>
-                        <p class="text-xs text-slate-400">Online</p>
-                    </div>
+                    <div><h3 class="font-bold text-white">Gabi GPT</h3><p class="text-xs text-slate-400">Online</p></div>
                 </div>
                 <button id="close-chat-btn" class="text-2xl leading-none font-bold text-slate-400 hover:text-white">&times;</button>
             </header>
-            <main id="chat-scroll-area" class="flex-1 p-4 overflow-y-auto flex flex-col">
-                <div id="chat-messages" class="flex flex-col gap-4 mt-auto"></div>
-            </main>
+            <main id="chat-scroll-area" class="flex-1 p-4 overflow-y-auto flex flex-col"><div id="chat-messages" class="flex flex-col gap-4 mt-auto"></div></main>
             <footer id="chat-input-area" class="p-4 border-t border-slate-700 flex-shrink-0"></footer>
         </div>
     </div>
 
-    <script src="https://www.gtfit.store/products.js" defer></script>
-    <script src="https://www.gtfit.store/combos.js" defer></script>
-    <script src="gabigpt.js" defer></script>
+    <script src="products.js" defer></script>
+    <script src="combos.js" defer></script>
     
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            const appContainer = document.getElementById('app-container');
+
+            // Verifica se os objetos do namespace existem
+            if (!window.gabiFitApp || !window.gabiFitApp.initializeProductShowcase || !window.gabiFitApp.initializeComboFlow) {
+                appContainer.innerHTML = '<p class="text-center text-red-500">Erro ao carregar os módulos da aplicação. Verifique os arquivos products.js e combos.js.</p>';
+                return;
+            }
+
+            // --- Controlador Principal da Navegação SPA ---
+
+            // Adiciona um listener para quando a vitrine principal for renderizada
+            appContainer.addEventListener('showcaseRendered', () => {
+                const showCombosButton = document.getElementById('show-combos-flow');
+                if (showCombosButton) {
+                    showCombosButton.addEventListener('click', () => {
+                        // Inicia o fluxo de combos ao clicar no botão
+                        window.gabiFitApp.initializeComboFlow(appContainer);
+                    });
+                }
+            });
+            
+            // Inicia a aplicação renderizando a vitrine de produtos
+            window.gabiFitApp.initializeProductShowcase(appContainer);
+
+            // --- Lógica do Chat Widget (mantida do original) ---
+            const chatWidget = document.getElementById('chat-widget');
+            const chatModal = document.getElementById('chat-modal');
+            const chatContainer = document.getElementById('chat-container');
+            const closeChatBtn = document.getElementById('close-chat-btn');
+            const chatBubble = document.querySelector('.chat-bubble');
+
+            const openChat = () => {
+                chatModal.classList.remove('invisible');
+                chatModal.classList.add('visible');
+                chatContainer.classList.remove('opacity-0', '-translate-y-4');
+                chatContainer.classList.add('opacity-100', 'translate-y-0');
+                chatBubble.style.display = 'none';
+            };
+
+            const closeChat = () => {
+                chatContainer.classList.add('opacity-0', '-translate-y-4');
+                chatContainer.classList.remove('opacity-100', 'translate-y-0');
+                setTimeout(() => {
+                    chatModal.classList.add('invisible');
+                    chatModal.classList.remove('visible');
+                    chatBubble.style.display = 'block';
+                }, 500);
+            };
+
+            chatWidget.addEventListener('click', openChat);
+            closeChatBtn.addEventListener('click', closeChat);
+        });
+    </script>
 </body>
 </html>
