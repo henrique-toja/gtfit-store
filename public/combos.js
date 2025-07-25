@@ -4,82 +4,44 @@
 
     const domain = 'https://www.gtfit.store';
 
-    // Data object completely rebuilt based on the new structure, including the 'Potência' category.
+    // Data object updated to reflect 30-day minimum for the 'Peso Saudável/Sobrepeso' category.
     const originalCombosData = {
-        'peso-normal': [
+        'peso-saudavel-sobrepeso': [
             { 
-                id: 'pn-eco', 
+                id: 'pss-eco', 
                 type: 'eco',
                 tag: 'PLANO ECONÔMICO', 
                 title: 'Projeto Slim 30 dias', 
                 duration: 'Mínimo 30 Dias', 
                 products: [{ name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], 
-                explanation: "<strong>Para quem é este plano?</strong> Para você que já está no peso ideal, mas busca aquela definição final, secar gordurinhas teimosas e manter o corpo modelado. É o toque de mestre para quem não quer relaxar nos resultados.<br><br><strong>A Estratégia:</strong> O <strong>Slim Super X</strong> atua como um otimizador metabólico. Ele age diretamente na saciedade com seu poderoso mix de fibras, fazendo você se sentir satisfeita com menos. Ao mesmo tempo, seus componentes diuréticos ajudam a eliminar a retenção de líquidos, revelando a definição muscular. <br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nas primeiras semanas, você sentirá a fome mais controlada e menos inchaço. Ao final dos 30 dias, seu corpo estará mais 'seco', com contornos mais aparentes e um metabolismo afinado para manter os resultados." 
+                explanation: "<strong>Para quem é este plano?</strong> Para você que está numa faixa de peso saudável ou com sobrepeso e busca um caminho seguro, consistente e com ótimo custo-benefício para iniciar a perda de peso, definir o corpo e reeducar a mente.<br><br><strong>A Estratégia:</strong> Um tratamento focado de 30 dias com <strong>Slim Super X</strong>. Ele atua como um otimizador metabólico, age na saciedade com seu mix de fibras e ajuda a eliminar a retenção de líquidos. É o pontapé inicial perfeito para criar novos hábitos.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nas primeiras semanas, você sentirá a fome mais controlada e menos inchaço. Ao final dos 30 dias, seu corpo estará mais 'seco', com contornos mais aparentes e um metabolismo afinado para continuar os resultados." 
             },
             { 
-                id: 'pn-ans', 
+                id: 'pss-ans', 
                 type: 'anxiety',
                 tag: 'PLANO ANSIEDADE', 
                 title: 'Projeto Slim Equilíbrio', 
                 duration: 'Mínimo 30 Dias', 
                 products: [{ name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }], 
-                explanation: "<strong>Para quem é este plano?</strong> Para você que está no peso certo, mas sente que a ansiedade e o 'comer emocional' sabotam sua busca pela definição. É para quem precisa de paz mental para dar o último passo na transformação do corpo.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Roxo</strong> é seu aliado para o equilíbrio. Ele atua diretamente na causa da compulsão, usando a Valeriana para acalmar a mente e diminuir a vontade de 'beliscar'. Isso te dá o controle necessário para manter uma dieta limpa e focada na definição, sem a interferência da ansiedade.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você notará uma serenidade maior no seu dia a dia e um controle sobre o apetite que parecia perdido. Isso permitirá que seus esforços na dieta e no treino finalmente apareçam, resultando em um corpo mais definido e uma mente em paz." 
+                explanation: "<strong>Para quem é este plano?</strong> Para você, que sabe que sua maior batalha contra o peso é a mente. Se a ansiedade e a compulsão alimentar ditam suas escolhas, este combo foi desenhado para te devolver o poder.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Roxo</strong> é seu aliado para o equilíbrio. Ele atua diretamente na causa da compulsão, usando a Valeriana para acalmar a mente e diminuir a vontade de 'beliscar'. Em 30 dias, você estabelece uma nova relação com a comida.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você notará uma serenidade maior no seu dia a dia e um controle sobre o apetite que parecia perdido. Isso permitirá que seus esforços na dieta e no treino finalmente apareçam, resultando em um corpo mais definido e uma mente em paz." 
             },
             { 
-                id: 'pn-pot', 
+                id: 'pss-pot', 
                 type: 'potencia',
                 tag: 'PLANO POTÊNCIA', 
                 title: 'Projeto Slim Potência', 
                 duration: 'Mínimo 30 Dias', 
                 products: [{ name: '1 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }], 
-                explanation: "<strong>Para quem é este plano?</strong> Para quem busca resultados rápidos e intensos. Se você sente que seu metabolismo está 'travado' e precisa de um choque de potência para acelerar a queima de gordura e obter a máxima definição.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Black</strong> é a nossa fórmula de impacto. Ele age como um inibidor de apetite extremamente eficaz e um termogênico potente, forçando seu corpo a queimar gordura localizada como fonte primária de energia. É a força máxima para quem tem pressa de ver resultados.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Prepare-se para uma redução drástica do apetite e um aumento notável de energia. Nos primeiros 30 dias, seu corpo passará por uma recalibração metabólica, resultando em uma definição muscular mais rápida e visível."
+                explanation: "<strong>Para quem é este plano?</strong> Para quem busca resultados rápidos e intensos. Se você sente que seu metabolismo está 'travado' e precisa de um choque de potência para acelerar a queima de gordura e obter a máxima definição em um ciclo curto.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Black</strong> é a nossa fórmula de impacto. Ele age como um inibidor de apetite extremamente eficaz e um termogênico potente, forçando seu corpo a queimar gordura localizada como fonte primária de energia. É a força máxima para quem tem pressa de ver resultados.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Prepare-se para uma redução drástica do apetite e um aumento notável de energia. Nos primeiros 30 dias, seu corpo passará por uma recalibração metabólica, resultando em uma perda de peso e definição muscular mais rápida e visível."
             },
             { 
-                id: 'pn-prem', 
+                id: 'pss-prem', 
                 type: 'premium',
                 tag: 'PLANO PREMIUM', 
                 title: 'Projeto Slim Premium', 
                 duration: 'Mínimo 30 Dias', 
                 products: [{ name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }], 
-                explanation: "<strong>Para quem é este plano?</strong> Para a mulher que busca a excelência. Você não quer apenas definir, quer brilhar. Este plano é para quem deseja a máxima performance na queima de gordura enquanto cuida da pele, humor e imunidade.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Gold</strong> é a nossa fórmula mais avançada. Ele trabalha em 3 pilares: queima de gordura acelerada com ativos nobres, equilíbrio do humor com 5-HTP para eliminar a compulsão por doces, e fortalecimento da imunidade e da pele. É um tratamento de beleza e bem-estar de dentro para fora.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Desde o início, você sentirá mais energia e disposição. A vontade por doces diminuirá drasticamente. Com 30 dias, seu corpo não só estará mais definido, mas você se sentirá mais equilibrada, radiante e com a saúde em dia." 
-            }
-        ],
-        'sobrepeso': [
-            { 
-                id: 'sp-eco', 
-                type: 'eco',
-                tag: 'PLANO ECONÔMICO', 
-                title: 'Projeto Slim 60 dias', 
-                duration: 'Mínimo 60 Dias', 
-                products: [{ name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], 
-                explanation: "<strong>Para quem é este plano?</strong> Para quem decidiu dar um basta no sobrepeso e busca um caminho seguro, consistente e com ótimo custo-benefício para reeducar o corpo e a mente.<br><br><strong>A Estratégia:</strong> Um tratamento contínuo de 60 dias com <strong>Slim Super X</strong>. Ele reeduca seu apetite, regula seu intestino e mantém seu metabolismo ativo na queima de gordura. A consistência de 60 dias é a chave para criar novos hábitos e garantir que o peso perdido não volte.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> O primeiro mês trará controle. O segundo trará a transformação. Ao final dos 60 dias, você terá perdido peso de forma visível e, mais importante, terá criado uma nova relação com a comida, sentindo-se no controle." 
-            },
-            { 
-                id: 'sp-ans', 
-                type: 'anxiety',
-                tag: 'PLANO ANSIEDADE', 
-                title: 'Projeto Slim Equilíbrio', 
-                duration: 'Mínimo 60 Dias', 
-                products: [{ name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }], 
-                explanation: "<strong>Para quem é este plano?</strong> Para você, que sabe que a sua maior batalha contra o sobrepeso é a mente. Se a ansiedade e a compulsão ditam suas escolhas, este combo foi desenhado para te devolver o poder.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Roxo</strong> é um especialista. Ele não foca apenas no corpo, mas principalmente na causa emocional do ganho de peso. A Valeriana acalma seus pensamentos, diminuindo o gatilho da ansiedade, enquanto as fibras de alta performance te dão uma sensação de plenitude que te liberta da fome nervosa.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Nos primeiros dias, você sentirá uma calma mental que não sentia há tempos. A necessidade de 'beliscar' desaparecerá. Ao longo dos 60 dias, essa serenidade se torna seu novo normal, e o emagrecimento vira uma consequência natural e pacífica." 
-            },
-            { 
-                id: 'sp-pot', 
-                type: 'potencia',
-                tag: 'PLANO POTÊNCIA', 
-                title: 'Projeto Slim Potência', 
-                duration: 'Mínimo 60 Dias', 
-                products: [{ name: '1 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }], 
-                explanation: "<strong>Para quem é este plano?</strong> Para quem está com sobrepeso e quer uma solução de força-tarefa para reverter o quadro com velocidade e eficiência. Ideal para quem já tentou outras abordagens sem o sucesso desejado.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Black</strong> atua com força total por 60 dias. Sua ação inibidora de apetite é tão intensa que reeduca seu paladar e suas porções à força. Combinado com seu poder termogênico, ele ataca as reservas de gordura de forma contínua, promovendo uma perda de peso acelerada.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação é marcada por uma sensação de controle total sobre a fome. Seu corpo se tornará uma máquina de queimar gordura. Ao final dos 60 dias, a mudança na balança e no espelho será expressiva."
-            },
-            { 
-                id: 'sp-prem', 
-                type: 'premium',
-                tag: 'PLANO PREMIUM', 
-                title: 'Projeto Slim Premium', 
-                duration: 'Mínimo 60 Dias', 
-                products: [{ name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }], 
-                explanation: "<strong>Para quem é este plano?</strong> Para quem está com sobrepeso, mas não aceita nada menos que a solução mais rápida, completa e luxuosa para resolver o problema, cuidando da pele para evitar flacidez.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Gold</strong> é um tratamento 360°. Ele ataca o sobrepeso por todos os ângulos: acelera o metabolismo, equilibra os hormônios do bem-estar para aniquilar a compulsão e ainda nutre sua pele com colágeno para garantir firmeza durante a perda de peso. É a tecnologia da beleza a favor do seu emagrecimento.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação é rápida e prazerosa. Você sentirá mais energia, menos fome e uma melhora visível na qualidade da pele já nas primeiras semanas. Ao final dos 60 dias, a mudança no espelho e na sua disposição será impactante." 
+                explanation: "<strong>Para quem é este plano?</strong> Para quem não aceita nada menos que a solução mais rápida, completa e luxuosa para perder peso, cuidando da pele, humor e imunidade desde o primeiro dia.<br><br><strong>A Estratégia:</strong> O <strong>Guria Shape Gold</strong> é um tratamento 360°. Ele ataca o sobrepeso por todos os ângulos: acelera o metabolismo, equilibra o humor para aniquilar a compulsão e ainda nutre sua pele para garantir firmeza. É a tecnologia da beleza a favor do seu emagrecimento.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Desde o início, você sentirá mais energia e disposição. A vontade por doces diminuirá drasticamente. Com 30 dias, seu corpo não só estará mais magro e definido, mas você se sentirá mais equilibrada, radiante e com a saúde em dia." 
             }
         ],
         'obesidade-grau-i': [
@@ -198,12 +160,12 @@
         ]
     };
 
+    // Updated category display info to reflect 30-day minimum for the first category.
     const categoryDisplayInfo = {
-        'peso-normal': { line1: '🟢 Peso normal 🟢', line2: '🔥 Mínimo 30 dias de Projeto Slim 🔥' },
-        'sobrepeso': { line1: '🟡 Sobrepeso 🟡', line2: '🔥 Mínimo 60 dias de Projeto Slim 🔥' },
-        'obesidade-grau-i': { line1: '🟠 Obesidade Grau 1 🟠', line2: '🔥 Mínimo 60 dias de Projeto Slim 🔥' },
-        'obesidade-grau-ii': { line1: '🔴 Obesidade Grau 2 🔴', line2: '🔥 Mínimo 90 dias de Projeto Slim 🔥' },
-        'obesidade-grau-iii': { line1: '⚫ Obesidade Grau 3 ⚫', line2: '🔥 Mínimo 120 dias de Projeto Slim 🔥' }
+        'peso-saudavel-sobrepeso': { line1: '🟢 Peso Saudável/Sobrepeso 🟢', line2: '🔥 Mínimo 30 dias de Projeto Slim 🔥' },
+        'obesidade-grau-i': { line1: '🟡 Obesidade Grau 1 🟡', line2: '🔥 Mínimo 60 dias de Projeto Slim 🔥' },
+        'obesidade-grau-ii': { line1: '🟠 Obesidade Grau 2 🟠', line2: '🔥 Mínimo 90 dias de Projeto Slim 🔥' },
+        'obesidade-grau-iii': { line1: '🔴 Obesidade Grau 3 🔴', line2: '🔥 Mínimo 120 dias de Projeto Slim 🔥' }
     };
 
     // Simplified combo list creation using the new 'type' property
