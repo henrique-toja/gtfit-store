@@ -46,20 +46,22 @@
 
         // --- FUNÇÕES DE RENDERIZAÇÃO DA VITRINE DE PRODUTOS ---
 
-        // Generates a card for the main showcase rows
-        // ALTERAÇÃO AQUI: Removido o botão "Ver na Loja" e "Detalhes" do card principal
+        // Gera um cartão para as linhas da vitrine principal
+        // REINTRODUZIDO: Botão "Detalhes" no card principal
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-40 cursor-pointer group" data-product-id="${product.id}">
+            <div class="product-card flex-shrink-0 w-40 group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
                     <h3 class="h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center">${product.nome}</h3>
+                    <button class="details-button absolute bottom-0 left-0 right-0 w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-product-id="${product.id}">
+                        Detalhes
+                    </button>
                 </div>
             </div>
         `;
 
-        // Generates a full horizontally scrolling row
+        // Gera uma linha de produtos com rolagem horizontal
         const createProductRow = (categoryInfo) => {
-            // Certifique-se que gabiFitApp.products está disponível
             if (!window.gabiFitApp.products) {
                 console.error('products.js não foi carregado corretamente.');
                 return '';
@@ -75,7 +77,7 @@
             `;
         };
 
-        // Generates the special "Combos" button section
+        // Gera a seção especial de botões "Combos"
         const createCombosSection = () => `
             <section class="mb-10">
                 <h2 class="text-2xl font-bold text-white mb-5">🔥 Combos 🔥</h2>
@@ -85,8 +87,7 @@
             </section>
         `;
 
-        // Generates the detailed product view
-        // Confirmação: Botão "Ver na Loja Oficial" permanece aqui
+        // --- FUNÇÃO DE RENDERIZAÇÃO DA TELA DE DETALHES DO PRODUTO ---
         const renderProductDetailView = (productId) => {
             if (!window.gabiFitApp.products) {
                 console.error('products.js não foi carregado corretamente.');
@@ -95,7 +96,7 @@
             const product = window.gabiFitApp.products.getProductById(productId);
             if (!product) return;
 
-            // Helper to generate accordion items for the detail view
+            // Helper para gerar itens de acordeão para a visualização detalhada
             const generateAccordionItem = (title, content, isOpen = false) => {
                 if (!content || (Array.isArray(content) && content.length === 0)) return '';
                 const contentHTML = Array.isArray(content)
@@ -111,6 +112,10 @@
                     </div>
                 `;
             };
+
+            // Mensagem do WhatsApp personalizada
+            const whatsappMessage = encodeURIComponent(`Olá, vi o produto "${product.nome}" na Vitrine da loja virtual e gostaria de saber mais! Podemos conversar?`);
+            const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
 
             const detailHTML = `
                 <div class="w-full max-w-lg mx-auto animate-fade-in">
@@ -131,8 +136,17 @@
                             ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_imporproductstantes)}
                         </div>
-                        <div class="product-detail-footer">
-                            <a href="${product.link_loja}" target="_blank" class="store-cta-button">Ver na Loja Oficial ✅</a>
+                        <div class="product-detail-footer flex flex-wrap justify-between gap-3 mt-8">
+                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-3 p-4 rounded-xl text-white font-bold text-lg bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                                <img src="/gtfit.png" alt="Logo GTFit" class="h-8 w-auto">
+                                Loja <span class="text-primary-green">✅</span>
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg"></div>
+                            </a>
+
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button flex-1 min-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-3 p-4 rounded-xl text-white font-bold text-lg bg-slate-900 hover:bg-slate-800 transition-colors duration-300 ease-in-out shadow-lg shadow-purple-500/30">
+                                <i class="fab fa-whatsapp text-2xl"></i>
+                                Especialista <span class="text-emerald-200">🧠</span>
+                            </a>
                         </div>
                     </div>
                     <button class="back-button link-button group" data-step="showcase">
@@ -146,8 +160,7 @@
             addBackButtonListener();
         };
 
-        // Renders the main showcase with all product rows
-        // ALTERAÇÃO AQUI: O card inteiro agora leva para a tela de detalhes
+        // Renderiza a vitrine principal com todas as linhas de produtos
         const renderMainShowcase = () => {
             if (!window.gabiFitApp.products) {
                 console.error('products.js não foi carregado corretamente.');
@@ -164,12 +177,25 @@
             `;
             appContainer.innerHTML = showcaseHTML;
 
-            // Add event listeners for product cards (to view details)
-            appContainer.querySelectorAll('.product-card').forEach(card => {
-                card.addEventListener('click', () => renderProductDetailView(card.dataset.productId));
+            // Adiciona listeners de evento para o novo botão "Detalhes"
+            appContainer.querySelectorAll('.product-card .details-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Impede que o clique no botão ative o clique do card inteiro
+                    renderProductDetailView(e.currentTarget.dataset.productId);
+                });
             });
 
-            // Add event listener for the "Combos" button
+            // Permite que o clique no restante do card ainda leve para os detalhes
+            appContainer.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Se o clique não foi no botão de detalhes, abre a view de detalhes
+                    if (!e.target.closest('.details-button')) {
+                         renderProductDetailView(card.dataset.productId);
+                    }
+                });
+            });
+
+            // Adiciona listener de evento para o botão "Combos"
             document.getElementById('show-combos-flow').addEventListener('click', renderComboCategories);
         };
 
