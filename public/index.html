@@ -3,170 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vitrine de Produtos - GTFIT Store</title>
-    <meta name="description" content="Descubra nossa linha completa de emagrecedores, suplementos e combos para sua jornada fitness.">
-    <link rel="icon" href="https://www.gtfit.store/gtfit.png" type="image/jpeg">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q16L0HYBH6"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-Q16L0HYBH6');
-    </script>
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '976087778020420');
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=976087778020420&ev=PageView&noscript=1"
-    /></noscript>
-
-    <style>
-        :root {
-            --primary-purple: #9333ea; /* Cor roxa principal */
-            --primary-green: #22c55e;  /* Cor verde principal */
-        }
-        body {
-            background-color: #0c0a09; /* Fundo escuro */
-            font-family: 'Inter', sans-serif;
-            color: #e5e7eb;
-        }
-        /* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
-        .scrollbar-thin::-webkit-scrollbar {
-            height: 6px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-            background-color: var(--primary-purple);
-            border-radius: 10px;
-            border: 2px solid transparent;
-            background-clip: content-box;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background-color: #a855f7;
-        }
-
-        /* Botão base para produtos e categorias */
-        .link-button {
-            background: linear-gradient(145deg, #1f2937, #111827);
-            border: 1px solid #374151;
-            border-radius: 1rem;
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .link-button:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary-purple);
-            box-shadow: 0 4px 20px -5px rgba(147, 51, 234, 0.4);
-        }
-        .link-button.back-button {
-            margin: 2rem auto 0;
-            max-width: 24rem;
-            padding: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        /* Estilos do card de detalhe (usado para produtos e combos) */
-        .product-card-detail {
-            background: linear-gradient(145deg, #18181b, #111111);
-            border: 1px solid #333;
-            border-radius: 1.5rem;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 50px -15px rgba(192, 132, 252, 0.5), 0 0 15px -5px rgba(34, 197, 94, 0.4);
-        }
-        .product-detail-header { padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid #333; }
-        .product-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
-        .product-accordion-item { border-bottom: 1px solid #333; }
-        .product-accordion-item:last-child { border-bottom: none; }
-        .product-accordion-header {
-            width: 100%; display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem 0.5rem; text-align: left; background: transparent; border: none;
-            color: white; cursor: pointer; font-size: 1rem; font-weight: 600;
-        }
-        .product-accordion-header i { transition: transform 0.3s ease; }
-        .product-accordion-item.open .product-accordion-header i { transform: rotate(180deg); }
-        .product-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.4s ease-out; }
-        .product-accordion-body { padding: 0 0.5rem 1rem 0.5rem; color: #d1d5db; line-height: 1.7; text-align: justify; }
-        .product-detail-footer { padding: 1.5rem; background: #111111; margin-top: auto; border-top: 1px solid #333; }
-
-        /* Botões CTA específicos */
-        .store-cta-button, .whatsapp-cta-button {
-            display: block; text-align: center; padding: 1rem; border-radius: 9999px;
-            font-weight: bold; font-size: 1.125rem; text-decoration: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .store-cta-button {
-            background: linear-gradient(90deg, var(--primary-purple), var(--primary-green)); color: #111;
-        }
-        .store-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px var(--primary-purple); }
-        .whatsapp-cta-button { background-color: #25D366; color: white; }
-        .whatsapp-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px #25D366; }
-
-        /* Animação */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-    </style>
+    <title>GabiFit Suplementos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="flex flex-col items-center min-h-screen p-4">
-    <div class="w-full max-w-4xl mx-auto py-8">
-        <header class="text-center mb-12">
-            <a href="javascript:location.reload();" class="cursor-pointer">
-                <img src="https://www.gtfit.store/gabi-profile2.jpg" alt="Foto de Gabriela Torraca" class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-purple-400 shadow-lg">
-            </a>
-            <h1 class="text-3xl font-extrabold text-white">Nossa Vitrine de Produtos</h1>
-            <p class="text-slate-400 mt-1">🔥 Explore, descubra e transforme-se! 🔥</p>
-        </header>
+<body class="bg-gray-900 text-white font-sans antialiased flex flex-col min-h-screen">
 
-        <main id="app-container" class="w-full"></main>
+    <header class="bg-gray-800 p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold text-purple-400">GabiFit</h1>
+            <nav>
+                </nav>
+        </div>
+    </header>
 
-        <footer class="w-full text-center mt-16 mb-4">
-            <div class="flex justify-center items-center gap-6 mb-6">
-                 <a href="mailto:contato@gabrielatorraca.com.br" target="_blank" class="text-slate-400 hover:text-white"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Email" class="h-7 w-7"></a>
-                <a href="https://www.instagram.com/gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="h-7 w-7"></a>
-                <a href="https://www.tiktok.com/@gabriela.torraca" target="_blank" class="text-slate-400 hover:text-white"><img src="https://www.gtfit.store/tik.png" alt="TikTok" class="h-7 w-7 rounded-full"></a>
-            </div>
-            <p class="text-xs text-slate-500">Copyright &copy; 2025 Gabriela Torraca. Todos os direitos reservados.</p>
-        </footer>
-    </div>
+    <main id="app-container" class="container mx-auto p-6 flex-grow flex items-start justify-center py-10">
+        <p class="text-slate-400 animate-pulse">Carregando produtos...</p>
+    </main>
 
-    <!-- Botão flutuante Gabi GPT (agora é um link externo) -->
-    <div id="chat-widget" class="fixed bottom-10 right-8 z-40 flex items-center gap-3 cursor-pointer transition-all duration-300">
-        <a href="https://gabi-gpt.web.app" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 no-underline">
-            <div class="chat-bubble p-3 rounded-lg max-w-[200px]" style="background-color: #1e293b;">
-                <p class="text-sm text-slate-200">Vem saber seu IMC pra descobrir qual combo é ideal pra você 🥰</p>
-            </div>
-            <div class="relative">
-                <img src="https://www.gtfit.store/gabi-profile.jpg" alt="Assistente Gabi" class="w-16 h-16 rounded-full border-2 border-purple-400" style="animation: pulse 2s infinite;">
-                <div class="absolute bottom-1 right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-stone-900"></div>
-            </div>
-        </a>
-    </div>
-    <script src="products.js" defer></script>
-    <script src="combos.js" defer></script>
-    <script src="main.js" defer></script>
+    <footer class="bg-gray-800 p-4 text-center text-slate-400 text-sm mt-auto">
+        <div class="container mx-auto">
+            <p>&copy; 2024 GabiFit. Todos os direitos reservados.</p>
+            <p class="mt-2">Desenvolvido com <i class="fas fa-heart text-red-500"></i> para sua saúde e bem-estar.</p>
+        </div>
+    </footer>
+
+    <script src="products.js"></script>
+    <script src="combos.js"></script>
+    <script src="main.js"></script>
+
+    <script>
+        // Inicializa a aplicação quando o DOM estiver completamente carregado
+        document.addEventListener('DOMContentLoaded', () => {
+            const appContainer = document.getElementById('app-container');
+            if (window.gabiFitApp && window.gabiFitApp.initializeProductShowcase) {
+                window.gabiFitApp.initializeProductShowcase(appContainer);
+            } else {
+                console.error('Erro: gabiFitApp ou initializeProductShowcase não estão definidos.');
+                appContainer.innerHTML = '<p class="text-red-500">Erro ao carregar a aplicação. Por favor, tente novamente.</p>';
+            }
+        });
+    </script>
 </body>
 </html>
