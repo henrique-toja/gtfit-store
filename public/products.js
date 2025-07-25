@@ -1,7 +1,6 @@
-
-// products.js (Atualizado)
+// products.js
 (function() {
-    // Manter a fonte de dados dos produtos
+    // Keep the original product data source
     const domain = 'https://www.gtfit.store';
     const produtos = [
         {
@@ -213,17 +212,20 @@
         }
     ];
 
+    // Namespace for the app
     window.gabiFitApp = window.gabiFitApp || {};
-    let appContainer; 
+    let appContainer; // To store the reference to the main container
 
+    // --- NEW CATEGORY DEFINITIONS AND ORDER ---
     const productCategories = {
         emagrecedores: { title: '💊 Emagrecedores 💊', ids: [1, 2, 3, 4, 5, 7, 6] },
         essenciais: { title: '💪🏼 Suplementos Essenciais 💪🏼', ids: [8, 9, 10, 11, 12] },
         uteis: { title: '⚡ Suplementos Úteis ⚡', ids: [13, 14, 15, 16, 17] },
     };
 
-    // --- GERADORES DE TEMPLATE HTML ---
+    // --- HTML TEMPLATE GENERATORS ---
 
+    // Generates a card for the main showcase rows
     const createProductCard = (product) => `
         <div class="product-card flex-shrink-0 w-40 cursor-pointer group" data-product-id="${product.id}">
             <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
@@ -233,14 +235,14 @@
         </div>
     `;
     
-    // ATUALIZADO: Título centralizado e margem inferior aumentada
+    // Generates a full horizontally scrolling row
     const createProductRow = (category) => {
         const productMap = new Map(produtos.map(p => [p.id, p]));
-        const categoryProducts = category.ids.map(id => productMap.get(id)).filter(Boolean);
+        const categoryProducts = category.ids.map(id => productMap.get(id)).filter(Boolean); // .filter(Boolean) removes undefined if an id is not found
 
         return `
-            <section class="mb-16">
-                <h2 class="text-2xl font-bold text-white mb-6 text-center">${category.title}</h2>
+            <section class="mb-10">
+                <h2 class="text-2xl font-bold text-white mb-5">${category.title}</h2>
                 <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
                     ${categoryProducts.map(createProductCard).join('')}
                 </div>
@@ -248,42 +250,45 @@
         `;
     };
 
-    // ATUALIZADO: Agora cria a seção com as 4 categorias de combos
-    const createCombosSection = () => {
-        // Acessa as informações de categoria do combos.js (que serão expostas no namespace)
-        const comboCategoriesInfo = window.gabiFitApp.comboCategories || {};
+    // Generates the special "Combos" button section
+    const createCombosSection = () => `
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-white mb-5">🔥 Combos 🔥</h2>
+            <button id="show-combos-flow" class="w-full p-6 rounded-2xl text-white font-bold text-xl bg-gradient-to-r from-purple-600 to-green-500 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 ease-in-out">
+                Encontre o Combo Ideal para Você!
+            </button>
+        </section>
+    `;
 
-        return `
-            <section class="mb-16">
-                <h2 class="text-2xl font-bold text-white mb-6 text-center">🔥 Nossos Combos 🔥</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    ${Object.entries(comboCategoriesInfo).map(([key, info]) => `
-                        <button data-category-key="${key}" class="combo-category-start-btn link-button group w-full p-4 h-auto">
-                            <div class="text-center">
-                                <p class="font-semibold text-slate-100 group-hover:text-white text-lg">${info.line1}</p>
-                                <p class="text-sm font-medium text-primary-green group-hover:text-emerald-300">${info.line2}</p>
-                            </div>
-                        </button>
-                    `).join('')}
-                </div>
-            </section>
-        `;
-    };
-
+    // Generates the detailed product view
     const renderProductDetailView = (productId) => {
         const product = produtos.find(p => p.id === parseInt(productId));
         if (!product) return;
 
+        // Helper to generate accordion items for the detail view
         const generateAccordionItem = (title, content, isOpen = false) => {
             if (!content || (Array.isArray(content) && content.length === 0)) return '';
-            const contentHTML = Array.isArray(content) ? `<ul class="space-y-3">${content.map(item => `<li class="flex items-start gap-3"><span class="text-primary-green mt-1.5 flex-shrink-0">✓</span><span>${item}</span></li>`).join('')}</ul>` : `<p>${content}</p>`;
-            return `<div class="product-accordion-item ${isOpen ? 'open' : ''}"><button class="product-accordion-header"><span>${title}</span><i class="fas fa-chevron-down text-purple-400"></i></button><div class="product-accordion-content"><div class="product-accordion-body">${contentHTML}</div></div></div>`;
+            const contentHTML = Array.isArray(content)
+                ? `<ul class="space-y-3">${content.map(item => `<li class="flex items-start gap-3"><span class="text-primary-green mt-1.5 flex-shrink-0">✓</span><span>${item}</span></li>`).join('')}</ul>`
+                : `<p>${content}</p>`;
+            return `
+                <div class="product-accordion-item ${isOpen ? 'open' : ''}">
+                    <button class="product-accordion-header">
+                        <span>${title}</span>
+                        <i class="fas fa-chevron-down text-purple-400"></i>
+                    </button>
+                    <div class="product-accordion-content"><div class="product-accordion-body">${contentHTML}</div></div>
+                </div>
+            `;
         };
         
         const detailHTML = `
             <div class="w-full max-w-lg mx-auto animate-fade-in">
                 <div class="product-card-detail">
-                    <div class="product-detail-header"><img src="${domain}${product.imagem}" alt="${product.nome}" class="w-32 h-32 object-contain rounded-full mx-auto mb-5 border-4 border-purple-400/50 shadow-lg shadow-purple-500/20"><h2 class="text-3xl font-extrabold text-white tracking-tight">${product.nome}</h2></div>
+                    <div class="product-detail-header">
+                        <img src="${domain}${product.imagem}" alt="${product.nome}" class="w-32 h-32 object-contain rounded-full mx-auto mb-5 border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">
+                        <h2 class="text-3xl font-extrabold text-white tracking-tight">${product.nome}</h2>
+                    </div>
                     <div class="product-accordion-container">
                         ${generateAccordionItem('✨ Para que serve?', product.resultado_combinacao, true)}
                         ${generateAccordionItem('💊 Composição', product.composicao)}
@@ -296,25 +301,40 @@
                         ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
                         ${generateAccordionItem('💡 Dicas Importantes', product.dicas_importantes)}
                     </div>
-                    <div class="product-detail-footer"><a href="${product.link_loja}" target="_blank" class="store-cta-button">Ver na Loja Oficial ✅</a></div>
+                    <div class="product-detail-footer">
+                        <a href="${product.link_loja}" target="_blank" class="store-cta-button">Ver na Loja Oficial ✅</a>
+                    </div>
                 </div>
-                <button id="back-to-showcase" class="link-button back-button"><span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span></button>
+                <button id="back-to-showcase" class="link-button group flex items-center justify-center gap-4 w-full max-w-sm p-3 mt-8 mx-auto">
+                    <span class="font-semibold text-center text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
+                </button>
             </div>
         `;
         
         appContainer.innerHTML = detailHTML;
         
+        // Add event listeners for the accordion
         document.querySelectorAll('.product-accordion-item').forEach(item => {
             const header = item.querySelector('.product-accordion-header');
             const content = item.querySelector('.product-accordion-content');
-            const toggle = () => { item.classList.toggle('open'); content.style.maxHeight = item.classList.contains('open') ? `${content.scrollHeight}px` : '0px'; };
+            const toggle = () => {
+                item.classList.toggle('open');
+                content.style.maxHeight = item.classList.contains('open') ? `${content.scrollHeight}px` : '0px';
+            };
             header.addEventListener('click', toggle);
-            if (item.classList.contains('open')) { setTimeout(() => { content.style.maxHeight = `${content.scrollHeight}px`; }, 10); }
+            if (item.classList.contains('open')) {
+                // Set initial height for pre-opened items
+                setTimeout(() => { content.style.maxHeight = `${content.scrollHeight}px`; }, 10);
+            }
         });
 
         document.getElementById('back-to-showcase').addEventListener('click', renderMainShowcase);
     };
 
+
+    // --- MAIN RENDERER FUNCTIONS ---
+
+    // Renders the main showcase with all product rows
     const renderMainShowcase = () => {
         const showcaseHTML = `
             <div class="animate-fade-in">
@@ -326,19 +346,28 @@
         `;
         appContainer.innerHTML = showcaseHTML;
 
+        // Add event listeners
         appContainer.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', () => renderProductDetailView(card.dataset.productId));
         });
 
+        // The main controller (gabigpt.js) will handle the listener for #show-combos-flow
+        // We dispatch a custom event to notify the controller that the button is ready.
         appContainer.dispatchEvent(new CustomEvent('showcaseRendered'));
     };
     
+    // --- INITIALIZATION ---
+
+    // Public function to initialize the showcase
     gabiFitApp.initializeProductShowcase = (containerElement) => {
         appContainer = containerElement;
         renderMainShowcase();
     };
 
+    // Public function to re-render the showcase (used by combos.js to navigate back)
     gabiFitApp.showMainShowcase = () => {
-        if (appContainer) { renderMainShowcase(); }
+        if (appContainer) {
+            renderMainShowcase();
+        }
     };
 })();
