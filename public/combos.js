@@ -2,7 +2,6 @@
 (function() {
     // Namespace da aplicação
     window.gabiFitApp = window.gabiFitApp || {};
-    let appContainer; // Referência ao container principal da aplicação
 
     const domain = 'https://www.gtfit.store';
 
@@ -27,7 +26,7 @@
             { id: 'o2-prem', type: 'premium', tag: 'PLANO PREMIUM', title: 'Projeto Slim Premium', duration: 'Mínimo 90 Dias', products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca uma transformação corporal completa e definitiva para sair da obesidade grau II, com o melhor que a tecnologia pode oferecer, cuidando da saúde de forma integral.<br><br><strong>A Estratégia:</strong> A Tríade de Ouro. <strong>Detox</strong> reseta, <strong>Gold</strong> trata e acelera, e <strong>Slim Super X</strong> mantém e define. Essa sequência garante que seu corpo receba os estímulos certos na hora certa, evitando platôs e garantindo um emagrecimento saudável, com cuidado para a pele e o bem-estar.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Será uma jornada de redescoberta. Seu corpo se sentirá mais leve, sua mente mais equilibrada e sua energia renovada. A perda de peso será uma consequência visível de um corpo que voltou a funcionar em harmonia." }
         ],
         'obesidade-grau-iii': [
-            { id: 'o3-eco', type: 'eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 120 dias', duration: 'Mínimo 120 Dias', products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem enfrenta a obesidade severa e precisa de um plano de longo prazo, focado na consistência e na reeducação alimentar para uma mudança de vida definitiva.<br><br><strong>A Estratégia:</strong> Uma fundação sólida para a mudança. O <strong>Detox</strong> inicia o processo, limpando o organismo. Em seguida, um tratamento estendido com <strong>2 potes de Slim Super X</strong> garante a reeducação do apetite e a queima de gordura contínua por um período longo o suficiente para transformar hábitos e o corpo de forma segura e eficaz.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> É uma maratona, não um tiro. A adaptação será gradual, ensinando seu corpo e mente a trabalharem juntos. A perda de peso será constante e, ao final de 120 dias, você terá construído a base para uma vida nova e mais leve." },
+            { id: 'o3-eco', type: 'eco', tag: 'PLANO ECONÔMICO', title: 'Projeto Slim 120 dias', duration: 'Mínimo 120 Dias', products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '2 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem enfrenta a obesidade severa e precisa de um plano de longo prazo, econômico e multifacetado para garantir resultados sólidos e consistentes.<br><br><strong>A Estratégia:</strong> Uma fundação sólida para a mudança. O <strong>Detox</strong> inicia o processo, limpando o organismo. Em seguida, um tratamento estendido com <strong>2 potes de Slim Super X</strong> garante a reeducação do apetite e a queima de gordura contínua por um período longo o suficiente para transformar hábitos e o corpo de forma segura e eficaz.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> É uma maratona, não um tiro. A adaptação será gradual, ensinando seu corpo e mente a trabalharem juntos. A perda de peso será constante e, ao final de 120 dias, você terá construído a base para uma vida nova e mais leve." },
             { id: 'o3-ans', type: 'anxiety', tag: 'PLANO ANSIEDADE', title: 'Projeto Slim Equilíbrio', duration: 'Mínimo 120 Dias', products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Roxo', img: `${domain}/assets/produtos/roxo.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para a guerreira que enfrenta a obesidade severa e a ansiedade, e busca um caminho de longo prazo que respeite seu tempo e sua saúde mental para uma vitória definitiva.<br><br><strong>A Estratégia:</strong> É a jornada mais completa que oferecemos para o controle da ansiedade. Um <strong>Detox</strong> inicial, seguido por um período com o <strong>Guria Shape Roxo</strong> para criar uma base sólida de controle mental, e finalizado com o <strong>Slim Super X</strong> para garantir a continuidade da queima de gordura. É a estratégia da paciência e consistência.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Será uma transformação gradual e profunda. Você reaprenderá a lidar com a comida e com suas emoções. A perda de peso será constante, e ao final, você não terá apenas um novo corpo, mas uma nova mentalidade." },
             { id: 'o3-pot', type: 'potencia', tag: 'PLANO POTÊNCIA', title: 'Projeto Slim Potência', duration: 'Mínimo 120 Dias', products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Black', img: `${domain}/assets/produtos/black.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem está no campo de batalha final contra a obesidade e precisa da artilharia mais pesada, combinada de forma inteligente para garantir a vitória sem tréguas.<br><br><strong>A Estratégia:</strong> Artilharia pesada e contínua. O <strong>Detox</strong> prepara seu corpo para a ofensiva. O <strong>Guria Shape Black</strong> entra para aniquilar a fome e forçar o metabolismo a uma queima de gordura extrema. O <strong>Slim Super X</strong> completa o ciclo, garantindo que o processo de emagrecimento continue forte e sem interrupções. É o plano para quem não tem mais tempo a perder.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> A adaptação será intensa. A fome praticamente desaparecerá, e seu corpo entrará em modo de queima acelerada. É um plano que exige determinação, mas que entrega os resultados mais expressivos e rápidos possíveis para este quadro." },
             { id: 'o3-prem', type: 'premium', tag: 'PLANO PREMIUM', title: 'Projeto Slim Premium', duration: 'Mínimo 120 Dias', products: [{ name: '1 Guria Shape Detox', img: `${domain}/assets/produtos/detox.png` }, { name: '1 Guria Shape Gold', img: `${domain}/assets/produtos/gold.png` }, { name: '1 Slim Super X', img: `${domain}/assets/produtos/slimx.png` }], explanation: "<strong>Para quem é este plano?</strong> Para quem busca a rota mais segura, saudável e tecnologicamente avançada para reverter um quadro de obesidade severa, restaurando a saúde por completo.<br><br><strong>A Estratégia:</strong> O Cuidado Definitivo. A jornada começa com o <strong>Detox</strong>, evolui para o tratamento integral do <strong>Guria Shape Gold</strong>, que cuida do seu bem-estar geral, e se consolida com a força contínua do <strong>Slim Super X</strong>. Este plano não apenas emagrece, ele restaura a saúde do seu corpo em todos os níveis, da pele ao humor.<br><br><strong>Sua Adaptação ao Longo do Projeto:</strong> Você verá seu corpo se transformar e sua saúde florescer. A energia aumentará, a pele ganhará viço, e o emagrecimento será uma consequência de um organismo que está sendo nutrido e cuidado da forma correta. É a sua jornada de renascimento." }
@@ -40,167 +39,21 @@
         'obesidade-grau-ii': { line1: '🟠 Obesidade Grau 2 🟠', line2: '🔥 Mínimo 90 dias de Projeto Slim 🔥' },
         'obesidade-grau-iii': { line1: '🔴 Obesidade Grau 3 🔴', line2: '🔥 Mínimo 120 dias de Projeto Slim 🔥' }
     };
-    
-    // --- FUNÇÕES DE RENDERIZAÇÃO ---
 
-    // Etapa 3: Exibe os detalhes finais de um combo específico
-    const renderComboDetail = (comboId, originatingCategoryKey) => {
-        const combo = combosData[originatingCategoryKey].find(c => c.id === comboId);
-        if (!combo) return;
+    // Public API for combos.js
+    window.gabiFitApp.combos = {
+        data: combosData,
+        categoryDisplayInfo: categoryDisplayInfo,
 
-        const message = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}".`);
-        const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
+        // Method to get a combo by ID and category
+        getComboById: (comboId, categoryKey) => {
+            if (!combosData[categoryKey]) return null;
+            return combosData[categoryKey].find(c => c.id === comboId);
+        },
 
-        const detailHTML = `
-            <div class="w-full max-w-lg mx-auto animate-fade-in">
-                <div class="product-card-detail">
-                    <div class="product-detail-header">
-                        <div class="flex justify-center items-center flex-wrap gap-x-3 gap-y-3 mb-5">
-                            ${combo.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-purple-400/50">`).join('')}
-                        </div>
-                        <h2 class="text-3xl font-extrabold text-white tracking-tight">${combo.title}</h2>
-                        <p class="text-primary-green font-semibold mt-2 flex items-center justify-center gap-2">
-                            <i class="far fa-clock"></i>
-                            <span>${combo.duration} de Tratamento</span>
-                        </p>
-                    </div>
-                    <div class="product-accordion-container">
-                        <div class="product-accordion-item open">
-                            <button class="product-accordion-header"><span>🤔 Por que este combo é ideal para você?</span><i class="fas fa-chevron-down text-purple-400"></i></button>
-                            <div class="product-accordion-content"><div class="product-accordion-body">${combo.explanation}</div></div>
-                        </div>
-                         <div class="product-accordion-item">
-                            <button class="product-accordion-header"><span>📦 Produtos Inclusos</span><i class="fas fa-chevron-down text-purple-400"></i></button>
-                            <div class="product-accordion-content">
-                                <div class="product-accordion-body">
-                                    <ul class="space-y-3">
-                                        ${combo.products.map(p => `
-                                            <li class="flex items-center gap-4 bg-slate-800/50 p-3 rounded-xl">
-                                                <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-purple-400/40 flex-shrink-0" alt="${p.name}">
-                                                <span class="font-semibold text-slate-200">${p.name}</span>
-                                            </li>
-                                        `).join('')}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-detail-footer">
-                        <a href="${whatsappUrl}" target="_blank" class="whatsapp-cta-button">🧠 Fazer planejamento com Especialista 🧠</a>
-                    </div>
-                </div>
-                <button class="back-button link-button group" data-step="subcategories" data-category="${originatingCategoryKey}">
-                    <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar</span>
-                </button>
-            </div>`;
-        
-        appContainer.innerHTML = detailHTML;
-        addAccordionListeners();
-        addBackButtonListener();
+        // Method to get subcategories for a given category key
+        getCombosSubcategories: (categoryKey) => {
+            return combosData[categoryKey];
+        },
     };
-
-    // Etapa 2: Exibe as subcategorias de um combo (Econômico, Ansiedade, etc.)
-    const renderComboSubcategories = (categoryKey) => {
-        const subcategories = combosData[categoryKey];
-        const subcategoryButtons = [
-            { type: 'eco', text: '😅 Combo Econômico 😅' },
-            { type: 'anxiety', text: '🥵 Combo Ansiedade 🥵' },
-            { type: 'potencia', text: '💪 Combo Potência 💪' },
-            { type: 'premium', text: '🤑 Combo Premium 🤑' }
-        ];
-
-        const subcategoriesHTML = `
-            <div class="w-full max-w-md mx-auto flex flex-col items-center gap-5 animate-fade-in">
-                <h2 class="text-2xl font-bold text-white text-center mb-3">Escolha o tipo de plano:</h2>
-                ${subcategoryButtons.map(btn => {
-                    const combo = subcategories.find(c => c.type === btn.type);
-                    return combo ? `<button class="link-button group w-full p-4 h-16 flex justify-center items-center combo-subcategory-btn" data-combo-id="${combo.id}" data-category="${categoryKey}"><span class="font-semibold text-slate-200 group-hover:text-white">${btn.text}</span></button>` : '';
-                }).join('')}
-                <button class="back-button link-button group mt-3" data-step="categories">
-                    <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar</span>
-                </button>
-            </div>`;
-        
-        appContainer.innerHTML = subcategoriesHTML;
-        
-        appContainer.querySelectorAll('.combo-subcategory-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const comboId = e.currentTarget.dataset.comboId;
-                const category = e.currentTarget.dataset.category;
-                renderComboDetail(comboId, category);
-            });
-        });
-        addBackButtonListener();
-    };
-
-    // Etapa 1: Exibe as categorias principais de combos (níveis de obesidade)
-    const renderComboCategories = () => {
-        const categoriesHTML = `
-            <div class="w-full max-w-md mx-auto flex flex-col items-center gap-5 animate-fade-in">
-                <h2 class="text-2xl font-bold text-white text-center mb-3">Primeiro, selecione seu perfil atual:</h2>
-                ${Object.entries(categoryDisplayInfo).map(([key, info]) => `
-                    <button data-category-key="${key}" class="combo-category-btn link-button group w-full p-4 h-auto">
-                        <div class="text-center">
-                            <p class="font-semibold text-slate-100 group-hover:text-white text-lg">${info.line1}</p>
-                            <p class="text-sm font-medium text-primary-green group-hover:text-emerald-300">${info.line2}</p>
-                        </div>
-                    </button>
-                `).join('')}
-                <button class="back-button link-button group mt-3" data-step="showcase">
-                    <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
-                </button>
-            </div>
-        `;
-        appContainer.innerHTML = categoriesHTML;
-
-        appContainer.querySelectorAll('.combo-category-btn').forEach(button => {
-            button.addEventListener('click', (e) => renderComboSubcategories(e.currentTarget.dataset.categoryKey));
-        });
-        addBackButtonListener();
-    };
-    
-    // --- FUNÇÕES AUXILIARES E DE EVENTOS ---
-
-    // Adiciona funcionalidade aos botões de "voltar"
-    const addBackButtonListener = () => {
-        const backButton = appContainer.querySelector('.back-button');
-        if (backButton) {
-            backButton.addEventListener('click', (e) => {
-                const step = e.currentTarget.dataset.step;
-                const category = e.currentTarget.dataset.category;
-                if (step === 'showcase') {
-                    window.gabiFitApp.showMainShowcase();
-                } else if (step === 'categories') {
-                    renderComboCategories();
-                } else if (step === 'subcategories') {
-                    renderComboSubcategories(category);
-                }
-            });
-        }
-    };
-
-    // Adiciona funcionalidade de abrir/fechar ao acordeão
-    const addAccordionListeners = () => {
-        document.querySelectorAll('.product-accordion-item').forEach(item => {
-            const header = item.querySelector('.product-accordion-header');
-            const content = item.querySelector('.product-accordion-content');
-            const toggle = () => {
-                item.classList.toggle('open');
-                content.style.maxHeight = item.classList.contains('open') ? `${content.scrollHeight}px` : '0px';
-            };
-            header.addEventListener('click', toggle);
-            if (item.classList.contains('open')) {
-                setTimeout(() => { content.style.maxHeight = `${content.scrollHeight}px`; }, 10);
-            }
-        });
-    };
-
-    // --- FUNÇÃO DE INICIALIZAÇÃO ---
-
-    // Ponto de entrada público para iniciar o fluxo de combos
-    window.gabiFitApp.initializeComboFlow = (containerElement) => {
-        appContainer = containerElement;
-        renderComboCategories();
-    };
-
 })();
