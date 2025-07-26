@@ -1,33 +1,80 @@
-/* base.css */
-
-/* Nenhuma alteração necessária aqui, as classes de tamanho são do Tailwind e serão aplicadas via JS. */
+/* base.css - REVOLUÇÃO VISUAL by Gemini (v1.4 - Fonte Moderna Aplicada) */
 
 :root {
-    --primary-purple: #9333ea; /* Cor roxa principal */
-    --primary-green: #22c55e;  /* Cor verde principal */
+    --primary-purple: #9333ea;
+    --primary-green: #22c55e;
+    /* RESTAURADO: Cor de fundo original para manter a consistência da marca. */
+    --black-background: #0c0a09; 
+    --text-primary: #f0f2f5;
+    --text-secondary: #a1a1aa;
+    --card-background: rgba(24, 24, 27, 0.5); /* Zinco 900 com transparência */
+    --card-border: rgba(168, 85, 247, 0.2);
+    --card-hover-border: rgba(168, 85, 247, 0.5);
+    --font-sans: 'Roboto', sans-serif; /* FONTE ATUALIZADA: Roboto para um visual mais moderno e limpo */
+    --font-serif: 'Playfair Display', serif; /* Fonte elegante para títulos */
 }
+
 body {
-    background-color: #0c0a09; /* Fundo escuro */
-    font-family: 'Inter', sans-serif;
-    color: #e5e7eb;
+    background-color: var(--black-background);
+    /* AJUSTADO: O brilho roxo agora é mais sutil para um efeito mais elegante. */
+    background-image: radial-gradient(circle at 15% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 35%),
+                      radial-gradient(circle at 85% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 40%);
+    background-attachment: fixed;
+    font-family: var(--font-sans);
+    color: var(--text-primary);
 }
-/* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
-.scrollbar-thin::-webkit-scrollbar {
-    height: 6px;
+
+/* --- ESTILOS GERAIS E TIPOGRAFIA --- */
+
+/* Sobrescrevendo os títulos h1 e h2 para usar a nova fonte serifada */
+h1.text-3xl, h2.text-2xl {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
 }
-.scrollbar-thin::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+
+/* --- ANIMAÇÕES E TRANSIÇÕES DE PÁGINA --- */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOutDown { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(20px); } }
+
+.view-enter { animation: fadeInUp 0.6s 0.2s ease-out forwards; opacity: 0; }
+.view-exit { animation: fadeOutDown 0.3s ease-in forwards; }
+
+/* --- NOVOS CARDS DA VITRINE --- */
+.showcase-card {
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease-out;
 }
-.scrollbar-thin::-webkit-scrollbar-thumb {
+.showcase-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--card-hover-border);
+    box-shadow: 0 10px 30px -15px rgba(147, 51, 234, 0.25);
+}
+
+.showcase-card-button {
     background-color: var(--primary-purple);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: content-box;
+    transition: background-color 0.3s ease;
 }
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background-color: #a855f7;
+.showcase-card:hover .showcase-card-button {
+    background-color: #a855f7; /* Roxo mais claro no hover do card */
 }
+
+/* Estilo da barra de rolagem (mantido do original, pois é bom) */
+.scrollbar-thin::-webkit-scrollbar { height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--primary-purple); border-radius: 10px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background-color: #a855f7; }
+
+/* Animação original do pulse para o widget do chat (mantida, mas não para o chat integrado) */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(147, 51, 234, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0); }
+}
+
+/* --- ESTILOS RESTAURADOS PARA DETALHE DE PRODUTO/COMBO --- */
 
 /* Botão base para produtos e categorias */
 .link-button {
@@ -78,22 +125,19 @@ body {
 .product-detail-footer { padding: 1.5rem; background: #111111; margin-top: auto; border-top: 1px solid #333; }
 
 /* Botões CTA específicos */
-.store-cta-button, .whatsapp-cta-button {
-    display: block; text-align: center; padding: 1rem; border-radius: 9999px;
-    font-weight: bold; font-size: 1.125rem; text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* Modificado para serem full-width e manter o estilo visual da nova vitrine */
+.store-cta-button-full, .specialist-cta-button-full {
+    display: block; text-align: center; padding: 1rem; border-radius: 0.75rem; /* rounded-xl */
+    font-weight: bold; font-size: 1rem; text-decoration: none;
+    transition: transform 0.2s ease, filter 0.2s ease, border-color 0.3s ease;
+    cursor: pointer;
 }
-.store-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px var(--primary-purple); }
-.whatsapp-cta-button { background-color: #25D366; color: white; }
-.whatsapp-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px #25D366; }
+.store-cta-button-full { background-color: #111; color: white; border: 1px solid rgba(147, 51, 234, 0.3); }
+.store-cta-button-full:hover { transform: translateY(-2px); filter: brightness(1.15); border-color: var(--primary-purple); }
 
-/* Animação */
+.specialist-cta-button-full { background-color: #111; color: white; border: 1px solid rgba(34, 197, 94, 0.3); }
+.specialist-cta-button-full:hover { transform: translateY(-2px); filter: brightness(1.15); border-color: var(--primary-green); }
+
+/* Animação para o card de detalhes */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-
-/* Animação para o chat bubble */
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(147, 51, 234, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0); }
-}
