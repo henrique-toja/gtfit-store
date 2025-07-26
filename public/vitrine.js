@@ -8,6 +8,15 @@
         let appContainer; // Referência ao container principal da aplicação
         const domain = 'https://www.gtfit.store'; // Base domain para imagens
 
+        // Mapeamento de categorias de combo para as novas imagens
+        // AS CHAVES FORAM ATUALIZADAS PARA BATER COM AS CHAVES DO combos.js
+        const categoryImages = {
+            'obesidade-grau-iii': `${domain}/assets/images/grau3.jpg`, // Antes: obesidade-grau-3
+            'obesidade-grau-ii': `${domain}/assets/images/grau2.jpg`,  // Antes: obesidade-grau-2
+            'obesidade-grau-i': `${domain}/assets/images/grau1.jpg`,   // Antes: obesidade-grau-1
+            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.jpg` // Antes: sobrepeso-peso-normal
+        };
+
         // --- FUNÇÕES AUXILIARES GLOBAIS (AGORA LOCAIS À Vitrine) ---
 
         // Adiciona funcionalidade de abrir/fechar ao acordeão
