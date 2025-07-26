@@ -1,11 +1,10 @@
-// products.js
 (function() {
     // Keep the original product data source
     const domain = 'https://www.gtfit.store';
     const produtosData = [
         {
             "id": 1,
-            "nome": "🟢 SLIM SUPER X 🟢",
+            "nome": "SLIM SUPER X",
             "categoria": "Emagrecedores",
             "imagem": "/assets/produtos/slimx.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/slim-super-x",
@@ -17,7 +16,7 @@
         },
         {
             "id": 2,
-            "nome": "🟢 GURIA SHAPE DETOX 🟢",
+            "nome": "GURIA SHAPE DETOX",
             "categoria": "Emagrecedores",
             "imagem": "/assets/produtos/detox.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/guria-shape-detox",
@@ -29,7 +28,7 @@
         },
         {
             "id": 3,
-            "nome": "🟣 GURIA SHAPE ROXO 🟣",
+            "nome": "GURIA SHAPE ROXO",
             "categoria": "Emagrecedores",
             "imagem": "/assets/produtos/roxo.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/guria-shape",
@@ -41,7 +40,7 @@
         },
         {
             "id": 4,
-            "nome": "⚫ GURIA SHAPE BLACK ⚫",
+            "nome": "GURIA SHAPE BLACK",
             "categoria": "Emagrecedores",
             "imagem": "/assets/produtos/black.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/guria-shape-black",
@@ -53,7 +52,7 @@
         },
         {
             "id": 5,
-            "nome": "🟡 GURIA SHAPE GOLD 🟡",
+            "nome": "GURIA SHAPE GOLD",
             "categoria": "Emagrecedores",
             "imagem": "/assets/produtos/gold.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/shape-xtreme",
@@ -66,7 +65,7 @@
         },
         {
             "id": 6,
-            "nome": "💪🏼 SHAPE XTREME BLACK MASCULINO 💪🏼",
+            "nome": "SHAPE XTREME BLACK MASCULINO",
             "categoria": "Emagrecedores",
             "imagem": "/assets/produtos/xtreme.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/shape-xtreme-black",
@@ -78,7 +77,7 @@
         },
         {
             "id": 7,
-            "nome": "💧 GURIA SHAPE DETOX GOTAS 💧",
+            "nome": "GURIA SHAPE DETOX GOTAS",
             "categoria": "Emagrecedores",
             "imagem": "/assets/produtos/gotas.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/guria-shape-em-gotas",
@@ -90,7 +89,7 @@
         },
         {
             "id": 8,
-            "nome": "🍓 WHEY PROTEIN GURIA SHAPE 🍓",
+            "nome": "WHEY PROTEIN GURIA SHAPE",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/whey.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/whey-proteina",
@@ -103,7 +102,7 @@
         },
         {
             "id": 9,
-            "nome": "💥 CREATINA GURIA SHAPE 💥",
+            "nome": "CREATINA GURIA SHAPE",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/creatina.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/creatina",
@@ -116,7 +115,7 @@
         },
         {
             "id": 10,
-            "nome": "⚡ GURIA SHAPE ENERGIA COFFE ⚡",
+            "nome": "GURIA SHAPE ENERGIA COFFE",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/coffe.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/estimulantes/guria-shape-coffee",
@@ -128,7 +127,7 @@
         },
         {
             "id": 11,
-            "nome": "🍦 SHAKE SABOR BAUNILHA 🍦",
+            "nome": "SHAKE SABOR BAUNILHA",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/shakebaunilia.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/estimulantes/shake-guria-shape-baunilha",
@@ -140,7 +139,7 @@
         },
         {
             "id": 12,
-            "nome": "🍌 SHAKE SABOR BANANA 🍌",
+            "nome": "SHAKE SABOR BANANA",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/shakebanana.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/estimulantes/shake-guria-shape-banana",
@@ -152,7 +151,7 @@
         },
         {
             "id": 13,
-            "nome": "🌙 MELATONINA – FILME 🌙",
+            "nome": "MELATONINA – FILME",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/melatonina.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/estimulantes/melatonina-fio",
@@ -164,7 +163,7 @@
         },
         {
             "id": 14,
-            "nome": "🌙 GURIA SHAPE SLEEP – GOTAS 🌙",
+            "nome": "GURIA SHAPE SLEEP – GOTAS",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/sleep.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/sleep-gotas",
@@ -176,7 +175,7 @@
         },
         {
             "id": 15,
-            "nome": "🤍 GURIA SHAPE MELASM 🤍",
+            "nome": "GURIA SHAPE MELASM",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/melasm.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/guria-shape-melasm",
@@ -184,11 +183,11 @@
             "resultado_combinacao": "Clareamento gradual, seguro e eficaz das manchas de melasma, acne e sol. Atua no controle da melanina, melhora firmeza e viço da pele, combate inflamações e regula hormônios, sem ácidos agressivos.",
             "modo_uso": "Frasco com 60 cápsulas para 30 dias. Tomar 2 cápsulas ao dia, preferencialmente após o café da manhã. Uso contínuo é essencial para resultados visíveis.",
             "indicacoes": ["Mulheres com melasma, manchas hormonais, pós-acne ou causadas pelo sol","Quem busca solução natural, segura e sem ácidos agressivos","Quem deseja uniformizar o tom da pele e prevenir novas manchas","Quem quer cuidar da pele de dentro pra fora"],
-            "dicas_importantes": ["Associe ao uso diário de protetor solar","Evite exposição solar intensa sem proteção","A paciência é aliada: os resultados são graduais, mas consistentes"]
+            "dicas_importanttes": ["Associe ao uso diário de protetor solar","Evite exposição solar intensa sem proteção","A paciência é aliada: os resultados são graduais, mas consistentes"]
         },
         {
             "id": 16,
-            "nome": "🟠 GURIA SHAPE CELUX 🟠",
+            "nome": "GURIA SHAPE CELUX",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/cellux.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/celux",
@@ -200,7 +199,7 @@
         },
         {
             "id": 17,
-            "nome": "⚪ COLÁGENO HIDROLISADO ⚪",
+            "nome": "COLÁGENO HIDROLISADO",
             "categoria": "Complementos",
             "imagem": "/assets/produtos/colageno.png",
             "link_loja": "https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/colageno-hidrolisado",
