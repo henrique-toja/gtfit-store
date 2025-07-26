@@ -9,10 +9,10 @@
 
         // Mapeamento de categorias de combo para IMAGENS (AGORA Opcional, USAMOS EMOJIS)
         const categoryImages = {
-            'obesidade-grau-iii': `${domain}/assets/images/grau3.png`,
-            'obesidade-grau-ii': `${domain}/assets/images/grau2.png`,
-            'obesidade-grau-i': `${domain}/assets/images/grau1.png`,
-            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png` // Imagem para peso saudável/sobrepeso
+            'obesidade-grau-iii': `${domain}/assets/images/grau3.jpg`,
+            'obesidade-grau-ii': `${domain}/assets/images/grau2.jpg`,
+            'obesidade-grau-i': `${domain}/assets/images/grau1.jpg`,
+            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.jpg` // Imagem para peso saudável/sobrepeso
         };
 
         // NOVO: Mapeamento de tipos de combo para emojis
