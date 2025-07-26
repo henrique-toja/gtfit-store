@@ -1,4 +1,4 @@
-// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini
+// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini (v1.1 - Corrigido)
 (function() {
     window.gabiFitApp = window.gabiFitApp || {};
 
@@ -11,11 +11,14 @@
         // --- FUNÇÕES DE TRANSIÇÃO E HELPERS ---
 
         const _transitionView = (renderFn, ...args) => {
-            const currentView = appContainer.firstChild;
+            // CORREÇÃO: Trocado 'firstChild' por 'firstElementChild'
+            // Isso garante que estamos selecionando o elemento HTML principal para animar,
+            // ignorando possíveis nós de texto (espaços em branco).
+            const currentView = appContainer.firstElementChild; 
+            
             if (currentView) {
                 currentView.classList.add('view-exit');
                 currentView.addEventListener('animationend', () => {
-                    appContainer.innerHTML = '';
                     renderFn(...args);
                 }, { once: true });
             } else {
@@ -58,7 +61,7 @@
                 </button>
             </div>
         `;
-        
+
         const createSpecificComboCard = (combo, categoryKey) => {
              const emojiMap = { 'eco': '💸', 'anxiety': '🧘‍♀️', 'potencia': '💪🏼', 'premium': '💎' };
              const emoji = emojiMap[combo.type] || '📦';
@@ -88,7 +91,7 @@
         const renderMainShowcase = () => {
             const { products, combos } = window.gabiFitApp;
             const productCategories = products.categoriesInfo;
-            
+
             const comboCards = Object.entries(combos.categoryDisplayInfo).map(([key, info]) => createComboCategoryCard(key, info)).join('');
             const emagrecedoresCards = products.getProductsByCategory('emagrecedores').map(createProductCard).join('');
             const essenciaisCards = products.getProductsByCategory('essenciais').map(createProductCard).join('');
@@ -107,7 +110,7 @@
             _addClickListeners('.product-card-main', el => _transitionView(renderProductChat, el.dataset.productId));
             _addClickListeners('.combo-category-card', el => _transitionView(renderComboSubcategories, el.dataset.categoryKey));
         };
-        
+
         // --- FUNÇÕES DA INTERFACE DE CHAT "GABI GPT" ---
 
         const renderGabiChatUI = (options) => {
@@ -136,7 +139,7 @@
             `;
             document.getElementById('chat-back-button').addEventListener('click', backFunction);
         };
-        
+
         const startChatSequence = (messages, ctas) => {
             const container = document.getElementById('chat-messages');
             const ctasContainer = document.getElementById('chat-ctas');
@@ -176,7 +179,7 @@
         const renderProductChat = (productId) => {
             const product = window.gabiFitApp.products.getProductById(productId);
             if (!product) return;
-            
+
             renderGabiChatUI({
                 title: `Conversando sobre ${product.nome}`,
                 backLabel: 'Voltar para Vitrine',
@@ -200,16 +203,16 @@
                     <i class="fas fa-store"></i> Ver na Loja
                 </a>
             `;
-            
+
             startChatSequence(messages, ctas);
         };
-        
+
         const renderComboSubcategories = (categoryKey) => {
             const combos = window.gabiFitApp.combos.getCombosSubcategories(categoryKey);
             const categoryInfo = window.gabiFitApp.combos.categoryDisplayInfo[categoryKey];
-            
+
             const cards = combos.map(combo => createSpecificComboCard(combo, categoryKey)).join('');
-            
+
             const html = `
                 <div class="w-full max-w-4xl mx-auto view-enter">
                     <h2 class="text-2xl font-bold text-white text-center mb-6">Planos para ${categoryInfo.line1}</h2>
@@ -223,7 +226,7 @@
                 </div>
             `;
             appContainer.innerHTML = html;
-            
+
             _addClickListeners('.specific-combo-card', el => _transitionView(renderComboChat, el.dataset.comboId, el.dataset.originatingCategory));
             document.getElementById('subcategory-back-button').addEventListener('click', () => _transitionView(renderMainShowcase));
         };
@@ -260,7 +263,7 @@
 
             startChatSequence(messages, ctas);
         };
-        
+
         // --- FUNÇÃO DE INICIALIZAÇÃO PÚBLICA ---
         const initialize = (containerElement) => {
             appContainer = containerElement;
