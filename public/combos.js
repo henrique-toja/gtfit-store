@@ -34,10 +34,10 @@
     };
 
     const categoryDisplayInfo = {
-        'peso-saudavel-sobrepeso': { line1: '🟢 Peso Saudável/Sobrepeso 🟢', line2: '🔥 Mínimo 30 dias de Projeto Slim 🔥' },
-        'obesidade-grau-i': { line1: '🟡 Obesidade Grau 1 🟡', line2: '🔥 Mínimo 60 dias de Projeto Slim 🔥' },
-        'obesidade-grau-ii': { line1: '🟠 Obesidade Grau 2 🟠', line2: '🔥 Mínimo 90 dias de Projeto Slim 🔥' },
-        'obesidade-grau-iii': { line1: '🔴 Obesidade Grau 3 🔴', line2: '🔥 Mínimo 120 dias de Projeto Slim 🔥' }
+        'peso-saudavel-sobrepeso': { line1: 'Gorduras Localizadas', line2: 'Mínimo 30 dias de Projeto Slim' },
+        'obesidade-grau-i': { line1: 'Obesidade Grau 1', line2: 'Mínimo 60 dias de Projeto Slim' },
+        'obesidade-grau-ii': { line1: 'Obesidade Grau 2', line2: 'Mínimo 90 dias de Projeto Slim' },
+        'obesidade-grau-iii': { line1: 'Obesidade Grau 3', line2: 'Mínimo 120 dias de Projeto Slim' }
     };
 
     // Public API for combos.js
