@@ -1,4 +1,4 @@
-// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini (v1.4 - Brilho Restaurado e Layout Cards Original)
+// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini (v1.5 - Emojis e Ordem IMC Restaurados)
 (function() {
     window.gabiFitApp = window.gabiFitApp || {};
 
@@ -7,12 +7,12 @@
         const domain = 'https://www.gtfit.store';
         const mainStoreLink = 'https://www.gabrielatorraca.com.br';
 
-        // Mapeamento de categorias de combo para as novas imagens
+        // Mapeamento de categorias de combo para IMAGENS (AGORA Opcional, USAMOS EMOJIS)
         const categoryImages = {
             'obesidade-grau-iii': `${domain}/assets/images/grau3.png`,
             'obesidade-grau-ii': `${domain}/assets/images/grau2.png`,
             'obesidade-grau-i': `${domain}/assets/images/grau1.png`,
-            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png`
+            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png` // Imagem para peso saudável/sobrepeso
         };
 
         // NOVO: Mapeamento de tipos de combo para emojis
@@ -22,6 +22,32 @@
             'potencia': '💪🏼', // Potência - ATUALIZADO
             'premium': '💎' // Premium - ATUALIZADO
         };
+
+        // NOVO: Mapeamento de categorias de IMC para emojis e info de display
+        // ISSO VAI SUBSTITUIR combos.categoryDisplayInfo PARA A VITRINE PRINCIPAL
+        const imcCategoryDisplay = {
+            'obesidade-grau-iii': {
+                emoji: '🚨', // Emoji para Grau III
+                line1: 'Obesidade Grau III',
+                line2: 'IMC ≥ 40 kg/m²'
+            },
+            'obesidade-grau-ii': {
+                emoji: '⚠️', // Emoji para Grau II
+                line1: 'Obesidade Grau II',
+                line2: '35 a 39,9 kg/m²'
+            },
+            'obesidade-grau-i': {
+                emoji: '❗️', // Emoji para Grau I
+                line1: 'Obesidade Grau I',
+                line2: '30 a 34,9 kg/m²'
+            },
+            'peso-saudavel-sobrepeso': {
+                emoji: '⚖️', // Emoji para Peso Saudável/Sobrepeso
+                line1: 'Peso Saudável / Sobrepeso',
+                line2: '18,5 a 29,9 kg/m²'
+            }
+        };
+
 
         // --- FUNÇÕES DE TRANSIÇÃO E HELPERS ---
 
@@ -124,14 +150,18 @@
             </section>
         `;
 
-        // Gera um cartão para a categoria de Combo (IMC)
+        // Gera um cartão para a categoria de Combo (IMC) - ATUALIZADO PARA USAR EMOJIS POR PADRÃO
         const createComboCategoryCard = (categoryKey, categoryInfo) => {
-            const imageUrl = categoryImages[categoryKey] || '';
+            const imageUrl = categoryImages[categoryKey]; // Pega a imagem se existir
+            const displayContent = imageUrl 
+                ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-32 w-32 object-contain mx-auto rounded-full shadow-lg shadow-purple-500/20">`
+                : `<span class="text-5xl text-white text-center" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`; // Usa emoji se não houver imagem
+            
             return `
                 <div class="combo-category-card flex-shrink-0 w-96 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-1">
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-32 w-32 object-contain mx-auto rounded-full shadow-lg shadow-purple-500/20">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
+                            ${displayContent}
                         </div>
                         <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
                             <span class="text-base font-bold text-white">${categoryInfo.line1}</span>
@@ -173,14 +203,28 @@
             const { products, combos } = window.gabiFitApp;
             const productCategories = products.categoriesInfo;
 
-            const comboCategoryCards = Object.entries(combos.categoryDisplayInfo).map(([key, info]) => createComboCategoryCard(key, info)).join('');
+            // ORDEM DOS COMBOS POR IMC: Grau III, Grau II, Grau I, Peso Saudável/Sobrepeso
+            const orderedImcCategories = [
+                'obesidade-grau-iii',
+                'obesidade-grau-ii',
+                'obesidade-grau-i',
+                'peso-saudavel-sobrepeso'
+            ];
+            
+            // Mapeia e gera os cards dos combos IMC na ordem desejada
+            const comboCategoryCards = orderedImcCategories.map(key => {
+                const info = imcCategoryDisplay[key]; // Usar o novo imcCategoryDisplay
+                return info ? createComboCategoryCard(key, info) : '';
+            }).join('');
+
+
             const emagrecedoresCards = products.getProductsByCategory('emagrecedores').map(createProductCard).join('');
             const essenciaisCards = products.getProductsByCategory('essenciais').map(createProductCard).join('');
             const uteisCards = products.getProductsByCategory('uteis').map(createProductCard).join('');
 
             const showcaseHTML = `
                 <div class="view-enter">
-                    ${createProductRow("Encontre seu Combo Ideal", comboCategoryCards)}
+                    ${createProductRow("🔥 Projeto Slim ideal para seu IMC 🔥", comboCategoryCards)}
                     ${createProductRow(productCategories.emagrecedores.title, emagrecedoresCards)}
                     ${createProductRow(productCategories.essenciais.title, essenciaisCards)}
                     ${createProductRow(productCategories.uteis.title, uteisCards)}
@@ -274,7 +318,7 @@
                 return;
             }
             const combosInSelectedCategory = window.gabiFitApp.combos.getCombosSubcategories(originatingCategoryKey);
-            const categoryInfo = window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey];
+            const categoryInfo = imcCategoryDisplay[originatingCategoryKey]; // USANDO o novo imcCategoryDisplay aqui também
 
             const subcategoriesHTML = `
                 <div class="w-full max-w-lg mx-auto view-enter">
@@ -304,7 +348,7 @@
             const combo = window.gabiFitApp.combos.getComboById(comboId, originatingCategoryKey);
             if (!combo) return;
 
-            const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey].line1}.`);
+            const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${imcCategoryDisplay[originatingCategoryKey].line1}.`); // Usando imcCategoryDisplay
             const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
 
             const detailHTML = `
