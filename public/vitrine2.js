@@ -33,12 +33,16 @@
                 backButton.addEventListener('click', (e) => {
                     const step = e.currentTarget.dataset.step;
                     const category = e.currentTarget.dataset.category;
+                    const comboType = e.currentTarget.dataset.comboType; // Novo para voltar de detalhes de combo
+                    const originatingCategory = e.currentTarget.dataset.originatingCategory; // Novo para voltar de subcategorias de combo
+
                     if (step === 'showcase') {
                         renderMainShowcase();
                     } else if (step === 'categories') {
+                        // Esta rota não é mais usada diretamente, mas mantida para segurança
                         renderComboCategories();
                     } else if (step === 'subcategories') {
-                        renderComboSubcategories(category);
+                        renderComboSubcategories(category); // category aqui seria o IMC
                     }
                 });
             }
@@ -46,14 +50,13 @@
 
         // --- FUNÇÕES DE RENDERIZAÇÃO DA VITRINE DE PRODUTOS ---
 
-        // Gera um cartão para as linhas da vitrine principal
-        // REINTRODUZIDO: Botão "Detalhes" no card principal
+        // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
             <div class="product-card flex-shrink-0 w-40 group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
-                    <h3 class="h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center">${product.nome}</h3>
-                    <button class="details-button absolute bottom-0 left-0 right-0 w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-product-id="${product.id}">
+                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center overflow-hidden text-ellipsis line-clamp-2">${product.nome}</h3>
+                    <button class="details-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
                         Detalhes
                     </button>
                 </div>
@@ -77,17 +80,7 @@
             `;
         };
 
-        // Gera a seção especial de botões "Combos"
-        const createCombosSection = () => `
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-white mb-5">🔥 Combos 🔥</h2>
-                <button id="show-combos-flow" class="w-full p-6 rounded-2xl text-white font-bold text-xl bg-gradient-to-r from-purple-600 to-green-500 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 ease-in-out">
-                    Encontre o Combo Ideal para Você!
-                </button>
-            </section>
-        `;
-
-        // --- FUNÇÃO DE RENDERIZAÇÃO DA TELA DE DETALHES DO PRODUTO ---
+        // --- FUNÇÃO DE RENDERIZAÇÃO DA TELA DE DETALHES DO PRODUTO (INDIVIDUAL) ---
         const renderProductDetailView = (productId) => {
             if (!window.gabiFitApp.products) {
                 console.error('products.js não foi carregado corretamente.');
@@ -136,15 +129,15 @@
                             ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_imporproductstantes)}
                         </div>
-                        <div class="product-detail-footer flex flex-wrap justify-between gap-3 mt-8">
-                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-3 p-4 rounded-xl text-white font-bold text-lg bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
-                                <img src="/gtfit.png" alt="Logo GTFit" class="h-8 w-auto">
+                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
+                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                                <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
                                 Loja <span class="text-primary-green">✅</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg"></div>
                             </a>
 
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button flex-1 min-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-3 p-4 rounded-xl text-white font-bold text-lg bg-slate-900 hover:bg-slate-800 transition-colors duration-300 ease-in-out shadow-lg shadow-purple-500/30">
-                                <i class="fab fa-whatsapp text-2xl"></i>
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-slate-900 hover:bg-slate-800 transition-colors duration-300 ease-in-out shadow-lg shadow-purple-500/30">
+                                <i class="fab fa-whatsapp text-xl"></i>
                                 Especialista <span class="text-emerald-200">🧠</span>
                             </a>
                         </div>
@@ -160,189 +153,8 @@
             addBackButtonListener();
         };
 
-        // Renderiza a vitrine principal com todas as linhas de produtos
-        const renderMainShowcase = () => {
-            if (!window.gabiFitApp.products) {
-                console.error('products.js não foi carregado corretamente.');
-                return;
-            }
-            const categories = window.gabiFitApp.products.categoriesInfo;
-            const showcaseHTML = `
-                <div class="animate-fade-in">
-                    ${createProductRow({ key: 'emagrecedores', title: categories.emagrecedores.title })}
-                    ${createCombosSection()}
-                    ${createProductRow({ key: 'essenciais', title: categories.essenciais.title })}
-                    ${createProductRow({ key: 'uteis', title: categories.uteis.title })}
-                </div>
-            `;
-            appContainer.innerHTML = showcaseHTML;
+        // --- NOVAS FUNÇÕES DE RENDERIZAÇÃO DE COMBOS ---
 
-            // Adiciona listeners de evento para o novo botão "Detalhes"
-            appContainer.querySelectorAll('.product-card .details-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Impede que o clique no botão ative o clique do card inteiro
-                    renderProductDetailView(e.currentTarget.dataset.productId);
-                });
-            });
-
-            // Permite que o clique no restante do card ainda leve para os detalhes
-            appContainer.querySelectorAll('.product-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    // Se o clique não foi no botão de detalhes, abre a view de detalhes
-                    if (!e.target.closest('.details-button')) {
-                         renderProductDetailView(card.dataset.productId);
-                    }
-                });
-            });
-
-            // Adiciona listener de evento para o botão "Combos"
-            document.getElementById('show-combos-flow').addEventListener('click', renderComboCategories);
-        };
-
-        // --- FUNÇÕES DE RENDERIZAÇÃO DE COMBOS ---
-
-        // Etapa 3: Exibe os detalhes finais de um combo específico
-        const renderComboDetail = (comboId, originatingCategoryKey) => {
-            if (!window.gabiFitApp.combos) {
-                console.error('combos.js não foi carregado corretamente.');
-                return;
-            }
-            const combo = window.gabiFitApp.combos.getComboById(comboId, originatingCategoryKey);
-            if (!combo) return;
-
-            const message = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}".`);
-            const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
-
-            const detailHTML = `
-                <div class="w-full max-w-lg mx-auto animate-fade-in">
-                    <div class="product-card-detail">
-                        <div class="product-detail-header">
-                            <div class="flex justify-center items-center flex-wrap gap-x-3 gap-y-3 mb-5">
-                                ${combo.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-purple-400/50">`).join('')}
-                            </div>
-                            <h2 class="text-3xl font-extrabold text-white tracking-tight">${combo.title}</h2>
-                            <p class="text-primary-green font-semibold mt-2 flex items-center justify-center gap-2">
-                                <i class="far fa-clock"></i>
-                                <span>${combo.duration} de Tratamento</span>
-                            </p>
-                        </div>
-                        <div class="product-accordion-container">
-                            <div class="product-accordion-item open">
-                                <button class="product-accordion-header"><span>🤔 Por que este combo é ideal para você?</span><i class="fas fa-chevron-down text-purple-400"></i></button>
-                                <div class="product-accordion-content"><div class="product-accordion-body">${combo.explanation}</div></div>
-                            </div>
-                             <div class="product-accordion-item">
-                                <button class="product-accordion-header"><span>📦 Produtos Inclusos</span><i class="fas fa-chevron-down text-purple-400"></i></button>
-                                <div class="product-accordion-content">
-                                    <div class="product-accordion-body">
-                                        <ul class="space-y-3">
-                                            ${combo.products.map(p => `
-                                                <li class="flex items-center gap-4 bg-slate-800/50 p-3 rounded-xl">
-                                                    <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-purple-400/40 flex-shrink-0" alt="${p.name}">
-                                                    <span class="font-semibold text-slate-200">${p.name}</span>
-                                                </li>
-                                            `).join('')}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-detail-footer">
-                            <a href="${whatsappUrl}" target="_blank" class="whatsapp-cta-button">🧠 Fazer planejamento com Especialista 🧠</a>
-                        </div>
-                    </div>
-                    <button class="back-button link-button group" data-step="subcategories" data-category="${originatingCategoryKey}">
-                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar</span>
-                    </button>
-                </div>`;
-
-            appContainer.innerHTML = detailHTML;
-            addAccordionListeners();
-            addBackButtonListener();
-        };
-
-        // Etapa 2: Exibe as subcategorias de um combo (Econômico, Ansiedade, etc.)
-        const renderComboSubcategories = (categoryKey) => {
-            if (!window.gabiFitApp.combos) {
-                console.error('combos.js não foi carregado corretamente.');
-                return;
-            }
-            const subcategories = window.gabiFitApp.combos.getCombosSubcategories(categoryKey);
-            const subcategoryButtons = [
-                { type: 'eco', text: '😅 Combo Econômico 😅' },
-                { type: 'anxiety', text: '🥵 Combo Ansiedade 🥵' },
-                { type: 'potencia', text: '💪 Combo Potência 💪' },
-                { type: 'premium', text: '🤑 Combo Premium 🤑' }
-            ];
-
-            const subcategoriesHTML = `
-                <div class="w-full max-w-md mx-auto flex flex-col items-center gap-5 animate-fade-in">
-                    <h2 class="text-2xl font-bold text-white text-center mb-3">Escolha o tipo de plano:</h2>
-                    ${subcategoryButtons.map(btn => {
-                        const combo = subcategories.find(c => c.type === btn.type);
-                        return combo ? `<button class="link-button group w-full p-4 h-16 flex justify-center items-center combo-subcategory-btn" data-combo-id="${combo.id}" data-category="${categoryKey}"><span class="font-semibold text-slate-200 group-hover:text-white">${btn.text}</span></button>` : '';
-                    }).join('')}
-                    <button class="back-button link-button group mt-3" data-step="categories">
-                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar</span>
-                    </button>
-                </div>`;
-
-            appContainer.innerHTML = subcategoriesHTML;
-
-            appContainer.querySelectorAll('.combo-subcategory-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const comboId = e.currentTarget.dataset.comboId;
-                    const category = e.currentTarget.dataset.category;
-                    renderComboDetail(comboId, category);
-                });
-            });
-            addBackButtonListener();
-        };
-
-        // Etapa 1: Exibe as categorias principais de combos (níveis de obesidade)
-        const renderComboCategories = () => {
-            if (!window.gabiFitApp.combos) {
-                console.error('combos.js não foi carregado corretamente.');
-                return;
-            }
-            const categoryDisplayInfo = window.gabiFitApp.combos.categoryDisplayInfo;
-            const categoriesHTML = `
-                <div class="w-full max-w-md mx-auto flex flex-col items-center gap-5 animate-fade-in">
-                    <h2 class="text-2xl font-bold text-white text-center mb-3">Primeiro, selecione seu perfil atual:</h2>
-                    ${Object.entries(categoryDisplayInfo).map(([key, info]) => `
-                        <button data-category-key="${key}" class="combo-category-btn link-button group w-full p-4 h-auto">
-                            <div class="text-center">
-                                <p class="font-semibold text-slate-100 group-hover:text-white text-lg">${info.line1}</p>
-                                <p class="text-sm font-medium text-primary-green group-hover:text-emerald-300">${info.line2}</p>
-                            </div>
-                        </button>
-                    `).join('')}
-                    <button class="back-button link-button group mt-3" data-step="showcase">
-                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
-                    </button>
-                </div>
-            `;
-            appContainer.innerHTML = categoriesHTML;
-
-            appContainer.querySelectorAll('.combo-category-btn').forEach(button => {
-                button.addEventListener('click', (e) => renderComboSubcategories(e.currentTarget.dataset.categoryKey));
-            });
-            addBackButtonListener();
-        };
-
-        // --- FUNÇÃO DE INICIALIZAÇÃO PÚBLICA PARA A VITRINE ---
-        // Esta função será chamada pelo main.js para iniciar a aplicação.
-        const initialize = (containerElement) => {
-            appContainer = containerElement;
-            renderMainShowcase(); // Inicia mostrando a vitrine principal
-        };
-
-        // Expor funções públicas da Vitrine
-        return {
-            initialize: initialize,
-            renderMainShowcase: renderMainShowcase // Se você quiser recarregar a vitrine de fora
-        };
-
-    })(); // Fim do IIFE para window.gabiFitApp.Vitrine
-
-})();
+        // Gera um cartão para a categoria de Combo (IMC)
+        const createComboCategoryCard = (categoryKey, categoryInfo) => `
+            <div class="combo-category-card flex-shrink-0 w-40 group" data-category-
