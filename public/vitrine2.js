@@ -72,7 +72,7 @@
             <div class="product-card flex-shrink-0 w-40 group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
-                    <h3 class="h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center">${product.nome}</h3>
+                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center truncate px-1" title="${product.nome}">${product.nome}</h3>
                     <button class="details-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
                         Detalhes
                     </button>
@@ -174,15 +174,13 @@
 
         // Gera um cartão para a categoria de Combo (IMC)
         const createComboCategoryCard = (categoryKey, categoryInfo) => `
-            <div class="combo-category-card flex-shrink-0 w-40 group" data-category-key="${categoryKey}">
+            <div class="combo-category-card flex-shrink-0 w-40 group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
-                    <div class="h-20 w-full flex items-center justify-center mb-1">
-                        <span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>
+                    <div class="h-20 w-full flex flex-col items-center justify-center mb-1 px-1">
+                        <span class="text-4xl leading-none" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>
+                        <span class="text-sm font-semibold text-center text-slate-200 leading-tight truncate whitespace-nowrap" title="${categoryInfo.line1}">${categoryInfo.line1}</span>
+                        <span class="text-xs font-normal text-primary-green leading-tight truncate whitespace-nowrap" title="${categoryInfo.line2}">${categoryInfo.line2}</span>
                     </div>
-                    <h3 class="h-10 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight">
-                        <span>${categoryInfo.line1}</span>
-                        <span class="text-xs font-normal text-primary-green">${categoryInfo.line2}</span>
-                    </h3>
                     <button class="view-plans-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
                         Ver Planos
                     </button>
@@ -214,8 +212,9 @@
             <div class="specific-combo-card flex-shrink-0 w-40 group" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
                     <div class="h-24 w-full flex items-center justify-center mb-3 text-white text-3xl">
-                        ${combo.title.split(' ')[0]} </div>
-                    <h3 class="h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center">${combo.title}</h3>
+                        <span class="truncate whitespace-nowrap" title="${combo.title.split(' ')[0]}">${combo.title.split(' ')[0]}</span>
+                    </div>
+                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center truncate px-1" title="${combo.title}">${combo.title}</h3>
                     <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
                         Ver Combo
                     </button>
