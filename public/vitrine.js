@@ -13,7 +13,7 @@
             'obesidade-grau-iii': `${domain}/assets/images/grau3.jpg`,
             'obesidade-grau-ii': `${domain}/assets/images/grau2.jpg`,
             'obesidade-grau-i': `${domain}/assets/images/grau1.jpg`,
-            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.jpg`
+            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau.jpg`
         };
 
         // NOVO: Mapeamento de tipos de combo para emojis - EMOJIS ATUALIZADOS
