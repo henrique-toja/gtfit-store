@@ -1,5 +1,7 @@
 /* base.css */
 
+/* Nenhuma alteração necessária aqui, as classes de tamanho são do Tailwind e serão aplicadas via JS. */
+
 :root {
     --primary-purple: #9333ea; /* Cor roxa principal */
     --primary-green: #22c55e;  /* Cor verde principal */
@@ -80,9 +82,6 @@ body {
     display: block; text-align: center; padding: 1rem; border-radius: 9999px;
     font-weight: bold; font-size: 1.125rem; text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.store-cta-button {
-    background: linear-gradient(90deg, var(--primary-purple), var(--primary-green)); color: #111;
 }
 .store-cta-button:hover { transform: scale(1.03); box-shadow: 0 0 25px -5px var(--primary-purple); }
 .whatsapp-cta-button { background-color: #25D366; color: white; }
