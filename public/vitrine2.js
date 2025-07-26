@@ -80,7 +80,7 @@
 
         // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-64 group">
+            <div class="product-card flex-shrink-0 w-72 group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
                     <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
@@ -154,7 +154,7 @@
                             ${generateAccordionItem('🎯 Indicações', product.indicacoes)}
                             ${generateAccordionItem('🏆 Benefícios', product.beneficios)}
                             ${generateAccordionItem('📦 Embalagem', product.embalagem)}
-                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
+                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicações)}
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_imporproductstantes)}
                         </div>
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
@@ -187,7 +187,7 @@
         const createComboCategoryCard = (categoryKey, categoryInfo) => {
             const imageUrl = categoryImages[categoryKey] || ''; // Obtém a URL da imagem
             return `
-                <div class="combo-category-card flex-shrink-0 w-64 group">
+                <div class="combo-category-card flex-shrink-0 w-72 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-1">
                             ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-full object-contain mx-auto">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
@@ -225,7 +225,7 @@
 
         // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
         const createSpecificComboCard = (combo, originatingCategoryKey) => `
-            <div class="specific-combo-card flex-shrink-0 w-64 group">
+            <div class="specific-combo-card flex-shrink-0 w-72 group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                     <div class="h-3/5 w-full flex items-center justify-center mb-3 text-white text-3xl">
                         <span class="text-center font-bold">${combo.title.split(' ')[0]}</span>
