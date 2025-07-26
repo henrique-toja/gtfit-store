@@ -197,7 +197,7 @@
                 <div class="combo-category-card flex-shrink-0 w-80 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-1">
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-full object-contain mx-auto rounded-md border border-purple-500/30">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-full object-contain mx-auto rounded-full border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
                         </div>
                         <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
                             <span class="text-base font-bold text-white">${categoryInfo.line1}</span>
