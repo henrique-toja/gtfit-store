@@ -105,8 +105,9 @@
                 return '';
             }
             const categoryProducts = window.gabiFitApp.products.getProductsByCategory(categoryInfo.key);
+            // Adicionado mb-12 para espaçamento maior entre as seções
             return `
-                <section class="mb-10">
+                <section class="mb-12">
                     <h2 class="text-2xl font-bold text-white mb-5 text-center">${categoryInfo.title}</h2>
                     <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
                         ${categoryProducts.map(createProductCard).join('')}
@@ -161,7 +162,7 @@
                             ${generateAccordionItem('🎯 Indicações', product.indicacoes)}
                             ${generateAccordionItem('🏆 Benefícios', product.beneficios)}
                             ${generateAccordionItem('📦 Embalagem', product.embalagem)}
-                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicações)}
+                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_imporproductstantes)}
                         </div>
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
@@ -220,8 +221,9 @@
             const categories = window.gabiFitApp.combos.categoryDisplayInfo;
             const categoryKeys = Object.keys(categories); // Pega as chaves para iterar
 
+            // Adicionado mb-12 para espaçamento maior
             return `
-                <section class="mb-10">
+                <section class="mb-12">
                     <h2 class="text-2xl font-bold text-white mb-5 text-center">🔥 Encontre seu Combo Ideal 🔥</h2>
                     <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
                         ${categoryKeys.map(key => createComboCategoryCard(key, categories[key])).join('')}
