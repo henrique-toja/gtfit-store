@@ -13,10 +13,10 @@
             'obesidade-grau-iii': `${domain}/assets/images/grau3.jpg`,
             'obesidade-grau-ii': `${domain}/assets/images/grau2.jpg`,
             'obesidade-grau-i': `${domain}/assets/images/grau1.jpg`,
-            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.jpg`
+            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau.jpg` // Mantenha o seu .jpg atual se for a imagem que representa o sobrepeso/peso saudável com gordura
         };
 
-        // NOVO: Mapeamento de tipos de combo para emojis - EMOJIS ATUALIZADOS
+        // NOVO: Mapeamento de tipos de combo para emojis - MANTIDO, MAS NÃO USADO PARA IMAGEM PRINCIPAL DO CARD DO COMBO
         const comboEmojis = {
             'eco': '😅', // Econômico
             'anxiety': '🧘‍♀️', // Ansiedade
@@ -87,9 +87,11 @@
 
         // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-80 group"> <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+            <div class="product-card flex-shrink-0 w-80 group">
+                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
-                    <h3 class="min-h-12 text-base font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3> <button class="details-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
+                    <h3 class="min-h-12 text-base font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
+                    <button class="details-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
                         Detalhes
                     </button>
                 </div>
@@ -192,11 +194,14 @@
         const createComboCategoryCard = (categoryKey, categoryInfo) => {
             const imageUrl = categoryImages[categoryKey] || ''; // Obtém a URL da imagem
             return `
-                <div class="combo-category-card flex-shrink-0 w-80 group"> <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                <div class="combo-category-card flex-shrink-0 w-80 group">
+                    <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-1">
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-full object-contain mx-auto rounded-md border border-purple-500/30">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`} </div>
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-full object-contain mx-auto rounded-md border border-purple-500/30">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
+                        </div>
                         <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
-                            <span class="text-base font-bold text-white">${categoryInfo.line1}</span> <span class="text-xs font-normal text-primary-green leading-tight">${categoryInfo.line2}</span>
+                            <span class="text-base font-bold text-white">${categoryInfo.line1}</span>
+                            <span class="text-xs font-normal text-primary-green leading-tight">${categoryInfo.line2}</span>
                         </h3>
                         <button class="view-plans-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
                             Ver Planos
@@ -227,15 +232,16 @@
 
         // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
         const createSpecificComboCard = (combo, originatingCategoryKey) => {
-            const emoji = comboEmojis[combo.type] || '📦'; // Pega o emoji pelo tipo do combo, padrão se não encontrar
-            const mainTitle = `Plano ${combo.tag.replace('PLANO ', '')}`; // "PLANO ECONÔMICO" -> "Econômico"
-            const subTitle = `Projeto Slim - ${combo.duration}`; // "Projeto Slim - Mínimo 30 Dias"
+            // Usa a imagem da categoria pai (IMC) para o card do combo
+            const imageUrl = categoryImages[originatingCategoryKey] || '';
+            const mainTitle = `Plano ${combo.tag.replace('PLANO ', '')}`;
+            const subTitle = `Projeto Slim - ${combo.duration}`;
 
             return `
                 <div class="specific-combo-card flex-shrink-0 w-72 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
-                        <div class="h-3/5 w-full flex items-center justify-center mb-3 text-white text-6xl">
-                            <span class="text-center">${emoji}</span>
+                        <div class="h-3/5 w-full flex items-center justify-center mb-3">
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${mainTitle}" class="w-full h-full object-contain mx-auto rounded-full border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">` : `<span class="text-6xl text-white text-center">${comboEmojis[combo.type] || '📦'}</span>`}
                         </div>
                         <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
                             <span class="text-base font-bold text-white">${mainTitle}</span>
