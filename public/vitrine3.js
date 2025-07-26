@@ -1,4 +1,4 @@
-// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini (v1.2 - Chat Removido)
+// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini (v1.3 - Subcategorias Verticais Corrigido)
 (function() {
     window.gabiFitApp = window.gabiFitApp || {};
 
@@ -225,13 +225,13 @@
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_importantes)}
                         </div>
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
-                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
                                 <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
                                 Loja <span class="text-primary-green">✅</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
                             </a>
 
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
                                 Especialista <span class="text-emerald-200">🧠</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
@@ -261,7 +261,7 @@
             const subcategoriesHTML = `
                 <div class="w-full max-w-lg mx-auto view-enter">
                     <h2 class="text-2xl font-bold text-white text-center mb-5">Planos para: ${categoryInfo.line1}</h2>
-                    <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
+                    <div class="flex flex-col gap-4 items-center pb-4 -mb-4 px-2">
                         ${combosInSelectedCategory.map(combo => createSpecificComboCard(combo, originatingCategoryKey)).join('')}
                     </div>
                     <button class="back-button link-button group mt-8" data-step="showcase">
@@ -323,13 +323,13 @@
                             </div>
                         </div>
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
                                 Especialista <span class="text-emerald-200">🧠</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
                             </a>
 
-                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
                                 <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
                                 Loja <span class="text-primary-green">✅</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
