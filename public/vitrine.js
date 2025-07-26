@@ -10,8 +10,8 @@
         // Mapeamento de categorias de combo para IMAGENS (AGORA Opcional, USAMOS EMOJIS)
         const categoryImages = {
             'obesidade-grau-iii': `${domain}/assets/images/grau3.png`,
-            'obesidade-grau-ii': `${domain}/assets/images/grau2.ng`,
-            'obesidade-grau-i': `${domain}/assets/images/grau1.ng`,
+            'obesidade-grau-ii': `${domain}/assets/images/grau2.png`,
+            'obesidade-grau-i': `${domain}/assets/images/grau1.png`,
             'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png` // Imagem para peso saudável/sobrepeso
         };
 
