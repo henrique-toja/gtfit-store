@@ -87,7 +87,7 @@
 
         // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-96 group"> {/* AUMENTADO: w-80 para w-96 */}
+            <div class="product-card flex-shrink-0 w-80 group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
                     <h3 class="min-h-12 text-base font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
@@ -107,7 +107,7 @@
             const categoryProducts = window.gabiFitApp.products.getProductsByCategory(categoryInfo.key);
             return `
                 <section class="mb-10">
-                    <h2 class="text-2xl font-bold text-white mb-5">${categoryInfo.title}</h2>
+                    <h2 class="text-2xl font-bold text-white mb-5 text-center">${categoryInfo.title}</h2>
                     <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
                         ${categoryProducts.map(createProductCard).join('')}
                     </div>
@@ -132,7 +132,6 @@
                     : `<p>${content}</p>`;
                 return `
                     <div class="product-accordion-item ${isOpen ? 'open' : ''}">
-                        {/* ADICIONADO: text-center para centralizar o título */}
                         <button class="product-accordion-header text-center">
                             <span>${title}</span>
                             <i class="fas fa-chevron-down text-purple-400"></i>
@@ -195,7 +194,7 @@
         const createComboCategoryCard = (categoryKey, categoryInfo) => {
             const imageUrl = categoryImages[categoryKey] || ''; // Obtém a URL da imagem
             return `
-                <div class="combo-category-card flex-shrink-0 w-96 group"> {/* AUMENTADO: w-80 para w-96 */}
+                <div class="combo-category-card flex-shrink-0 w-80 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-1">
                             ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-32 w-32 object-contain mx-auto rounded-full shadow-lg shadow-purple-500/20">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
@@ -223,7 +222,7 @@
 
             return `
                 <section class="mb-10">
-                    <h2 class="text-2xl font-bold text-white mb-5">🔥 Encontre seu Combo Ideal 🔥</h2>
+                    <h2 class="text-2xl font-bold text-white mb-5 text-center">🔥 Encontre seu Combo Ideal 🔥</h2>
                     <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
                         ${categoryKeys.map(key => createComboCategoryCard(key, categories[key])).join('')}
                     </div>
@@ -239,7 +238,7 @@
             const subTitle = `Projeto Slim - ${combo.duration}`;
 
             return `
-                <div class="specific-combo-card flex-shrink-0 w-80 group"> {/* AUMENTADO: w-72 para w-80 */}
+                <div class="specific-combo-card flex-shrink-0 w-72 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-3">
                             ${imageUrl ? `<img src="${imageUrl}" alt="${mainTitle}" class="w-full h-full object-contain mx-auto rounded-full border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">` : `<span class="text-6xl text-white text-center">${comboEmojis[combo.type] || '📦'}</span>`}
@@ -383,11 +382,11 @@
                         </div>
                         <div class="product-accordion-container">
                             <div class="product-accordion-item open">
-                                <button class="product-accordion-header text-center"><span>🤔 Por que este combo é ideal para você?</span><i class="fas fa-chevron-down text-purple-400"></i></button> {/* ADICIONADO: text-center */}
+                                <button class="product-accordion-header text-center"><span>🤔 Por que este combo é ideal para você?</span><i class="fas fa-chevron-down text-purple-400"></i></button>
                                 <div class="product-accordion-content"><div class="product-accordion-body">${combo.explanation}</div></div>
                             </div>
                              <div class="product-accordion-item">
-                                <button class="product-accordion-header text-center"><span>📦 Produtos Inclusos</span><i class="fas fa-chevron-down text-purple-400"></i></button> {/* ADICIONADO: text-center */}
+                                <button class="product-accordion-header text-center"><span>📦 Produtos Inclusos</span><i class="fas fa-chevron-down text-purple-400"></i></button>
                                 <div class="product-accordion-content">
                                     <div class="product-accordion-body">
                                         <ul class="space-y-3">
