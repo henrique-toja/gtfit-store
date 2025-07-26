@@ -35,10 +35,11 @@
                     const category = e.currentTarget.dataset.category;
                     const comboType = e.currentTarget.dataset.comboType; // Novo para voltar de detalhes de combo
                     const originatingCategory = e.currentTarget.dataset.originatingCategory; // Novo para voltar de subcategorias de combo
-                    
+
                     if (step === 'showcase') {
                         renderMainShowcase();
                     } else if (step === 'categories') {
+                        // Esta rota não é mais usada diretamente, mas mantida para segurança
                         renderComboCategories();
                     } else if (step === 'subcategories') {
                         renderComboSubcategories(category); // category aqui seria o IMC
@@ -55,7 +56,7 @@
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
                     <h3 class="h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center">${product.nome}</h3>
-                    <button class="details-button absolute bottom-0 left-0 right-0 w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-product-id="${product.id}">
+                    <button class="details-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
                         Detalhes
                     </button>
                 </div>
@@ -165,7 +166,7 @@
                         <span>${categoryInfo.line1}</span>
                         <span class="text-xs font-normal text-primary-green">${categoryInfo.line2}</span>
                     </h3>
-                    <button class="view-plans-button absolute bottom-0 left-0 right-0 w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-category-key="${categoryKey}">
+                    <button class="view-plans-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
                         Ver Planos
                     </button>
                 </div>
@@ -198,7 +199,7 @@
                     <div class="h-24 w-full flex items-center justify-center mb-3 text-white text-3xl">
                         ${combo.title.split(' ')[0]} </div>
                     <h3 class="h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center">${combo.title}</h3>
-                    <button class="view-combo-button absolute bottom-0 left-0 right-0 w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
+                    <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
                         Ver Combo
                     </button>
                 </div>
@@ -215,7 +216,8 @@
             const showcaseHTML = `
                 <div class="animate-fade-in">
                     ${createProductRow({ key: 'emagrecedores', title: productCategories.emagrecedores.title })}
-                    ${createComboCategoryRow()} ${createProductRow({ key: 'essenciais', title: productCategories.essenciais.title })}
+                    ${createComboCategoryRow()}
+                    ${createProductRow({ key: 'essenciais', title: productCategories.essenciais.title })}
                     ${createProductRow({ key: 'uteis', title: productCategories.uteis.title })}
                 </div>
             `;
@@ -237,7 +239,7 @@
                     }
                 });
             });
-            
+
             // Adiciona listeners para os botões "Ver Planos" das categorias de Combo (IMC)
             appContainer.querySelectorAll('.combo-category-card .view-plans-button').forEach(button => {
                 button.addEventListener('click', (e) => {
