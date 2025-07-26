@@ -1,445 +1,273 @@
-// vitrine.js
+// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini
 (function() {
-    // Garante que o namespace principal da aplicação exista
     window.gabiFitApp = window.gabiFitApp || {};
 
-    // Define o objeto Vitrine dentro do namespace gabiFitApp
     window.gabiFitApp.Vitrine = (function() {
-        let appContainer; // Referência ao container principal da aplicação
-        const domain = 'https://www.gtfit.store'; // Base domain para imagens
-        const mainStoreLink = 'https://www.gabrielatorraca.com.br'; // Link principal da loja
+        let appContainer;
+        const domain = 'https://www.gtfit.store';
+        const mainStoreLink = 'https://www.gabrielatorraca.com.br';
+        const gabiAvatar = 'https://www.gtfit.store/gabi-profile.jpg';
 
-        // Mapeamento de categorias de combo para as novas imagens
-        const categoryImages = {
-            'obesidade-grau-iii': `${domain}/assets/images/grau3.png`,
-            'obesidade-grau-ii': `${domain}/assets/images/grau2.png`,
-            'obesidade-grau-i': `${domain}/assets/images/grau1.png`,
-            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png`
-        };
+        // --- FUNÇÕES DE TRANSIÇÃO E HELPERS ---
 
-        // Mapeamento de tipos de combo para emojis
-        const comboEmojis = {
-            'eco': '😅', // Econômico
-            'anxiety': '🧘‍♀️', // Ansiedade
-            'potencia': '💪🏼', // Potência
-            'premium': '🤑' // Premium
-        };
-
-        // --- FUNÇÕES AUXILIARES ---
-
-        // Adiciona funcionalidade de abrir/fechar ao acordeão
-        const addAccordionListeners = () => {
-            document.querySelectorAll('.product-accordion-item').forEach(item => {
-                const header = item.querySelector('.product-accordion-header');
-                const content = item.querySelector('.product-accordion-content');
-                const toggle = () => {
-                    item.classList.toggle('open');
-                    content.style.maxHeight = item.classList.contains('open') ? `${content.scrollHeight}px` : '0px';
-                };
-                header.addEventListener('click', toggle);
-                if (item.classList.contains('open')) {
-                    setTimeout(() => { content.style.maxHeight = `${content.scrollHeight}px`; }, 10);
-                }
-            });
-        };
-
-        // Adiciona funcionalidade aos botões de "voltar"
-        const addBackButtonListener = () => {
-            const backButton = appContainer.querySelector('.back-button');
-            if (backButton) {
-                backButton.addEventListener('click', (e) => {
-                    const step = e.currentTarget.dataset.step;
-                    const category = e.currentTarget.dataset.category;
-
-                    if (step === 'showcase') {
-                        renderMainShowcase();
-                    } else if (step === 'subcategories') {
-                        renderComboSubcategories(category);
-                    }
-                });
-            }
-        };
-
-        // Função para pré-carregamento de imagens
-        const preloadProductImages = () => {
-            if (window.gabiFitApp.products && window.gabiFitApp.products.allProducts) {
-                window.gabiFitApp.products.allProducts.forEach(product => {
-                    const img = new Image();
-                    img.src = `${domain}${product.imagem}`;
-                });
-                console.log('Preload de imagens de produtos iniciado.');
+        const _transitionView = (renderFn, ...args) => {
+            const currentView = appContainer.firstChild;
+            if (currentView) {
+                currentView.classList.add('view-exit');
+                currentView.addEventListener('animationend', () => {
+                    appContainer.innerHTML = '';
+                    renderFn(...args);
+                }, { once: true });
             } else {
-                console.warn('Não foi possível iniciar o preload de imagens: products.js ou allProducts não carregado.');
+                renderFn(...args);
             }
-            // Pré-carregamento das imagens de categoria de combo
-            Object.values(categoryImages).forEach(imgPath => {
-                const img = new Image();
-                img.src = imgPath;
-            });
-            console.log('Preload de imagens de categorias de combo iniciado.');
         };
 
+        const _addClickListeners = (selector, handler) => {
+            appContainer.querySelectorAll(selector).forEach(element => {
+                element.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    handler(e.currentTarget);
+                });
+            });
+        };
 
-        // --- FUNÇÕES DE RENDERIZAÇÃO DA VITRINE DE PRODUTOS ---
+        // --- FUNÇÕES DE RENDERIZAÇÃO DA VITRINE PRINCIPAL ---
 
-        // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-96 group">
-                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
-                    <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
-                    <h3 class="min-h-12 text-base font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
-                    <button class="details-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
-                        Detalhes
-                    </button>
+            <div class="showcase-card product-card-main flex flex-col justify-between flex-shrink-0 w-64 md:w-72 rounded-2xl p-4 cursor-pointer" data-product-id="${product.id}">
+                <div class="flex-grow">
+                    <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-40 w-full object-contain mx-auto mb-4">
+                    <h3 class="font-semibold text-center text-slate-100">${product.nome}</h3>
                 </div>
+                <button class="showcase-card-button w-full text-white text-sm font-bold py-2.5 rounded-lg mt-4">
+                    Conversar com Gabi
+                </button>
             </div>
         `;
 
-        // Gera uma linha de produtos com rolagem horizontal
-        const createProductRow = (categoryInfo) => {
-            if (!window.gabiFitApp.products) {
-                console.error('products.js não foi carregado corretamente.');
-                return '';
-            }
-            const categoryProducts = window.gabiFitApp.products.getProductsByCategory(categoryInfo.key);
-            return `
-                <section class="mb-12">
-                    <h2 class="text-2xl font-bold text-white mb-5 text-center">${categoryInfo.title}</h2>
-                    <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
-                        ${categoryProducts.map(createProductCard).join('')}
+        const createComboCategoryCard = (key, info) => `
+            <div class="showcase-card combo-category-card flex flex-col justify-between flex-shrink-0 w-64 md:w-72 rounded-2xl p-4 cursor-pointer" data-category-key="${key}">
+                <div class="flex-grow">
+                    <img src="${domain}/assets/images/${key.replace('obesidade-grau-','grau').replace('peso-saudavel-sobrepeso', 'grau0')}.png" alt="${info.line1}" class="h-32 w-32 object-contain mx-auto rounded-full shadow-lg mb-4">
+                    <h3 class="text-base font-bold text-center text-white">${info.line1}</h3>
+                    <p class="text-xs font-normal text-center text-primary-green leading-tight mt-1">${info.line2}</p>
+                </div>
+                <button class="showcase-card-button w-full text-white text-sm font-bold py-2.5 rounded-lg mt-4">
+                    Ver Planos Ideais
+                </button>
+            </div>
+        `;
+        
+        const createSpecificComboCard = (combo, categoryKey) => {
+             const emojiMap = { 'eco': '💸', 'anxiety': '🧘‍♀️', 'potencia': '💪🏼', 'premium': '💎' };
+             const emoji = emojiMap[combo.type] || '📦';
+             return `
+                <div class="showcase-card specific-combo-card flex flex-col justify-between flex-shrink-0 w-64 md:w-72 rounded-2xl p-6 cursor-pointer" data-combo-id="${combo.id}" data-originating-category="${categoryKey}">
+                    <div class="flex-grow text-center">
+                        <span class="text-6xl">${emoji}</span>
+                        <h3 class="text-lg font-bold text-white mt-4">${combo.tag.replace('PLANO ', '')}</h3>
+                        <p class="text-sm text-slate-300">${combo.duration}</p>
                     </div>
-                </section>
-            `;
-        };
-
-        // --- FUNÇÃO DE RENDERIZAÇÃO DA TELA DE DETALHES DO PRODUTO (INDIVIDUAL) ---
-        const renderProductDetailView = (productId) => {
-            if (!window.gabiFitApp.products) {
-                console.error('products.js não foi carregado corretamente.');
-                return;
-            }
-            const product = window.gabiFitApp.products.getProductById(productId);
-            if (!product) return;
-
-            // Helper para gerar itens de acordeão para a visualização detalhada
-            const generateAccordionItem = (title, content, isOpen = false) => {
-                if (!content || (Array.isArray(content) && content.length === 0)) return '';
-                const contentHTML = Array.isArray(content)
-                    ? `<ul class="space-y-3">${content.map(item => `<li class="flex items-start gap-3"><span class="text-primary-green mt-1.5 flex-shrink-0">✓</span><span>${item}</span></li>`).join('')}</ul>`
-                    : `<p>${content}</p>`;
-                return `
-                    <div class="product-accordion-item ${isOpen ? 'open' : ''}">
-                        <button class="product-accordion-header text-center">
-                            <span>${title}</span>
-                            <i class="fas fa-chevron-down text-purple-400"></i>
-                        </button>
-                        <div class="product-accordion-content"><div class="product-accordion-body">${contentHTML}</div></div>
-                    </div>
-                `;
-            };
-
-            // Mensagem do WhatsApp personalizada
-            const whatsappMessage = encodeURIComponent(`Olá, vi o produto "${product.nome}" na Vitrine da loja virtual e gostaria de saber mais! Podemos conversar?`);
-            const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
-
-            const detailHTML = `
-                <div class="w-full max-w-lg mx-auto animate-fade-in">
-                    <div class="product-card-detail">
-                        <div class="product-detail-header">
-                            <img src="${domain}${product.imagem}" alt="${product.nome}" class="w-32 h-32 object-contain rounded-full mx-auto mb-5 border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">
-                            <h2 class="text-3xl font-extrabold text-white tracking-tight">${product.nome}</h2>
-                        </div>
-                        <div class="product-accordion-container">
-                            ${generateAccordionItem('✨ Para que serve?', product.resultado_combinacao, true)}
-                            ${generateAccordionItem('💊 Composição', product.composicao)}
-                            ${generateAccordionItem('📋 Modo de Uso', product.modo_uso)}
-                            ${generateAccordionItem('⚠️ Efeitos de Adaptação', product.efeitos_possiveis)}
-                            ${generateAccordionItem('🛡️ Segurança', product.seguranca)}
-                            ${generateAccordionItem('🎯 Indicações', product.indicacoes)}
-                            ${generateAccordionItem('🏆 Benefícios', product.beneficios)}
-                            ${generateAccordionItem('📦 Embalagem', product.embalagem)}
-                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
-                            ${generateAccordionItem('💡 Dicas Importantes', product.dicas_imporproductstantes)}
-                        </div>
-                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
-                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group">
-                                <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
-                                Loja <span class="text-primary-green">✅</span>
-                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
-                            </a>
-
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group">
-                                <i class="fab fa-whatsapp text-xl"></i>
-                                Especialista <span class="text-emerald-200">🧠</span>
-                                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
-                            </a>
-                        </div>
-                    </div>
-                    <button class="back-button link-button group" data-step="showcase">
-                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
+                    <button class="showcase-card-button w-full text-white text-sm font-bold py-2.5 rounded-lg mt-4">
+                        Ver Detalhes
                     </button>
                 </div>
-            `;
-
-            appContainer.innerHTML = detailHTML;
-            addAccordionListeners();
-            addBackButtonListener();
+             `;
         };
 
-        // --- FUNÇÕES DE RENDERIZAÇÃO DE COMBOS ---
-
-        // Gera um cartão para a categoria de Combo (IMC)
-        const createComboCategoryCard = (categoryKey, categoryInfo) => {
-            const imageUrl = categoryImages[categoryKey] || '';
-            return `
-                <div class="combo-category-card flex-shrink-0 w-96 group">
-                    <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
-                        <div class="h-3/5 w-full flex items-center justify-center mb-1">
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-32 w-32 object-contain mx-auto rounded-full shadow-lg shadow-purple-500/20">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
-                        </div>
-                        <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
-                            <span class="text-base font-bold text-white">${categoryInfo.line1}</span>
-                            <span class="text-xs font-normal text-primary-green leading-tight">${categoryInfo.line2}</span>
-                        </h3>
-                        <button class="view-plans-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
-                            Ver Planos
-                        </button>
-                    </div>
+        const createRow = (title, cards) => `
+            <section class="mb-12">
+                <h2 class="text-2xl font-bold text-white mb-6 text-center">${title}</h2>
+                <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin px-2">
+                    ${cards}
                 </div>
-            `;
-        };
+            </section>
+        `;
 
-        // Gera uma linha de categorias de combos com rolagem horizontal
-        const createComboCategoryRow = () => {
-            if (!window.gabiFitApp.combos) {
-                console.error('combos.js não foi carregado corretamente.');
-                return '';
-            }
-            const categories = window.gabiFitApp.combos.categoryDisplayInfo;
-            const categoryKeys = Object.keys(categories);
-
-            return `
-                <section class="mb-12">
-                    <h2 class="text-2xl font-bold text-white mb-5 text-center">🔥 Encontre seu Combo Ideal 🔥</h2>
-                    <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
-                        ${categoryKeys.map(key => createComboCategoryCard(key, categories[key])).join('')}
-                    </div>
-                </section>
-            `;
-        };
-
-        // Gera um cartão para um combo específico
-        const createSpecificComboCard = (combo, originatingCategoryKey) => {
-            const emoji = comboEmojis[combo.type] || '📦';
-            const mainTitle = `Plano ${combo.tag.replace('PLANO ', '')}`;
-            const subTitle = `Projeto Slim - ${combo.duration}`;
-
-            return `
-                <div class="specific-combo-card flex-shrink-0 w-80 group">
-                    <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
-                        <div class="h-3/5 w-full flex items-center justify-center mb-3">
-                            <span class="text-6xl text-white text-center" role="img" aria-label="Emoji">${emoji}</span>
-                        </div>
-                        <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
-                            <span class="text-base font-bold text-white">${mainTitle}</span>
-                            <span class="text-xs font-normal text-primary-green leading-tight">${subTitle}</span>
-                        </h3>
-                        <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
-                            Ver Combo
-                        </button>
-                    </div>
-                </div>
-            `;
-        };
-
-        // Renderiza a vitrine principal
         const renderMainShowcase = () => {
-            if (!window.gabiFitApp.products || !window.gabiFitApp.combos) {
-                console.error('products.js ou combos.js não foi carregado corretamente.');
-                return;
-            }
-            const productCategories = window.gabiFitApp.products.categoriesInfo;
+            const { products, combos } = window.gabiFitApp;
+            const productCategories = products.categoriesInfo;
+            
+            const comboCards = Object.entries(combos.categoryDisplayInfo).map(([key, info]) => createComboCategoryCard(key, info)).join('');
+            const emagrecedoresCards = products.getProductsByCategory('emagrecedores').map(createProductCard).join('');
+            const essenciaisCards = products.getProductsByCategory('essenciais').map(createProductCard).join('');
+            const uteisCards = products.getProductsByCategory('uteis').map(createProductCard).join('');
+
             const showcaseHTML = `
-                <div class="animate-fade-in">
-                    ${createComboCategoryRow()}
-                    ${createProductRow({ key: 'emagrecedores', title: productCategories.emagrecedores.title })}
-                    ${createProductRow({ key: 'essenciais', title: productCategories.essenciais.title })}
-                    ${createProductRow({ key: 'uteis', title: productCategories.uteis.title })}
+                <div class="view-enter">
+                    ${createRow("Encontre seu Combo Ideal", comboCards)}
+                    ${createRow(productCategories.emagrecedores.title, emagrecedoresCards)}
+                    ${createRow(productCategories.essenciais.title, essenciaisCards)}
+                    ${createRow(productCategories.uteis.title, uteisCards)}
                 </div>
             `;
             appContainer.innerHTML = showcaseHTML;
 
-            // Adiciona listeners para os botões "Detalhes" dos produtos
-            appContainer.querySelectorAll('.product-card .details-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    renderProductDetailView(e.currentTarget.dataset.productId);
-                });
-            });
-
-            // Adiciona listener para o clique no corpo do card do produto
-            appContainer.querySelectorAll('.product-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    if (!e.target.closest('.details-button')) {
-                        renderProductDetailView(card.querySelector('.details-button').dataset.productId);
-                    }
-                });
-            });
-
-            // Adiciona listeners para os botões "Ver Planos" das categorias de Combo (IMC)
-            appContainer.querySelectorAll('.combo-category-card .view-plans-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    renderComboSubcategories(e.currentTarget.dataset.categoryKey);
-                });
-            });
-
-            // Adiciona listener para o clique no corpo do card da categoria de Combo
-            appContainer.querySelectorAll('.combo-category-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    if (!e.target.closest('.view-plans-button')) {
-                        renderComboSubcategories(card.querySelector('.view-plans-button').dataset.categoryKey);
-                    }
-                });
-            });
+            _addClickListeners('.product-card-main', el => _transitionView(renderProductChat, el.dataset.productId));
+            _addClickListeners('.combo-category-card', el => _transitionView(renderComboSubcategories, el.dataset.categoryKey));
         };
+        
+        // --- FUNÇÕES DA INTERFACE DE CHAT "GABI GPT" ---
 
-        // --- FUNÇÕES DE RENDERIZAÇÃO DE COMBOS (AJUSTADAS) ---
+        const renderGabiChatUI = (options) => {
+            const { title, backFunction, backLabel, backDataStep, backDataCategory } = options;
+            const backDataAttrs = `data-step="${backDataStep || ''}" data-category="${backDataCategory || ''}"`;
 
-        // Etapa 2: Exibe os COMBOS ESPECÍFICOS (Econômico, Ansiedade, etc.) dentro de uma CATEGORIA (IMC)
-        const renderComboSubcategories = (originatingCategoryKey) => {
-            if (!window.gabiFitApp.combos) {
-                console.error('combos.js não foi carregado corretamente.');
-                return;
-            }
-            const combosInSelectedCategory = window.gabiFitApp.combos.getCombosSubcategories(originatingCategoryKey);
-            const categoryInfo = window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey];
-
-            const subcategoriesHTML = `
-                <div class="w-full max-w-lg mx-auto animate-fade-in">
-                    <h2 class="text-2xl font-bold text-white text-center mb-5">Planos para: ${categoryInfo.line1}</h2>
-                    <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
-                        ${combosInSelectedCategory.map(combo => createSpecificComboCard(combo, originatingCategoryKey)).join('')}
-                    </div>
-                    <button class="back-button link-button group mt-8" data-step="showcase">
-                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
-                    </button>
-                </div>`;
-
-            appContainer.innerHTML = subcategoriesHTML;
-
-            // Adiciona listeners para os botões "Ver Combo" dos combos específicos
-            appContainer.querySelectorAll('.specific-combo-card .view-combo-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const comboId = e.currentTarget.dataset.comboId;
-                    const category = e.currentTarget.dataset.originatingCategory;
-                    renderComboDetail(comboId, category);
-                });
-            });
-
-            // Adiciona listener para o clique no corpo do card do combo específico
-            appContainer.querySelectorAll('.specific-combo-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    if (!e.target.closest('.view-combo-button')) {
-                        const comboId = card.querySelector('.view-combo-button').dataset.comboId;
-                        const category = card.querySelector('.view-combo-button').dataset.originatingCategory;
-                        renderComboDetail(comboId, category);
-                    }
-                });
-            });
-
-            addBackButtonListener();
-        };
-
-        // Etapa 3: Exibe os detalhes finais de um combo específico
-        const renderComboDetail = (comboId, originatingCategoryKey) => {
-            if (!window.gabiFitApp.combos) {
-                console.error('combos.js não foi carregado corretamente.');
-                return;
-            }
-            const combo = window.gabiFitApp.combos.getComboById(comboId, originatingCategoryKey);
-            if (!combo) return;
-
-            const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey].line1}.`);
-            const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
-
-            const detailHTML = `
-                <div class="w-full max-w-lg mx-auto animate-fade-in">
-                    <div class="product-card-detail">
-                        <div class="product-detail-header">
-                            <div class="flex justify-center items-center flex-wrap gap-x-3 gap-y-3 mb-5">
-                                ${combo.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-purple-400/50">`).join('')}
-                            </div>
-                            <h2 class="text-3xl font-extrabold text-white tracking-tight">${combo.title}</h2>
-                            <p class="text-primary-green font-semibold mt-2 flex items-center justify-center gap-2">
-                                <i class="far fa-clock"></i>
-                                <span>${combo.duration} de Tratamento</span>
+            appContainer.innerHTML = `
+                <div class="w-full max-w-2xl mx-auto view-enter">
+                    <header class="gabi-chat-header flex items-center gap-4 p-4 rounded-2xl mb-6">
+                        <img src="${gabiAvatar}" alt="Gabi, sua especialista" class="gabi-chat-avatar w-16 h-16 rounded-full object-cover">
+                        <div>
+                            <p class="font-bold text-lg text-white">${title}</p>
+                            <p class="gabi-chat-status text-sm font-medium text-primary-green flex items-center gap-2">
+                                <span class="block w-2 h-2 bg-green-400 rounded-full"></span>
+                                Online
                             </p>
                         </div>
-                        <div class="product-accordion-container">
-                            <div class="product-accordion-item open">
-                                <button class="product-accordion-header text-center"><span>🤔 Por que este combo é ideal para você?</span><i class="fas fa-chevron-down text-purple-400"></i></button>
-                                <div class="product-accordion-content"><div class="product-accordion-body">${combo.explanation}</div></div>
-                            </div>
-                             <div class="product-accordion-item">
-                                <button class="product-accordion-header text-center"><span>📦 Produtos Inclusos</span><i class="fas fa-chevron-down text-purple-400"></i></button>
-                                <div class="product-accordion-content">
-                                    <div class="product-accordion-body">
-                                        <ul class="space-y-3">
-                                            ${combo.products.map(p => `
-                                                <li class="flex items-center gap-4 bg-slate-800/50 p-3 rounded-xl">
-                                                    <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-purple-400/40 flex-shrink-0" alt="${p.name}">
-                                                    <span class="font-semibold text-slate-200">${p.name}</span>
-                                                </li>
-                                            `).join('')}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group">
-                                <i class="fab fa-whatsapp text-xl"></i>
-                                Especialista <span class="text-emerald-200">🧠</span>
-                                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
-                            </a>
-
-                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group">
-                                <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
-                                Loja <span class="text-primary-green">✅</span>
-                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
-                            </a>
-                        </div>
-                    </div>
-                    <button class="back-button link-button group" data-step="subcategories" data-category="${originatingCategoryKey}">
-                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar</span>
+                    </header>
+                    <div id="chat-messages" class="flex flex-col gap-4"></div>
+                    <div id="chat-ctas" class="flex flex-wrap gap-3 mt-6 opacity-0"></div>
+                    <button id="chat-back-button" class="flex items-center gap-2 mx-auto mt-8 text-slate-400 hover:text-white transition-colors duration-300" ${backDataAttrs}>
+                        <i class="fas fa-arrow-left"></i>
+                        <span>${backLabel}</span>
                     </button>
-                </div>`;
+                </div>
+            `;
+            document.getElementById('chat-back-button').addEventListener('click', backFunction);
+        };
+        
+        const startChatSequence = (messages, ctas) => {
+            const container = document.getElementById('chat-messages');
+            const ctasContainer = document.getElementById('chat-ctas');
+            let delay = 200;
 
-            appContainer.innerHTML = detailHTML;
-            addAccordionListeners();
-            addBackButtonListener();
+            const addMessage = (html) => {
+                const msgEl = document.createElement('div');
+                msgEl.innerHTML = html;
+                container.appendChild(msgEl.firstChild);
+                msgEl.firstChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            };
+
+            messages.forEach(msg => {
+                setTimeout(() => {
+                    const typingElId = `typing-${Date.now()}`;
+                    addMessage(`<div id="${typingElId}" class="chat-message message-gabi self-start max-w-xs md:max-w-md p-4 rounded-2xl"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`);
+
+                    setTimeout(() => {
+                        const typingEl = document.getElementById(typingElId);
+                        if (typingEl) {
+                           typingEl.innerHTML = Array.isArray(msg.content)
+                            ? `<strong>${msg.title}</strong><ul class="list-disc list-inside mt-2 space-y-1">${msg.content.map(item => `<li>${item}</li>`).join('')}</ul>`
+                            : `<strong>${msg.title}</strong><p class="mt-1 opacity-90">${msg.content}</p>`;
+                        }
+                    }, 1200 + Math.random() * 500);
+                }, delay);
+                delay += 1800;
+            });
+
+            setTimeout(() => {
+                ctasContainer.innerHTML = ctas;
+                ctasContainer.style.transition = 'opacity 0.5s';
+                ctasContainer.style.opacity = '1';
+            }, delay);
         };
 
-        // Renderiza as categorias principais de combos (agora integrada na vitrine principal)
-        const renderComboCategories = () => {
-            console.warn('renderComboCategories foi chamada, mas agora as categorias de combo são renderizadas diretamente na vitrine principal.');
-            renderMainShowcase();
+        const renderProductChat = (productId) => {
+            const product = window.gabiFitApp.products.getProductById(productId);
+            if (!product) return;
+            
+            renderGabiChatUI({
+                title: `Conversando sobre ${product.nome}`,
+                backLabel: 'Voltar para Vitrine',
+                backFunction: () => _transitionView(renderMainShowcase)
+            });
+
+            const messages = [
+                { title: '✨ Para que serve?', content: product.resultado_combinacao },
+                { title: '💊 Composição', content: product.composicao },
+                { title: '📋 Modo de Uso', content: product.modo_uso },
+                product.beneficios && { title: '🏆 Benefícios', content: product.beneficios },
+                product.contraindicacoes && { title: '🚫 Contraindicações', content: product.contraindicacoes },
+            ].filter(Boolean);
+
+            const whatsappMessage = encodeURIComponent(`Olá, vi o produto "${product.nome}" na Vitrine e gostaria de saber mais!`);
+            const ctas = `
+                <a href="https://wa.me/556792552604?text=${whatsappMessage}" target="_blank" class="chat-cta-button chat-cta-whatsapp flex-1 text-center text-white font-bold p-3 rounded-xl">
+                    <i class="fab fa-whatsapp"></i> Tirar Dúvidas
+                </a>
+                <a href="${product.link_loja}" target="_blank" class="chat-cta-button chat-cta-store flex-1 text-center text-white font-bold p-3 rounded-xl">
+                    <i class="fas fa-store"></i> Ver na Loja
+                </a>
+            `;
+            
+            startChatSequence(messages, ctas);
+        };
+        
+        const renderComboSubcategories = (categoryKey) => {
+            const combos = window.gabiFitApp.combos.getCombosSubcategories(categoryKey);
+            const categoryInfo = window.gabiFitApp.combos.categoryDisplayInfo[categoryKey];
+            
+            const cards = combos.map(combo => createSpecificComboCard(combo, categoryKey)).join('');
+            
+            const html = `
+                <div class="w-full max-w-4xl mx-auto view-enter">
+                    <h2 class="text-2xl font-bold text-white text-center mb-6">Planos para ${categoryInfo.line1}</h2>
+                    <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin px-2 justify-center flex-wrap">
+                        ${cards}
+                    </div>
+                    <button id="subcategory-back-button" class="flex items-center gap-2 mx-auto mt-12 text-slate-400 hover:text-white transition-colors duration-300">
+                         <i class="fas fa-arrow-left"></i>
+                        <span>Voltar para Vitrine</span>
+                    </button>
+                </div>
+            `;
+            appContainer.innerHTML = html;
+            
+            _addClickListeners('.specific-combo-card', el => _transitionView(renderComboChat, el.dataset.comboId, el.dataset.originatingCategory));
+            document.getElementById('subcategory-back-button').addEventListener('click', () => _transitionView(renderMainShowcase));
         };
 
-        // --- FUNÇÃO DE INICIALIZAÇÃO PÚBLICA PARA A VITRINE ---
+        const renderComboChat = (comboId, categoryKey) => {
+            const combo = window.gabiFitApp.combos.getComboById(comboId, categoryKey);
+            const categoryInfo = window.gabiFitApp.combos.categoryDisplayInfo[categoryKey];
+            if (!combo) return;
+
+            renderGabiChatUI({
+                title: `Plano ${combo.tag.replace('PLANO ', '')}`,
+                backLabel: 'Voltar para Planos',
+                backFunction: () => _transitionView(renderComboSubcategories, categoryKey)
+            });
+
+            const productsList = combo.products.map(p => `
+                <li class="flex items-center gap-3">
+                    <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-purple-500/50" alt="${p.name}">
+                    <span>${p.name}</span>
+                </li>
+            `).join('');
+
+            const messages = [
+                { title: `🤔 Este combo é ideal para você?`, content: combo.explanation },
+                { title: `📦 O que vem no seu Kit?`, content: `<ul class="space-y-3 mt-2">${productsList}</ul>` }
+            ];
+
+            const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento para o ${combo.title} (categoria: ${categoryInfo.line1}). Podemos conversar?`);
+            const ctas = `
+                <a href="https://wa.me/556792552604?text=${whatsappMessage}" target="_blank" class="chat-cta-button chat-cta-whatsapp flex-grow text-center text-white font-bold p-3 rounded-xl">
+                    <i class="fab fa-whatsapp"></i> Montar meu Plano com Especialista
+                </a>
+            `;
+
+            startChatSequence(messages, ctas);
+        };
+        
+        // --- FUNÇÃO DE INICIALIZAÇÃO PÚBLICA ---
         const initialize = (containerElement) => {
             appContainer = containerElement;
-            preloadProductImages();
             renderMainShowcase();
         };
 
-        // Expor funções públicas da Vitrine
-        return {
-            initialize: initialize,
-            renderMainShowcase: renderMainShowcase
-        };
+        return { initialize, renderMainShowcase };
 
     })();
 })();
