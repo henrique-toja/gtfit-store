@@ -7,9 +7,10 @@
     --black-background: #0c0a09; 
     --text-primary: #f0f2f5;
     --text-secondary: #a1a1aa;
-    --card-background: rgba(24, 24, 27, 0.5); /* Zinco 900 com transparência */
-    --card-border: rgba(168, 85, 247, 0.2);
-    --card-hover-border: rgba(168, 85, 247, 0.5);
+    /* ATUALIZADO: Fundo mais claro e transparente para os cards da vitrine */
+    --card-background-vitrine: rgba(255, 255, 255, 0.08); /* Branco com 8% de opacidade */
+    --card-border-vitrine: rgba(255, 255, 255, 0.15); /* Branco com 15% de opacidade */
+    --card-hover-border-vitrine: rgba(147, 51, 234, 0.7); /* Roxo para o hover */
     --font-sans: 'Roboto', sans-serif; /* FONTE ATUALIZADA: Roboto para um visual mais moderno e limpo */
     --font-serif: 'Playfair Display', serif; /* Fonte elegante para títulos */
 }
@@ -39,26 +40,18 @@ h1.text-3xl, h2.text-2xl {
 .view-enter { animation: fadeInUp 0.6s 0.2s ease-out forwards; opacity: 0; }
 .view-exit { animation: fadeOutDown 0.3s ease-in forwards; }
 
-/* --- NOVOS CARDS DA VITRINE --- */
-.showcase-card {
-    background: var(--card-background);
-    border: 1px solid var(--card-border);
+/* --- NOVOS CARDS DA VITRINE (Produto Individual e Categorias de Combo) --- */
+.product-card > div, .combo-category-card > div, .specific-combo-card > div {
+    background: var(--card-background-vitrine);
+    border: 1px solid var(--card-border-vitrine);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: all 0.3s ease-out;
 }
-.showcase-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--card-hover-border);
+.product-card:hover > div, .combo-category-card:hover > div, .specific-combo-card:hover > div {
+    transform: scale(1.05); /* Mantido o scale original para o hover */
+    border-color: var(--card-hover-border-vitrine);
     box-shadow: 0 10px 30px -15px rgba(147, 51, 234, 0.25);
-}
-
-.showcase-card-button {
-    background-color: var(--primary-purple);
-    transition: background-color 0.3s ease;
-}
-.showcase-card:hover .showcase-card-button {
-    background-color: #a855f7; /* Roxo mais claro no hover do card */
 }
 
 /* Estilo da barra de rolagem (mantido do original, pois é bom) */
@@ -78,8 +71,9 @@ h1.text-3xl, h2.text-2xl {
 
 /* Botão base para produtos e categorias */
 .link-button {
-    background: linear-gradient(145deg, #1f2937, #111827);
-    border: 1px solid #374151;
+    /* ATUALIZADO: Fundo preto e brilho sutil roxo para o botão de voltar */
+    background: #000;
+    border: 1px solid rgba(147, 51, 234, 0.3); /* Roxo sutil para o border */
     border-radius: 1rem;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
