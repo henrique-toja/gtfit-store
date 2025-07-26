@@ -8,6 +8,14 @@
         let appContainer; // Referência ao container principal da aplicação
         const domain = 'https://www.gtfit.store'; // Base domain para imagens
 
+        // Mapeamento de categorias de combo para as novas imagens
+        const categoryImages = {
+            'obesidade-grau-3': `${domain}/assets/images/grau3.jpg`,
+            'obesidade-grau-2': `${domain}/assets/images/grau2.jpg`, // Assumindo .jpg para grau2, corrigido de .pg
+            'obesidade-grau-1': `${domain}/assets/images/grau1.jpg`,
+            'sobrepeso-peso-normal': `${domain}/assets/images/grau0.jpg`
+        };
+
         // --- FUNÇÕES AUXILIARES GLOBAIS (AGORA LOCAIS À Vitrine) ---
 
         // Adiciona funcionalidade de abrir/fechar ao acordeão
@@ -54,14 +62,17 @@
                 window.gabiFitApp.products.allProducts.forEach(product => {
                     const img = new Image();
                     img.src = `${domain}${product.imagem}`;
-                    // Opcional: Adicionar ao DOM de forma invisível para garantir que o navegador as carregue
-                    // document.head.appendChild(img).style.display = 'none';
-                    // Ou simplesmente criar o objeto Image já é suficiente para o cache do navegador
                 });
                 console.log('Preload de imagens de produtos iniciado.');
             } else {
                 console.warn('Não foi possível iniciar o preload de imagens: products.js ou allProducts não carregado.');
             }
+            // Pré-carregamento das imagens de categoria de combo
+            Object.values(categoryImages).forEach(imgPath => {
+                const img = new Image();
+                img.src = imgPath;
+            });
+            console.log('Preload de imagens de categorias de combo iniciado.');
         };
 
 
@@ -69,8 +80,7 @@
 
         // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-40 group">
-                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
+            <div class="product-card flex-shrink-0 w-52 group"> <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
                     <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center truncate px-1" title="${product.nome}">${product.nome}</h3>
                     <button class="details-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
@@ -173,20 +183,23 @@
         // --- NOVAS FUNÇÕES DE RENDERIZAÇÃO DE COMBOS ---
 
         // Gera um cartão para a categoria de Combo (IMC)
-        const createComboCategoryCard = (categoryKey, categoryInfo) => `
-            <div class="combo-category-card flex-shrink-0 w-40 group">
-                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
-                    <div class="h-20 w-full flex flex-col items-center justify-center mb-1 px-1">
-                        <span class="text-4xl leading-none" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>
-                        <span class="text-sm font-semibold text-center text-slate-200 leading-tight truncate whitespace-nowrap" title="${categoryInfo.line1}">${categoryInfo.line1}</span>
-                        <span class="text-xs font-normal text-primary-green leading-tight truncate whitespace-nowrap" title="${categoryInfo.line2}">${categoryInfo.line2}</span>
+        const createComboCategoryCard = (categoryKey, categoryInfo) => {
+            const imageUrl = categoryImages[categoryKey] || ''; // Obtém a URL da imagem
+            return `
+                <div class="combo-category-card flex-shrink-0 w-52 group"> <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
+                        <div class="h-28 w-full flex items-center justify-center mb-1"> ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-auto object-contain mx-auto">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
+                        </div>
+                        <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
+                            <span class="truncate whitespace-nowrap" title="${categoryInfo.line1}">${categoryInfo.line1}</span>
+                            <span class="text-xs font-normal text-primary-green leading-tight truncate whitespace-nowrap" title="${categoryInfo.line2}">${categoryInfo.line2}</span>
+                        </h3>
+                        <button class="view-plans-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
+                            Ver Planos
+                        </button>
                     </div>
-                    <button class="view-plans-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
-                        Ver Planos
-                    </button>
                 </div>
-            </div>
-        `;
+            `;
+        };
 
         // Gera uma linha de categorias de combos com rolagem horizontal
         const createComboCategoryRow = () => {
@@ -209,8 +222,7 @@
 
         // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
         const createSpecificComboCard = (combo, originatingCategoryKey) => `
-            <div class="specific-combo-card flex-shrink-0 w-40 group" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
-                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
+            <div class="specific-combo-card flex-shrink-0 w-52 group"> <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
                     <div class="h-24 w-full flex items-center justify-center mb-3 text-white text-3xl">
                         <span class="truncate whitespace-nowrap" title="${combo.title.split(' ')[0]}">${combo.title.split(' ')[0]}</span>
                     </div>
