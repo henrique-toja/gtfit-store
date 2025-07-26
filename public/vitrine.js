@@ -7,6 +7,7 @@
     window.gabiFitApp.Vitrine = (function() {
         let appContainer; // Referência ao container principal da aplicação
         const domain = 'https://www.gtfit.store'; // Base domain para imagens
+        const mainStoreLink = 'https://www.gabrielatorraca.com.br'; // Link principal da loja
 
         // Mapeamento de categorias de combo para as novas imagens
         const categoryImages = {
@@ -55,6 +56,7 @@
                     if (step === 'showcase') {
                         renderMainShowcase();
                     } else if (step === 'categories') {
+                        // This path might be deprecated if combo categories are always on main showcase
                         renderComboCategories();
                     } else if (step === 'subcategories') {
                         renderComboSubcategories(category);
@@ -169,12 +171,13 @@
                             <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
                                 <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
                                 Loja <span class="text-primary-green">✅</span>
-                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg"></div>
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
                             </a>
 
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-slate-900 hover:bg-slate-800 transition-colors duration-300 ease-in-out shadow-lg shadow-purple-500/30">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
                                 Especialista <span class="text-emerald-200">🧠</span>
+                                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
                             </a>
                         </div>
                     </div>
@@ -266,7 +269,8 @@
             const productCategories = window.gabiFitApp.products.categoriesInfo;
             const showcaseHTML = `
                 <div class="animate-fade-in">
-                    ${createComboCategoryRow()}  ${createProductRow({ key: 'emagrecedores', title: productCategories.emagrecedores.title })}
+                    ${createComboCategoryRow()}
+                    ${createProductRow({ key: 'emagrecedores', title: productCategories.emagrecedores.title })}
                     ${createProductRow({ key: 'essenciais', title: productCategories.essenciais.title })}
                     ${createProductRow({ key: 'uteis', title: productCategories.uteis.title })}
                 </div>
@@ -285,7 +289,7 @@
             appContainer.querySelectorAll('.product-card').forEach(card => {
                 card.addEventListener('click', (e) => {
                     if (!e.target.closest('.details-button')) { // Se não clicou no botão "Detalhes"
-                        renderProductDetailView(card.dataset.productId);
+                        renderProductDetailView(card.querySelector('.details-button').dataset.productId); // Get product ID from the button inside
                     }
                 });
             });
@@ -302,7 +306,7 @@
             appContainer.querySelectorAll('.combo-category-card').forEach(card => {
                 card.addEventListener('click', (e) => {
                     if (!e.target.closest('.view-plans-button')) { // Se não clicou no botão "Ver Planos"
-                        renderComboSubcategories(card.dataset.categoryKey);
+                        renderComboSubcategories(card.querySelector('.view-plans-button').dataset.categoryKey); // Get category key from the button inside
                     }
                 });
             });
@@ -346,8 +350,8 @@
             appContainer.querySelectorAll('.specific-combo-card').forEach(card => {
                 card.addEventListener('click', (e) => {
                     if (!e.target.closest('.view-combo-button')) { // Se não clicou no botão "Ver Combo"
-                        const comboId = card.dataset.comboId;
-                        const category = card.dataset.originatingCategory;
+                        const comboId = card.querySelector('.view-combo-button').dataset.comboId; // Get combo ID from the button inside
+                        const category = card.querySelector('.view-combo-button').dataset.originatingCategory; // Get category from the button inside
                         renderComboDetail(comboId, category);
                     }
                 });
@@ -365,8 +369,8 @@
             const combo = window.gabiFitApp.combos.getComboById(comboId, originatingCategoryKey);
             if (!combo) return;
 
-            const message = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey].line1}.`);
-            const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
+            const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey].line1}.`);
+            const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
 
             const detailHTML = `
                 <div class="w-full max-w-lg mx-auto animate-fade-in">
@@ -402,8 +406,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="product-detail-footer">
-                            <a href="${whatsappUrl}" target="_blank" class="whatsapp-cta-button">🧠 Fazer planejamento com Especialista 🧠</a>
+                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                                Especialista <span class="text-emerald-200">🧠</span>
+                                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
+                            </a>
+
+                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                                <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
+                                Loja <span class="text-primary-green">✅</span>
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
+                            </a>
                         </div>
                     </div>
                     <button class="back-button link-button group" data-step="subcategories" data-category="${originatingCategoryKey}">
