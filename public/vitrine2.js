@@ -9,12 +9,19 @@
         const domain = 'https://www.gtfit.store'; // Base domain para imagens
 
         // Mapeamento de categorias de combo para as novas imagens
-        // AS CHAVES FORAM ATUALIZADAS PARA BATER COM AS CHAVES DO combos.js
         const categoryImages = {
-            'obesidade-grau-iii': `${domain}/assets/images/grau3.jpg`, // Antes: obesidade-grau-3
-            'obesidade-grau-ii': `${domain}/assets/images/grau2.jpg`,  // Antes: obesidade-grau-2
-            'obesidade-grau-i': `${domain}/assets/images/grau1.jpg`,   // Antes: obesidade-grau-1
-            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.jpg` // Antes: sobrepeso-peso-normal
+            'obesidade-grau-iii': `${domain}/assets/images/grau3.jpg`,
+            'obesidade-grau-ii': `${domain}/assets/images/grau2.jpg`,
+            'obesidade-grau-i': `${domain}/assets/images/grau1.jpg`,
+            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.jpg`
+        };
+
+        // NOVO: Mapeamento de tipos de combo para emojis
+        const comboEmojis = {
+            'eco': '😅', // Econômico
+            'anxiety': '🧘‍♀️', // Ansiedade
+            'potencia': '⚡', // Potência
+            'premium': '✨' // Premium
         };
 
         // --- FUNÇÕES AUXILIARES GLOBAIS (AGORA LOCAIS À Vitrine) ---
@@ -155,7 +162,7 @@
                             ${generateAccordionItem('🎯 Indicações', product.indicacoes)}
                             ${generateAccordionItem('🏆 Benefícios', product.beneficios)}
                             ${generateAccordionItem('📦 Embalagem', product.embalagem)}
-                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicações)}
+                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_imporproductstantes)}
                         </div>
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
@@ -225,19 +232,28 @@
         };
 
         // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
-        const createSpecificComboCard = (combo, originatingCategoryKey) => `
-            <div class="specific-combo-card flex-shrink-0 w-72 group">
-                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
-                    <div class="h-3/5 w-full flex items-center justify-center mb-3 text-white text-3xl">
-                        <span class="text-center font-bold">${combo.title.split(' ')[0]}</span>
+        const createSpecificComboCard = (combo, originatingCategoryKey) => {
+            const emoji = comboEmojis[combo.type] || '📦'; // Pega o emoji pelo tipo do combo, padrão se não encontrar
+            const mainTitle = `Plano ${combo.tag.replace('PLANO ', '')}`; // "PLANO ECONÔMICO" -> "Econômico"
+            const subTitle = `Projeto Slim - ${combo.duration}`; // "Projeto Slim - Mínimo 30 Dias"
+
+            return `
+                <div class="specific-combo-card flex-shrink-0 w-72 group">
+                    <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                        <div class="h-3/5 w-full flex items-center justify-center mb-3 text-white text-6xl">
+                            <span class="text-center">${emoji}</span>
+                        </div>
+                        <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
+                            <span class="text-base font-bold text-white">${mainTitle}</span>
+                            <span class="text-xs font-normal text-primary-green leading-tight">${subTitle}</span>
+                        </h3>
+                        <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
+                            Ver Combo
+                        </button>
                     </div>
-                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${combo.title}">${combo.title}</h3>
-                    <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
-                        Ver Combo
-                    </button>
                 </div>
-            </div>
-        `;
+            `;
+        };
 
         // Renderiza a vitrine principal com todas as linhas de produtos E a linha de combos
         const renderMainShowcase = () => {
@@ -304,7 +320,7 @@
 
             const subcategoriesHTML = `
                 <div class="w-full max-w-lg mx-auto animate-fade-in">
-                    <h2 class="text-2xl font-bold text-white text-center mb-5">Planos para: ${categoryInfo.line1} ${categoryInfo.emoji}</h2>
+                    <h2 class="text-2xl font-bold text-white text-center mb-5">Planos para: ${categoryInfo.line1}</h2>
                     <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
                         ${combosInSelectedCategory.map(combo => createSpecificComboCard(combo, originatingCategoryKey)).join('')}
                     </div>
