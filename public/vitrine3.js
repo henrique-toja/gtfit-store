@@ -1,4 +1,4 @@
-// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini (v1.3 - Subcategorias Verticais Corrigido)
+// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini (v1.4 - Brilho Restaurado e Layout Cards Original)
 (function() {
     window.gabiFitApp = window.gabiFitApp || {};
 
@@ -15,7 +15,7 @@
             'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png`
         };
 
-        // NOVO: Mapeamento de tipos de combo para emojis - MANTIDO, MAS NÃO USADO PARA IMAGEM PRINCIPAL DO CARD DO COMBO
+        // NOVO: Mapeamento de tipos de combo para emojis
         const comboEmojis = {
             'eco': '💸', // Econômico
             'anxiety': '🧘‍♀️', // Ansiedade
@@ -101,51 +101,21 @@
 
         // --- FUNÇÕES DE RENDERIZAÇÃO DA VITRINE PRINCIPAL ---
 
+        // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="showcase-card product-card-main flex flex-col justify-between flex-shrink-0 w-64 md:w-72 rounded-2xl p-4 cursor-pointer" data-product-id="${product.id}">
-                <div class="flex-grow">
-                    <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-40 w-full object-contain mx-auto mb-4">
-                    <h3 class="font-semibold text-center text-slate-100">${product.nome}</h3>
+            <div class="product-card flex-shrink-0 w-96 group">
+                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                    <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
+                    <h3 class="min-h-12 text-base font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
+                    <button class="details-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
+                        Detalhes
+                    </button>
                 </div>
-                <button class="showcase-card-button w-full text-white text-sm font-bold py-2.5 rounded-lg mt-4">
-                    Ver Detalhes
-                </button>
             </div>
         `;
 
-        const createComboCategoryCard = (categoryKey, categoryInfo) => {
-            const imageUrl = categoryImages[categoryKey] || ''; // Obtém a URL da imagem
-            return `
-                <div class="showcase-card combo-category-card flex flex-col justify-between flex-shrink-0 w-64 md:w-72 rounded-2xl p-4 cursor-pointer" data-category-key="${categoryKey}">
-                    <div class="flex-grow">
-                        ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-32 w-32 object-contain mx-auto rounded-full shadow-lg mb-4">` : `<span class="text-6xl text-center block mb-4">${categoryInfo.emoji}</span>`}
-                        <h3 class="text-base font-bold text-center text-white">${categoryInfo.line1}</h3>
-                        <p class="text-xs font-normal text-center text-primary-green leading-tight mt-1">${categoryInfo.line2}</p>
-                    </div>
-                    <button class="showcase-card-button w-full text-white text-sm font-bold py-2.5 rounded-lg mt-4">
-                        Ver Planos Ideais
-                    </button>
-                </div>
-            `;
-        };
-
-        const createSpecificComboCard = (combo, categoryKey) => {
-             const emoji = comboEmojis[combo.type] || '📦';
-             return `
-                <div class="showcase-card specific-combo-card flex flex-col justify-between flex-shrink-0 w-64 md:w-72 rounded-2xl p-6 cursor-pointer" data-combo-id="${combo.id}" data-originating-category="${categoryKey}">
-                    <div class="flex-grow text-center">
-                        <span class="text-6xl">${emoji}</span>
-                        <h3 class="text-lg font-bold text-white mt-4">Plano ${combo.tag.replace('PLANO ', '')}</h3>
-                        <p class="text-sm text-slate-300">${combo.duration}</p>
-                    </div>
-                    <button class="showcase-card-button w-full text-white text-sm font-bold py-2.5 rounded-lg mt-4">
-                        Ver Detalhes
-                    </button>
-                </div>
-             `;
-        };
-
-        const createRow = (title, cards) => `
+        // Gera uma linha de produtos com rolagem horizontal
+        const createProductRow = (title, cards) => `
             <section class="mb-12">
                 <h2 class="text-2xl font-bold text-white mb-6 text-center">${title}</h2>
                 <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin px-2">
@@ -153,6 +123,51 @@
                 </div>
             </section>
         `;
+
+        // Gera um cartão para a categoria de Combo (IMC)
+        const createComboCategoryCard = (categoryKey, categoryInfo) => {
+            const imageUrl = categoryImages[categoryKey] || '';
+            return `
+                <div class="combo-category-card flex-shrink-0 w-96 group">
+                    <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                        <div class="h-3/5 w-full flex items-center justify-center mb-1">
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-32 w-32 object-contain mx-auto rounded-full shadow-lg shadow-purple-500/20">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
+                        </div>
+                        <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
+                            <span class="text-base font-bold text-white">${categoryInfo.line1}</span>
+                            <span class="text-xs font-normal text-primary-green leading-tight">${categoryInfo.line2}</span>
+                        </h3>
+                        <button class="view-plans-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
+                            Ver Planos Ideais
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
+
+        // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
+        const createSpecificComboCard = (combo, originatingCategoryKey) => {
+            const emoji = comboEmojis[combo.type] || '📦';
+            const mainTitle = `Plano ${combo.tag.replace('PLANO ', '')}`;
+            const subTitle = `Projeto Slim - ${combo.duration}`;
+
+            return `
+                <div class="specific-combo-card flex-shrink-0 w-80 group">
+                    <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                        <div class="h-3/5 w-full flex items-center justify-center mb-3">
+                            <span class="text-6xl text-white text-center" role="img" aria-label="Emoji">${emoji}</span>
+                        </div>
+                        <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
+                            <span class="text-base font-bold text-white">${mainTitle}</span>
+                            <span class="text-xs font-normal text-primary-green leading-tight">${subTitle}</span>
+                        </h3>
+                        <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
+                            Ver Detalhes
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
 
         const renderMainShowcase = () => {
             const { products, combos } = window.gabiFitApp;
@@ -165,18 +180,21 @@
 
             const showcaseHTML = `
                 <div class="view-enter">
-                    ${createRow("Encontre seu Combo Ideal", comboCategoryCards)}
-                    ${createRow(productCategories.emagrecedores.title, emagrecedoresCards)}
-                    ${createRow(productCategories.essenciais.title, essenciaisCards)}
-                    ${createRow(productCategories.uteis.title, uteisCards)}
+                    ${createProductRow("Encontre seu Combo Ideal", comboCategoryCards)}
+                    ${createProductRow(productCategories.emagrecedores.title, emagrecedoresCards)}
+                    ${createProductRow(productCategories.essenciais.title, essenciaisCards)}
+                    ${createProductRow(productCategories.uteis.title, uteisCards)}
                 </div>
             `;
             appContainer.innerHTML = showcaseHTML;
 
             // Add listeners for product cards
-            _addClickListeners('.product-card-main', el => _transitionView(renderProductDetailView, el.dataset.productId));
+            _addClickListeners('.product-card .details-button', el => _transitionView(renderProductDetailView, el.dataset.productId));
+            _addClickListeners('.product-card:not(.details-button)', el => _transitionView(renderProductDetailView, el.querySelector('.details-button').dataset.productId));
+
             // Add listeners for combo category cards
-            _addClickListeners('.combo-category-card', el => _transitionView(renderComboSubcategories, el.dataset.categoryKey));
+            _addClickListeners('.combo-category-card .view-plans-button', el => _transitionView(renderComboSubcategories, el.dataset.categoryKey));
+            _addClickListeners('.combo-category-card:not(.view-plans-button)', el => _transitionView(renderComboSubcategories, el.querySelector('.view-plans-button').dataset.categoryKey));
         };
 
         // --- FUNÇÕES DE RENDERIZAÇÃO DA TELA DE DETALHES DO PRODUTO (INDIVIDUAL) ---
@@ -225,13 +243,13 @@
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_importantes)}
                         </div>
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
-                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
                                 <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
                                 Loja <span class="text-primary-green">✅</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
                             </a>
 
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
                                 Especialista <span class="text-emerald-200">🧠</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
@@ -272,7 +290,8 @@
             appContainer.innerHTML = subcategoriesHTML;
 
             // Adiciona listeners para os botões "Ver Combo" dos combos específicos
-            _addClickListeners('.specific-combo-card', el => _transitionView(renderComboDetail, el.dataset.comboId, el.dataset.originatingCategory));
+            _addClickListeners('.specific-combo-card .view-combo-button', el => _transitionView(renderComboDetail, el.dataset.comboId, el.dataset.originatingCategory));
+            _addClickListeners('.specific-combo-card:not(.view-combo-button)', el => _transitionView(renderComboDetail, el.querySelector('.view-combo-button').dataset.comboId, el.querySelector('.view-combo-button').dataset.originatingCategory));
             addBackButtonListener(); // Re-adiciona listener para o botão de voltar
         };
 
@@ -323,13 +342,13 @@
                             </div>
                         </div>
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
                                 Especialista <span class="text-emerald-200">🧠</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
                             </a>
 
-                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
                                 <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
                                 Loja <span class="text-primary-green">✅</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
