@@ -80,9 +80,10 @@
 
         // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-52 group"> <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
-                    <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
-                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center truncate px-1" title="${product.nome}">${product.nome}</h3>
+            <div class="product-card flex-shrink-0 w-64 group">
+                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                    <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
+                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
                     <button class="details-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
                         Detalhes
                     </button>
@@ -186,12 +187,14 @@
         const createComboCategoryCard = (categoryKey, categoryInfo) => {
             const imageUrl = categoryImages[categoryKey] || ''; // Obtém a URL da imagem
             return `
-                <div class="combo-category-card flex-shrink-0 w-52 group"> <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
-                        <div class="h-28 w-full flex items-center justify-center mb-1"> ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-auto object-contain mx-auto">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
+                <div class="combo-category-card flex-shrink-0 w-64 group">
+                    <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                        <div class="h-3/5 w-full flex items-center justify-center mb-1">
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-full object-contain mx-auto">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
                         </div>
                         <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
-                            <span class="truncate whitespace-nowrap" title="${categoryInfo.line1}">${categoryInfo.line1}</span>
-                            <span class="text-xs font-normal text-primary-green leading-tight truncate whitespace-nowrap" title="${categoryInfo.line2}">${categoryInfo.line2}</span>
+                            <span class="text-base font-bold text-white">${categoryInfo.line1}</span>
+                            <span class="text-xs font-normal text-primary-green leading-tight">${categoryInfo.line2}</span>
                         </h3>
                         <button class="view-plans-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
                             Ver Planos
@@ -222,11 +225,12 @@
 
         // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
         const createSpecificComboCard = (combo, originatingCategoryKey) => `
-            <div class="specific-combo-card flex-shrink-0 w-52 group"> <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
-                    <div class="h-24 w-full flex items-center justify-center mb-3 text-white text-3xl">
-                        <span class="truncate whitespace-nowrap" title="${combo.title.split(' ')[0]}">${combo.title.split(' ')[0]}</span>
+            <div class="specific-combo-card flex-shrink-0 w-64 group">
+                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                    <div class="h-3/5 w-full flex items-center justify-center mb-3 text-white text-3xl">
+                        <span class="text-center font-bold">${combo.title.split(' ')[0]}</span>
                     </div>
-                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center truncate px-1" title="${combo.title}">${combo.title}</h3>
+                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${combo.title}">${combo.title}</h3>
                     <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
                         Ver Combo
                     </button>
