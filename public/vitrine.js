@@ -42,32 +42,58 @@
                 backButton.addEventListener('click', (e) => {
                     const step = e.currentTarget.dataset.step;
                     const category = e.currentTarget.dataset.category;
+                    const comboType = e.currentTarget.dataset.comboType; // Novo para voltar de detalhes de combo
+                    const originatingCategory = e.currentTarget.dataset.originatingCategory; // Novo para voltar de subcategorias de combo
+
                     if (step === 'showcase') {
                         renderMainShowcase();
                     } else if (step === 'categories') {
+                        // Esta rota não é mais usada diretamente, mas mantida para segurança
                         renderComboCategories();
                     } else if (step === 'subcategories') {
-                        renderComboSubcategories(category);
+                        renderComboSubcategories(category); // category aqui seria o IMC
                     }
                 });
             }
         };
 
+        // --- FUNÇÃO PARA PRELOAD DE IMAGENS ---
+        const preloadProductImages = () => {
+            if (window.gabiFitApp.products && window.gabiFitApp.products.allProducts) {
+                window.gabiFitApp.products.allProducts.forEach(product => {
+                    const img = new Image();
+                    img.src = `${domain}${product.imagem}`;
+                });
+                console.log('Preload de imagens de produtos iniciado.');
+            } else {
+                console.warn('Não foi possível iniciar o preload de imagens: products.js ou allProducts não carregado.');
+            }
+            // Pré-carregamento das imagens de categoria de combo
+            Object.values(categoryImages).forEach(imgPath => {
+                const img = new Image();
+                img.src = imgPath;
+            });
+            console.log('Preload de imagens de categorias de combo iniciado.');
+        };
+
+
         // --- FUNÇÕES DE RENDERIZAÇÃO DA VITRINE DE PRODUTOS ---
 
-        // Generates a card for the main showcase rows
+        // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-40 cursor-pointer group" data-product-id="${product.id}">
-                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20">
-                    <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-24 w-full object-contain mb-3">
-                    <h3 class="h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center">${product.nome}</h3>
+            <div class="product-card flex-shrink-0 w-72 group">
+                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                    <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
+                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
+                    <button class="details-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
+                        Detalhes
+                    </button>
                 </div>
             </div>
         `;
 
-        // Generates a full horizontally scrolling row
+        // Gera uma linha de produtos com rolagem horizontal
         const createProductRow = (categoryInfo) => {
-            // Certifique-se que gabiFitApp.products está disponível
             if (!window.gabiFitApp.products) {
                 console.error('products.js não foi carregado corretamente.');
                 return '';
@@ -83,17 +109,7 @@
             `;
         };
 
-        // Generates the special "Combos" button section
-        const createCombosSection = () => `
-            <section class="mb-10">
-                <h2 class="text-2xl font-bold text-white mb-5">🔥 Combos 🔥</h2>
-                <button id="show-combos-flow" class="w-full p-6 rounded-2xl text-white font-bold text-xl bg-gradient-to-r from-purple-600 to-green-500 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 ease-in-out">
-                    Encontre o Combo Ideal para Você!
-                </button>
-            </section>
-        `;
-
-        // Generates the detailed product view
+        // --- FUNÇÃO DE RENDERIZAÇÃO DA TELA DE DETALHES DO PRODUTO (INDIVIDUAL) ---
         const renderProductDetailView = (productId) => {
             if (!window.gabiFitApp.products) {
                 console.error('products.js não foi carregado corretamente.');
@@ -102,7 +118,7 @@
             const product = window.gabiFitApp.products.getProductById(productId);
             if (!product) return;
 
-            // Helper to generate accordion items for the detail view
+            // Helper para gerar itens de acordeão para a visualização detalhada
             const generateAccordionItem = (title, content, isOpen = false) => {
                 if (!content || (Array.isArray(content) && content.length === 0)) return '';
                 const contentHTML = Array.isArray(content)
@@ -118,6 +134,10 @@
                     </div>
                 `;
             };
+
+            // Mensagem do WhatsApp personalizada
+            const whatsappMessage = encodeURIComponent(`Olá, vi o produto "${product.nome}" na Vitrine da loja virtual e gostaria de saber mais! Podemos conversar?`);
+            const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
 
             const detailHTML = `
                 <div class="w-full max-w-lg mx-auto animate-fade-in">
@@ -135,11 +155,20 @@
                             ${generateAccordionItem('🎯 Indicações', product.indicacoes)}
                             ${generateAccordionItem('🏆 Benefícios', product.beneficios)}
                             ${generateAccordionItem('📦 Embalagem', product.embalagem)}
-                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
+                            ${generateAccordionItem('🚫 Contraindicações', product.contraindicações)}
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_imporproductstantes)}
                         </div>
-                        <div class="product-detail-footer">
-                            <a href="${product.link_loja}" target="_blank" class="store-cta-button">Ver na Loja Oficial ✅</a>
+                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
+                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                                <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
+                                Loja <span class="text-primary-green">✅</span>
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg"></div>
+                            </a>
+
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-slate-900 hover:bg-slate-800 transition-colors duration-300 ease-in-out shadow-lg shadow-purple-500/30">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                                Especialista <span class="text-emerald-200">🧠</span>
+                            </a>
                         </div>
                     </div>
                     <button class="back-button link-button group" data-step="showcase">
@@ -153,33 +182,162 @@
             addBackButtonListener();
         };
 
-        // Renders the main showcase with all product rows
+        // --- NOVAS FUNÇÕES DE RENDERIZAÇÃO DE COMBOS ---
+
+        // Gera um cartão para a categoria de Combo (IMC)
+        const createComboCategoryCard = (categoryKey, categoryInfo) => {
+            const imageUrl = categoryImages[categoryKey] || ''; // Obtém a URL da imagem
+            return `
+                <div class="combo-category-card flex-shrink-0 w-72 group">
+                    <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                        <div class="h-3/5 w-full flex items-center justify-center mb-1">
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-full w-full object-contain mx-auto">` : `<span class="text-4xl" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`}
+                        </div>
+                        <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
+                            <span class="text-base font-bold text-white">${categoryInfo.line1}</span>
+                            <span class="text-xs font-normal text-primary-green leading-tight">${categoryInfo.line2}</span>
+                        </h3>
+                        <button class="view-plans-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
+                            Ver Planos
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
+
+        // Gera uma linha de categorias de combos com rolagem horizontal
+        const createComboCategoryRow = () => {
+            if (!window.gabiFitApp.combos) {
+                console.error('combos.js não foi carregado corretamente.');
+                return '';
+            }
+            const categories = window.gabiFitApp.combos.categoryDisplayInfo;
+            const categoryKeys = Object.keys(categories); // Pega as chaves para iterar
+
+            return `
+                <section class="mb-10">
+                    <h2 class="text-2xl font-bold text-white mb-5">🔥 Encontre seu Combo Ideal 🔥</h2>
+                    <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
+                        ${categoryKeys.map(key => createComboCategoryCard(key, categories[key])).join('')}
+                    </div>
+                </section>
+            `;
+        };
+
+        // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
+        const createSpecificComboCard = (combo, originatingCategoryKey) => `
+            <div class="specific-combo-card flex-shrink-0 w-72 group">
+                <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
+                    <div class="h-3/5 w-full flex items-center justify-center mb-3 text-white text-3xl">
+                        <span class="text-center font-bold">${combo.title.split(' ')[0]}</span>
+                    </div>
+                    <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${combo.title}">${combo.title}</h3>
+                    <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
+                        Ver Combo
+                    </button>
+                </div>
+            </div>
+        `;
+
+        // Renderiza a vitrine principal com todas as linhas de produtos E a linha de combos
         const renderMainShowcase = () => {
-            if (!window.gabiFitApp.products) {
-                console.error('products.js não foi carregado corretamente.');
+            if (!window.gabiFitApp.products || !window.gabiFitApp.combos) {
+                console.error('products.js ou combos.js não foi carregado corretamente.');
                 return;
             }
-            const categories = window.gabiFitApp.products.categoriesInfo;
+            const productCategories = window.gabiFitApp.products.categoriesInfo;
             const showcaseHTML = `
                 <div class="animate-fade-in">
-                    ${createProductRow({ key: 'emagrecedores', title: categories.emagrecedores.title })}
-                    ${createCombosSection()}
-                    ${createProductRow({ key: 'essenciais', title: categories.essenciais.title })}
-                    ${createProductRow({ key: 'uteis', title: categories.uteis.title })}
+                    ${createProductRow({ key: 'emagrecedores', title: productCategories.emagrecedores.title })}
+                    ${createComboCategoryRow()}
+                    ${createProductRow({ key: 'essenciais', title: productCategories.essenciais.title })}
+                    ${createProductRow({ key: 'uteis', title: productCategories.uteis.title })}
                 </div>
             `;
             appContainer.innerHTML = showcaseHTML;
 
-            // Add event listeners for product cards
-            appContainer.querySelectorAll('.product-card').forEach(card => {
-                card.addEventListener('click', () => renderProductDetailView(card.dataset.productId));
+            // Adiciona listeners para os botões "Detalhes" dos produtos
+            appContainer.querySelectorAll('.product-card .details-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Previne o clique do card pai
+                    renderProductDetailView(e.currentTarget.dataset.productId);
+                });
             });
 
-            // Add event listener for the "Combos" button
-            document.getElementById('show-combos-flow').addEventListener('click', renderComboCategories);
+            // Adiciona listener para o clique no corpo do card do produto
+            appContainer.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.details-button')) { // Se não clicou no botão "Detalhes"
+                        renderProductDetailView(card.dataset.productId);
+                    }
+                });
+            });
+
+            // Adiciona listeners para os botões "Ver Planos" das categorias de Combo (IMC)
+            appContainer.querySelectorAll('.combo-category-card .view-plans-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Previne o clique do card pai
+                    renderComboSubcategories(e.currentTarget.dataset.categoryKey);
+                });
+            });
+
+            // Adiciona listener para o clique no corpo do card da categoria de Combo
+            appContainer.querySelectorAll('.combo-category-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.view-plans-button')) { // Se não clicou no botão "Ver Planos"
+                        renderComboSubcategories(card.dataset.categoryKey);
+                    }
+                });
+            });
         };
 
-        // --- FUNÇÕES DE RENDERIZAÇÃO DE COMBOS ---
+        // --- FUNÇÕES DE RENDERIZAÇÃO DE COMBOS (AJUSTADAS) ---
+
+        // Etapa 2: Exibe os COMBOS ESPECÍFICOS (Econômico, Ansiedade, etc.) dentro de uma CATEGORIA (IMC)
+        const renderComboSubcategories = (originatingCategoryKey) => {
+            if (!window.gabiFitApp.combos) {
+                console.error('combos.js não foi carregado corretamente.');
+                return;
+            }
+            const combosInSelectedCategory = window.gabiFitApp.combos.getCombosSubcategories(originatingCategoryKey);
+            const categoryInfo = window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey];
+
+            const subcategoriesHTML = `
+                <div class="w-full max-w-lg mx-auto animate-fade-in">
+                    <h2 class="text-2xl font-bold text-white text-center mb-5">Planos para: ${categoryInfo.line1} ${categoryInfo.emoji}</h2>
+                    <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
+                        ${combosInSelectedCategory.map(combo => createSpecificComboCard(combo, originatingCategoryKey)).join('')}
+                    </div>
+                    <button class="back-button link-button group mt-8" data-step="showcase">
+                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
+                    </button>
+                </div>`;
+
+            appContainer.innerHTML = subcategoriesHTML;
+
+            // Adiciona listeners para os botões "Ver Combo" dos combos específicos
+            appContainer.querySelectorAll('.specific-combo-card .view-combo-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Previne o clique do card pai
+                    const comboId = e.currentTarget.dataset.comboId;
+                    const category = e.currentTarget.dataset.originatingCategory;
+                    renderComboDetail(comboId, category);
+                });
+            });
+
+             // Adiciona listener para o clique no corpo do card do combo específico
+            appContainer.querySelectorAll('.specific-combo-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.view-combo-button')) { // Se não clicou no botão "Ver Combo"
+                        const comboId = card.dataset.comboId;
+                        const category = card.dataset.originatingCategory;
+                        renderComboDetail(comboId, category);
+                    }
+                });
+            });
+
+            addBackButtonListener(); // Re-adiciona listener para o botão de voltar
+        };
 
         // Etapa 3: Exibe os detalhes finais de um combo específico
         const renderComboDetail = (comboId, originatingCategoryKey) => {
@@ -190,7 +348,7 @@
             const combo = window.gabiFitApp.combos.getComboById(comboId, originatingCategoryKey);
             if (!combo) return;
 
-            const message = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}".`);
+            const message = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey].line1}.`);
             const whatsappUrl = `https://wa.me/556792552604?text=${message}`;
 
             const detailHTML = `
@@ -241,86 +399,26 @@
             addBackButtonListener();
         };
 
-        // Etapa 2: Exibe as subcategorias de um combo (Econômico, Ansiedade, etc.)
-        const renderComboSubcategories = (categoryKey) => {
-            if (!window.gabiFitApp.combos) {
-                console.error('combos.js não foi carregado corretamente.');
-                return;
-            }
-            const subcategories = window.gabiFitApp.combos.getCombosSubcategories(categoryKey);
-            const subcategoryButtons = [
-                { type: 'eco', text: '😅 Combo Econômico 😅' },
-                { type: 'anxiety', text: '🥵 Combo Ansiedade 🥵' },
-                { type: 'potencia', text: '💪 Combo Potência 💪' },
-                { type: 'premium', text: '🤑 Combo Premium 🤑' }
-            ];
-
-            const subcategoriesHTML = `
-                <div class="w-full max-w-md mx-auto flex flex-col items-center gap-5 animate-fade-in">
-                    <h2 class="text-2xl font-bold text-white text-center mb-3">Escolha o tipo de plano:</h2>
-                    ${subcategoryButtons.map(btn => {
-                        const combo = subcategories.find(c => c.type === btn.type);
-                        return combo ? `<button class="link-button group w-full p-4 h-16 flex justify-center items-center combo-subcategory-btn" data-combo-id="${combo.id}" data-category="${categoryKey}"><span class="font-semibold text-slate-200 group-hover:text-white">${btn.text}</span></button>` : '';
-                    }).join('')}
-                    <button class="back-button link-button group mt-3" data-step="categories">
-                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar</span>
-                    </button>
-                </div>`;
-
-            appContainer.innerHTML = subcategoriesHTML;
-
-            appContainer.querySelectorAll('.combo-subcategory-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const comboId = e.currentTarget.dataset.comboId;
-                    const category = e.currentTarget.dataset.category;
-                    renderComboDetail(comboId, category);
-                });
-            });
-            addBackButtonListener();
-        };
-
-        // Etapa 1: Exibe as categorias principais de combos (níveis de obesidade)
+        // Renderiza as categorias principais de combos (IMC) - AGORA NÃO MAIS USADA DIRETAMENTE, MAS MANTIDA PARA LÓGICA
+        // A lógica de renderização dessas categorias será feita diretamente em renderMainShowcase
         const renderComboCategories = () => {
-            if (!window.gabiFitApp.combos) {
-                console.error('combos.js não foi carregado corretamente.');
-                return;
-            }
-            const categoryDisplayInfo = window.gabiFitApp.combos.categoryDisplayInfo;
-            const categoriesHTML = `
-                <div class="w-full max-w-md mx-auto flex flex-col items-center gap-5 animate-fade-in">
-                    <h2 class="text-2xl font-bold text-white text-center mb-3">Primeiro, selecione seu perfil atual:</h2>
-                    ${Object.entries(categoryDisplayInfo).map(([key, info]) => `
-                        <button data-category-key="${key}" class="combo-category-btn link-button group w-full p-4 h-auto">
-                            <div class="text-center">
-                                <p class="font-semibold text-slate-100 group-hover:text-white text-lg">${info.line1}</p>
-                                <p class="text-sm font-medium text-primary-green group-hover:text-emerald-300">${info.line2}</p>
-                            </div>
-                        </button>
-                    `).join('')}
-                    <button class="back-button link-button group mt-3" data-step="showcase">
-                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
-                    </button>
-                </div>
-            `;
-            appContainer.innerHTML = categoriesHTML;
-
-            appContainer.querySelectorAll('.combo-category-btn').forEach(button => {
-                button.addEventListener('click', (e) => renderComboSubcategories(e.currentTarget.dataset.categoryKey));
-            });
-            addBackButtonListener();
+            // Esta função não é mais chamada diretamente como uma "etapa" separada
+            // A vitrine principal agora exibe as categorias de combo diretamente
+            console.warn('renderComboCategories foi chamada, mas agora as categorias de combo são renderizadas diretamente na vitrine principal.');
+            renderMainShowcase();
         };
 
         // --- FUNÇÃO DE INICIALIZAÇÃO PÚBLICA PARA A VITRINE ---
-        // Esta função será chamada pelo main.js para iniciar a aplicação.
         const initialize = (containerElement) => {
             appContainer = containerElement;
+            preloadProductImages(); // Inicia o preload das imagens
             renderMainShowcase(); // Inicia mostrando a vitrine principal
         };
 
         // Expor funções públicas da Vitrine
         return {
             initialize: initialize,
-            renderMainShowcase: renderMainShowcase // Se você quiser recarregar a vitrine de fora
+            renderMainShowcase: renderMainShowcase
         };
 
     })(); // Fim do IIFE para window.gabiFitApp.Vitrine
