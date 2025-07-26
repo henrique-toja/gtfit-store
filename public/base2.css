@@ -1,144 +1,127 @@
-/* base.css */
-
-/* Nenhuma alteração necessária aqui, as classes de tamanho são do Tailwind e serão aplicadas via JS. */
+/* base.css - REVOLUÇÃO VISUAL by Gemini */
 
 :root {
-    --primary-purple: #9333ea; /* Cor roxa principal */
-    --primary-green: #22c55e;  /* Cor verde principal */
-    --glow-purple: rgba(147, 51, 234, 0.4); /* Glow roxo */
-    --glow-emerald: rgba(52, 211, 153, 0.4); /* Glow verde esmeralda */
-    --black-background: #0c0a09;
-    --dark-slate: #1e293b; /* A bit lighter than full black for backgrounds */
-    --darker-slate: #0f172a; /* Even darker for some elements */
+    --primary-purple: #9333ea;
+    --primary-green: #22c55e;
+    --black-background: #06020c; /* Um preto mais profundo, com um toque de roxo */
+    --text-primary: #f0f2f5;
+    --text-secondary: #a1a1aa;
+    --card-background: rgba(24, 24, 27, 0.5); /* Zinco 900 com transparência */
+    --card-border: rgba(168, 85, 247, 0.2);
+    --card-hover-border: rgba(168, 85, 247, 0.5);
+    --font-sans: 'Inter', sans-serif;
+    --font-serif: 'Playfair Display', serif; /* Fonte elegante para títulos */
 }
+
 body {
-    background-color: var(--black-background); /* Fundo escuro */
-    font-family: 'Inter', sans-serif;
-    color: #e5e7eb;
+    background-color: var(--black-background);
+    background-image: radial-gradient(circle at 15% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 40%),
+                      radial-gradient(circle at 85% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 40%);
+    background-attachment: fixed;
+    font-family: var(--font-sans);
+    color: var(--text-primary);
 }
-/* Estilização da barra de rolagem para navegadores WebKit (Chrome, Safari) */
-.scrollbar-thin::-webkit-scrollbar {
-    height: 6px;
+
+/* --- ESTILOS GERAIS E TIPOGRAFIA --- */
+
+/* Sobrescrevendo os títulos h1 e h2 para usar a nova fonte serifada */
+h1.text-3xl, h2.text-2xl {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
 }
-.scrollbar-thin::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
+
+/* --- ANIMAÇÕES E TRANSIÇÕES DE PÁGINA --- */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOutDown { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(20px); } }
+
+.view-enter { animation: fadeInUp 0.6s 0.2s ease-out forwards; opacity: 0; }
+.view-exit { animation: fadeOutDown 0.3s ease-in forwards; }
+
+/* --- NOVOS CARDS DA VITRINE --- */
+.showcase-card {
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease-out;
 }
-.scrollbar-thin::-webkit-scrollbar-thumb {
+.showcase-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--card-hover-border);
+    box-shadow: 0 10px 30px -15px rgba(147, 51, 234, 0.25);
+}
+
+.showcase-card-button {
     background-color: var(--primary-purple);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: content-box;
+    transition: background-color 0.3s ease;
 }
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background-color: #a855f7;
+.showcase-card:hover .showcase-card-button {
+    background-color: #a855f7; /* Roxo mais claro no hover do card */
 }
 
-/* Botão base para produtos e categorias */
-.link-button {
-    background: linear-gradient(145deg, var(--dark-slate), var(--darker-slate));
-    border: 1px solid #374151;
-    border-radius: 1rem;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
+/* Estilo da barra de rolagem (mantido do original, pois é bom) */
+.scrollbar-thin::-webkit-scrollbar { height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--primary-purple); border-radius: 10px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background-color: #a855f7; }
+
+/* --- INTERFACE DE CHAT "GABI GPT" --- */
+.gabi-chat-header {
+    border: 1px solid var(--card-border);
+    background: var(--card-background);
 }
-.link-button:hover {
-    transform: translateY(-3px);
-    border-color: var(--primary-purple);
-    box-shadow: 0 4px 20px -5px var(--glow-purple);
+.gabi-chat-avatar {
+    border: 2px solid var(--primary-purple);
+    box-shadow: 0 0 15px rgba(147, 51, 234, 0.5);
 }
-.link-button.back-button {
-    margin: 2rem auto 0;
-    max-width: 24rem;
-    padding: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+.gabi-chat-status::before {
+    content: '';
+    animation: pulse-green 2s infinite;
+}
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
 }
 
-/* Estilos do card de detalhe (usado para produtos e combos) */
-.product-card-detail {
-    background: linear-gradient(145deg, #18181b, #111111);
-    border: 1px solid #333;
-    border-radius: 1.5rem;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 50px -15px var(--glow-purple), 0 0 15px -5px rgba(34, 197, 94, 0.4);
+/* Mensagens do Chat */
+.chat-message {
+    animation: fadeInUp 0.5s ease-out forwards;
 }
-.product-detail-header { padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid #333; }
-.product-accordion-container { padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
-.product-accordion-item { border-bottom: 1px solid #333; }
-.product-accordion-item:last-child { border-bottom: none; }
-.product-accordion-header {
-    width: 100%; display: flex; justify-content: space-between; align-items: center;
-    padding: 1rem 0.5rem; text-align: left; background: transparent; border: none;
-    color: white; cursor: pointer; font-size: 1rem; font-weight: 600;
+.message-gabi {
+    background-color: #1e293b; /* slate-800 */
+    border-bottom-left-radius: 0.5rem;
 }
-.product-accordion-header i { transition: transform 0.3s ease; }
-.product-accordion-item.open .product-accordion-header i { transform: rotate(180deg); }
-.product-accordion-content { max-height: 0px; overflow: hidden; transition: max-height 0.4s ease-out; }
-.product-accordion-body { padding: 0 0.5rem 1rem 0.5rem; color: #d1d5db; line-height: 1.7; text-align: justify; }
-.product-detail-footer { padding: 1.5rem; background: #111111; margin-top: auto; border-top: 1px solid #333; }
-
-/* Botões CTA personalizados com brilho */
-.store-cta-button-full,
-.specialist-cta-button-full {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem; /* Reduced gap for better fit */
-    padding: 0.75rem 1rem; /* Slightly reduced padding */
-    border-radius: 0.75rem; /* Rounded corners */
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.95rem; /* Slightly smaller font */
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    overflow: hidden;
-    color: white; /* Ensure text color is white */
-    background-color: var(--black-background); /* Match the darker background for consistency */
-    border: 1px solid transparent; /* Base border */
+.message-user-prompt {
+    background-color: var(--primary-purple);
+    border-bottom-right-radius: 0.5rem;
 }
 
-/* Specific styling for the store button */
-.store-cta-button-full {
-    border-color: rgba(147, 51, 234, 0.3); /* Initial subtle purple border */
+/* Indicador "Digitando..." */
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--text-secondary);
+    animation: bounce 1.2s infinite;
 }
-.store-cta-button-full:hover {
-    border-color: var(--primary-purple); /* Stronger purple border on hover */
-    box-shadow: 0 0 20px -5px var(--glow-purple); /* Purple glow shadow */
-    transform: translateY(-2px); /* Slight lift */
-}
+.typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 
-/* Specific styling for the specialist (WhatsApp) button */
-.specialist-cta-button-full {
-    border-color: rgba(34, 197, 94, 0.3); /* Initial subtle emerald border */
+/* Botões de CTA do Chat */
+.chat-cta-button {
+    transition: transform 0.2s ease, filter 0.2s ease;
 }
-.specialist-cta-button-full:hover {
-    border-color: var(--primary-green); /* Stronger emerald border on hover */
-    box-shadow: 0 0 20px -5px var(--glow-emerald); /* Emerald glow shadow */
-    transform: translateY(-2px); /* Slight lift */
+.chat-cta-button:hover {
+    transform: scale(1.05);
+    filter: brightness(1.15);
 }
+.chat-cta-whatsapp { background-color: #25D366; }
+.chat-cta-store { background-color: var(--primary-purple); }
 
-
-/* Internal glow effect for both buttons */
-.store-cta-button-full .absolute,
-.specialist-cta-button-full .absolute {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-.store-cta-button-full:hover .absolute,
-.specialist-cta-button-full:hover .absolute {
-    opacity: 1;
-}
-
-/* Animação */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-
-/* Animação para o chat bubble (if still used, otherwise remove) */
+/* Animação original do pulse para o widget do chat */
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.7); }
     70% { box-shadow: 0 0 0 10px rgba(147, 51, 234, 0); }
