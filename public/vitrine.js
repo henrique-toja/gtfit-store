@@ -266,8 +266,7 @@
             const productCategories = window.gabiFitApp.products.categoriesInfo;
             const showcaseHTML = `
                 <div class="animate-fade-in">
-                    ${createProductRow({ key: 'emagrecedores', title: productCategories.emagrecedores.title })}
-                    ${createComboCategoryRow()}
+                    ${createComboCategoryRow()}  ${createProductRow({ key: 'emagrecedores', title: productCategories.emagrecedores.title })}
                     ${createProductRow({ key: 'essenciais', title: productCategories.essenciais.title })}
                     ${createProductRow({ key: 'uteis', title: productCategories.uteis.title })}
                 </div>
