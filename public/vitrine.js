@@ -234,8 +234,8 @@
 
         // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
         const createSpecificComboCard = (combo, originatingCategoryKey) => {
-            // Usa a imagem da categoria pai (IMC) para o card do combo
-            const imageUrl = categoryImages[originatingCategoryKey] || '';
+            // *** CORREÇÃO AQUI: USAR O EMOJI ESPECÍFICO DO COMBO AO INVÉS DA IMAGEM DA CATEGORIA PAI ***
+            const emoji = comboEmojis[combo.type] || '📦'; // Obtém o emoji pelo tipo de combo
             const mainTitle = `Plano ${combo.tag.replace('PLANO ', '')}`;
             const subTitle = `Projeto Slim - ${combo.duration}`;
 
@@ -243,7 +243,7 @@
                 <div class="specific-combo-card flex-shrink-0 w-80 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-3">
-                            ${imageUrl ? `<img src="${imageUrl}" alt="${mainTitle}" class="w-full h-full object-contain mx-auto rounded-full border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">` : `<span class="text-6xl text-white text-center">${comboEmojis[combo.type] || '📦'}</span>`}
+                            <span class="text-6xl text-white text-center" role="img" aria-label="Emoji">${emoji}</span>
                         </div>
                         <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
                             <span class="text-base font-bold text-white">${mainTitle}</span>
