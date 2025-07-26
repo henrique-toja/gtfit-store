@@ -88,7 +88,7 @@
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
                     <h3 class="min-h-12 text-base font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
-                    <button class="details-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-product-id="${product.id}">
+                    <button class="w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300 details-button" data-product-id="${product.id}">
                         Detalhes
                     </button>
                 </div>
@@ -128,12 +128,14 @@
                     ? `<ul class="space-y-3">${content.map(item => `<li class="flex items-start gap-3"><span class="text-primary-green mt-1.5 flex-shrink-0">✓</span><span>${item}</span></li>`).join('')}</ul>`
                     : `<p>${content}</p>`;
                 return `
-                    <div class="product-accordion-item ${isOpen ? 'open' : ''}">
-                        <button class="product-accordion-header text-center">
+                    <div class="product-accordion-item border-b border-gray-700 last:border-b-0 ${isOpen ? 'open' : ''}">
+                        <button class="product-accordion-header w-full flex justify-between items-center py-4 px-2 text-left bg-transparent border-none text-white cursor-pointer text-base font-semibold text-center">
                             <span>${title}</span>
-                            <i class="fas fa-chevron-down text-purple-400"></i>
+                            <i class="fas fa-chevron-down text-purple-400 transition-transform duration-300"></i>
                         </button>
-                        <div class="product-accordion-content"><div class="product-accordion-body">${contentHTML}</div></div>
+                        <div class="product-accordion-content max-h-0 overflow-hidden transition-[max-height] duration-400 ease-out">
+                            <div class="product-accordion-body pb-4 px-2 text-gray-300 leading-relaxed text-justify">${contentHTML}</div>
+                        </div>
                     </div>
                 `;
             };
@@ -144,12 +146,12 @@
 
             const detailHTML = `
                 <div class="w-full max-w-lg mx-auto animate-fade-in">
-                    <div class="product-card-detail">
-                        <div class="product-detail-header">
+                    <div class="product-card-detail bg-gradient-to-br from-zinc-800 to-black border border-zinc-700 rounded-3xl overflow-hidden flex flex-col shadow-2xl shadow-purple-900/50">
+                        <div class="product-detail-header p-6 text-center bg-black/20 border-b border-zinc-700">
                             <img src="${domain}${product.imagem}" alt="${product.nome}" class="w-32 h-32 object-contain rounded-full mx-auto mb-5 border-4 border-purple-400/50 shadow-lg shadow-purple-500/20">
                             <h2 class="text-3xl font-extrabold text-white tracking-tight">${product.nome}</h2>
                         </div>
-                        <div class="product-accordion-container">
+                        <div class="product-accordion-container p-4 flex flex-col gap-2">
                             ${generateAccordionItem('✨ Para que serve?', product.resultado_combinacao, true)}
                             ${generateAccordionItem('💊 Composição', product.composicao)}
                             ${generateAccordionItem('📋 Modo de Uso', product.modo_uso)}
@@ -161,21 +163,21 @@
                             ${generateAccordionItem('🚫 Contraindicações', product.contraindicacoes)}
                             ${generateAccordionItem('💡 Dicas Importantes', product.dicas_imporproductstantes)}
                         </div>
-                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
-                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group">
+                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-auto p-6 bg-black border-t border-zinc-700">
+                            <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
                                 <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
                                 Loja <span class="text-primary-green">✅</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
                             </a>
 
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
                                 Especialista <span class="text-emerald-200">🧠</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
                             </a>
                         </div>
                     </div>
-                    <button class="back-button link-button group" data-step="showcase">
+                    <button class="back-button link-button group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl transition-all duration-300 cursor-pointer hover:translate-y-[-3px] hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20 mt-8 mx-auto max-w-sm py-3 flex items-center justify-center gap-4">
                         <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
                     </button>
                 </div>
@@ -201,7 +203,7 @@
                             <span class="text-base font-bold text-white">${categoryInfo.line1}</span>
                             <span class="text-xs font-normal text-primary-green leading-tight">${categoryInfo.line2}</span>
                         </h3>
-                        <button class="view-plans-button w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-category-key="${categoryKey}">
+                        <button class="w-full bg-purple-600 text-white text-sm font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300 view-plans-button" data-category-key="${categoryKey}">
                             Ver Planos
                         </button>
                     </div>
@@ -244,7 +246,7 @@
                             <span class="text-base font-bold text-white">${mainTitle}</span>
                             <span class="text-xs font-normal text-primary-green leading-tight">${subTitle}</span>
                         </h3>
-                        <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
+                        <button class="w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300 view-combo-button" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
                             Ver Combo
                         </button>
                     </div>
@@ -321,7 +323,7 @@
                     <div class="flex gap-4 overflow-x-auto pb-4 -mb-4 scrollbar-thin">
                         ${combosInSelectedCategory.map(combo => createSpecificComboCard(combo, originatingCategoryKey)).join('')}
                     </div>
-                    <button class="back-button link-button group mt-8" data-step="showcase">
+                    <button class="back-button link-button group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl transition-all duration-300 cursor-pointer hover:translate-y-[-3px] hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20 mt-8 mx-auto max-w-sm py-3 flex items-center justify-center gap-4" data-step="showcase">
                         <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar para Vitrine</span>
                     </button>
                 </div>`;
@@ -366,8 +368,8 @@
 
             const detailHTML = `
                 <div class="w-full max-w-lg mx-auto animate-fade-in">
-                    <div class="product-card-detail">
-                        <div class="product-detail-header">
+                    <div class="product-card-detail bg-gradient-to-br from-zinc-800 to-black border border-zinc-700 rounded-3xl overflow-hidden flex flex-col shadow-2xl shadow-purple-900/50">
+                        <div class="product-detail-header p-6 text-center bg-black/20 border-b border-zinc-700">
                             <div class="flex justify-center items-center flex-wrap gap-x-3 gap-y-3 mb-5">
                                 ${combo.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-purple-400/50">`).join('')}
                             </div>
@@ -377,15 +379,23 @@
                                 <span>${combo.duration} de Tratamento</span>
                             </p>
                         </div>
-                        <div class="product-accordion-container">
-                            <div class="product-accordion-item open">
-                                <button class="product-accordion-header text-center"><span>🤔 Por que este combo é ideal para você?</span><i class="fas fa-chevron-down text-purple-400"></i></button>
-                                <div class="product-accordion-content"><div class="product-accordion-body">${combo.explanation}</div></div>
+                        <div class="product-accordion-container p-4 flex flex-col gap-2">
+                            <div class="product-accordion-item border-b border-gray-700 last:border-b-0 open">
+                                <button class="product-accordion-header w-full flex justify-between items-center py-4 px-2 text-left bg-transparent border-none text-white cursor-pointer text-base font-semibold text-center">
+                                    <span>🤔 Por que este combo é ideal para você?</span>
+                                    <i class="fas fa-chevron-down text-purple-400 transition-transform duration-300"></i>
+                                </button>
+                                <div class="product-accordion-content max-h-0 overflow-hidden transition-[max-height] duration-400 ease-out">
+                                    <div class="product-accordion-body pb-4 px-2 text-gray-300 leading-relaxed text-justify">${combo.explanation}</div>
+                                </div>
                             </div>
-                             <div class="product-accordion-item">
-                                <button class="product-accordion-header text-center"><span>📦 Produtos Inclusos</span><i class="fas fa-chevron-down text-purple-400"></i></button>
-                                <div class="product-accordion-content">
-                                    <div class="product-accordion-body">
+                             <div class="product-accordion-item border-b border-gray-700 last:border-b-0">
+                                <button class="product-accordion-header w-full flex justify-between items-center py-4 px-2 text-left bg-transparent border-none text-white cursor-pointer text-base font-semibold text-center">
+                                    <span>📦 Produtos Inclusos</span>
+                                    <i class="fas fa-chevron-down text-purple-400 transition-transform duration-300"></i>
+                                </button>
+                                <div class="product-accordion-content max-h-0 overflow-hidden transition-[max-height] duration-400 ease-out">
+                                    <div class="product-accordion-body pb-4 px-2 text-gray-300 leading-relaxed text-justify">
                                         <ul class="space-y-3">
                                             ${combo.products.map(p => `
                                                 <li class="flex items-center gap-4 bg-slate-800/50 p-3 rounded-xl">
@@ -398,21 +408,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
-                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group">
+                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-auto p-6 bg-black border-t border-zinc-700">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
                                 Especialista <span class="text-emerald-200">🧠</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
                             </a>
 
-                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group">
+                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
                                 <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
                                 Loja <span class="text-primary-green">✅</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
                             </a>
                         </div>
                     </div>
-                    <button class="back-button link-button group" data-step="subcategories" data-category="${originatingCategoryKey}">
+                    <button class="back-button link-button group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-2xl transition-all duration-300 cursor-pointer hover:translate-y-[-3px] hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20 mt-8 mx-auto max-w-sm py-3 flex items-center justify-center gap-4" data-step="subcategories" data-category="${originatingCategoryKey}">
                         <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar</span>
                     </button>
                 </div>`;
