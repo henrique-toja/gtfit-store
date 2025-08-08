@@ -224,7 +224,7 @@
 
             const showcaseHTML = `
                 <div class="view-enter">
-                    ${createProductRow("🔥 Projeto Slim ideal para seu IMC 🔥", comboCategoryCards)}
+                    ${createProductRow("🔥 Combos para seu IMC 🔥", comboCategoryCards)}
                     ${createProductRow(productCategories.emagrecedores.title, emagrecedoresCards)}
                     ${createProductRow(productCategories.essenciais.title, essenciaisCards)}
                     ${createProductRow(productCategories.uteis.title, uteisCards)}
