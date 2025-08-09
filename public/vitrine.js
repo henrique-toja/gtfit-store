@@ -1,4 +1,3 @@
-// vitrine.js - REVOLUÇÃO INTERATIVA by Gemini (v1.5 - Emojis e Ordem IMC Restaurados)
 (function() {
     window.gabiFitApp = window.gabiFitApp || {};
 
@@ -7,49 +6,42 @@
         const domain = 'https://www.gtfit.store';
         const mainStoreLink = 'https://www.gabrielatorraca.com.br';
 
-        // Mapeamento de categorias de combo para IMAGENS (AGORA Opcional, USAMOS EMOJIS)
         const categoryImages = {
             'obesidade-grau-iii': `${domain}/assets/images/grau3.png`,
             'obesidade-grau-ii': `${domain}/assets/images/grau2.png`,
             'obesidade-grau-i': `${domain}/assets/images/grau1.png`,
-            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png` // Imagem para peso saudável/sobrepeso
+            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png` 
         };
 
-        // NOVO: Mapeamento de tipos de combo para emojis
         const comboEmojis = {
-            'eco': '💸', // Econômico
-            'anxiety': '🧘‍♀️', // Ansiedade
-            'potencia': '💪🏼', // Potência - ATUALIZADO
-            'premium': '💎' // Premium - ATUALIZADO
+            'eco': '💸',
+            'anxiety': '🧘‍♀️',
+            'potencia': '💪🏼',
+            'premium': '💎'
         };
 
-        // NOVO: Mapeamento de categorias de IMC para emojis e info de display
-        // ISSO VAI SUBSTITUIR combos.categoryDisplayInfo PARA A VITRINE PRINCIPAL
         const imcCategoryDisplay = {
             'obesidade-grau-iii': {
-                emoji: '🚨', // Emoji para Grau III
+                emoji: '🚨',
                 line1: 'Obesidade Grau III',
                 line2: 'IMC ≥ 40 kg/m²'
             },
             'obesidade-grau-ii': {
-                emoji: '⚠️', // Emoji para Grau II
+                emoji: '⚠️',
                 line1: 'Obesidade Grau II',
                 line2: '35 a 39,9 kg/m²'
             },
             'obesidade-grau-i': {
-                emoji: '❗️', // Emoji para Grau I
+                emoji: '❗️',
                 line1: 'Obesidade Grau I',
                 line2: '30 a 34,9 kg/m²'
             },
             'peso-saudavel-sobrepeso': {
-                emoji: '⚖️', // Emoji para Peso Saudável/Sobrepeso
+                emoji: '⚖️',
                 line1: 'Peso Saudável / Sobrepeso',
                 line2: '18,5 a 29,9 kg/m²'
             }
         };
-
-
-        // --- FUNÇÕES DE TRANSIÇÃO E HELPERS ---
 
         const _transitionView = (renderFn, ...args) => {
             const currentView = appContainer.firstElementChild; 
@@ -73,7 +65,6 @@
             });
         };
 
-        // Adiciona funcionalidade de abrir/fechar ao acordeão
         const addAccordionListeners = () => {
             document.querySelectorAll('.product-accordion-item').forEach(item => {
                 const header = item.querySelector('.product-accordion-header');
@@ -89,7 +80,6 @@
             });
         };
 
-        // Adiciona funcionalidade aos botões de "voltar"
         const addBackButtonListener = () => {
             const backButton = appContainer.querySelector('.back-button');
             if (backButton) {
@@ -106,7 +96,6 @@
             }
         };
 
-        // --- FUNÇÃO PARA PRELOAD DE IMAGENS ---
         const preloadProductImages = () => {
             if (window.gabiFitApp.products && window.gabiFitApp.products.data) {
                 window.gabiFitApp.products.data.forEach(product => {
@@ -117,7 +106,6 @@
             } else {
                 console.warn('Não foi possível iniciar o preload de imagens: products.js ou products.data não carregado.');
             }
-            // Pré-carregamento das imagens de categoria de combo
             Object.values(categoryImages).forEach(imgPath => {
                 const img = new Image();
                 img.src = imgPath;
@@ -125,11 +113,8 @@
             console.log('Preload de imagens de categorias de combo iniciado.');
         };
 
-        // --- FUNÇÕES DE RENDERIZAÇÃO DA VITRINE PRINCIPAL ---
-
-        // Gera um cartão para as linhas da vitrine principal (Produtos Individuais)
         const createProductCard = (product) => `
-            <div class="product-card flex-shrink-0 w-96 group">
+            <div class="product-card flex-shrink-0 w-64 group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                     <img src="${domain}${product.imagem}" alt="${product.nome}" class="h-3/5 w-full object-contain mx-auto mb-3">
                     <h3 class="min-h-12 text-base font-semibold text-center text-slate-200 flex items-center justify-center px-1" title="${product.nome}">${product.nome}</h3>
@@ -140,7 +125,6 @@
             </div>
         `;
 
-        // Gera uma linha de produtos com rolagem horizontal
         const createProductRow = (title, cards) => `
             <section class="mb-12">
                 <h2 class="text-2xl font-bold text-white mb-6 text-center">${title}</h2>
@@ -150,15 +134,14 @@
             </section>
         `;
 
-        // Gera um cartão para a categoria de Combo (IMC) - ATUALIZADO PARA USAR EMOJIS POR PADRÃO
         const createComboCategoryCard = (categoryKey, categoryInfo) => {
-            const imageUrl = categoryImages[categoryKey]; // Pega a imagem se existir
+            const imageUrl = categoryImages[categoryKey];
             const displayContent = imageUrl 
                 ? `<img src="${imageUrl}" alt="${categoryInfo.line1}" class="h-32 w-32 object-contain mx-auto rounded-full shadow-lg shadow-purple-500/20">`
-                : `<span class="text-5xl text-white text-center" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`; // Usa emoji se não houver imagem
+                : `<span class="text-5xl text-white text-center" role="img" aria-label="Emoji">${categoryInfo.emoji}</span>`;
 
             return `
-                <div class="combo-category-card flex-shrink-0 w-96 group">
+                <div class="combo-category-card flex-shrink-0 w-64 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-1">
                             ${displayContent}
@@ -175,14 +158,13 @@
             `;
         };
 
-        // Gera um cartão para um combo específico (Econômico, Ansiedade, etc.)
         const createSpecificComboCard = (combo, originatingCategoryKey) => {
             const emoji = comboEmojis[combo.type] || '📦';
             const mainTitle = `Plano ${combo.tag.replace('PLANO ', '')}`;
             const subTitle = `Projeto Slim - ${combo.duration}`;
 
             return `
-                <div class="specific-combo-card flex-shrink-0 w-80 group">
+                <div class="specific-combo-card flex-shrink-0 w-56 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-3">
                             <span class="text-6xl text-white text-center" role="img" aria-label="Emoji">${emoji}</span>
@@ -203,7 +185,6 @@
             const { products, combos } = window.gabiFitApp;
             const productCategories = products.categoriesInfo;
 
-            // ORDEM DOS COMBOS POR IMC: Grau III, Grau II, Grau I, Peso Saudável/Sobrepeso
             const orderedImcCategories = [
                 'obesidade-grau-iii',
                 'obesidade-grau-ii',
@@ -211,9 +192,8 @@
                 'peso-saudavel-sobrepeso'
             ];
 
-            // Mapeia e gera os cards dos combos IMC na ordem desejada
             const comboCategoryCards = orderedImcCategories.map(key => {
-                const info = imcCategoryDisplay[key]; // Usar o novo imcCategoryDisplay
+                const info = imcCategoryDisplay[key];
                 return info ? createComboCategoryCard(key, info) : '';
             }).join('');
 
@@ -232,21 +212,17 @@
             `;
             appContainer.innerHTML = showcaseHTML;
 
-            // Add listeners for product cards
             _addClickListeners('.product-card .details-button', el => _transitionView(renderProductDetailView, el.dataset.productId));
             _addClickListeners('.product-card:not(.details-button)', el => _transitionView(renderProductDetailView, el.querySelector('.details-button').dataset.productId));
 
-            // Add listeners for combo category cards
             _addClickListeners('.combo-category-card .view-plans-button', el => _transitionView(renderComboSubcategories, el.dataset.categoryKey));
             _addClickListeners('.combo-category-card:not(.view-plans-button)', el => _transitionView(renderComboSubcategories, el.querySelector('.view-plans-button').dataset.categoryKey));
         };
 
-        // --- FUNÇÕES DE RENDERIZAÇÃO DA TELA DE DETALHES DO PRODUTO (INDIVIDUAL) ---
         const renderProductDetailView = (productId) => {
             const product = window.gabiFitApp.products.getProductById(productId);
             if (!product) return;
 
-            // Helper para gerar itens de acordeão para a visualização detalhada
             const generateAccordionItem = (title, content, isOpen = false) => {
                 if (!content || (Array.isArray(content) && content.length === 0)) return '';
                 const contentHTML = Array.isArray(content)
@@ -263,7 +239,6 @@
                 `;
             };
 
-            // Mensagem do WhatsApp personalizada
             const whatsappMessage = encodeURIComponent(`Olá, vi o produto "${product.nome}" na Vitrine da loja virtual e gostaria de saber mais! Podemos conversar?`);
             const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
 
@@ -311,14 +286,13 @@
             addBackButtonListener();
         };
 
-        // Etapa 2: Exibe os COMBOS ESPECÍFICOS (Econômico, Ansiedade, etc.) dentro de uma CATEGORIA (IMC)
         const renderComboSubcategories = (originatingCategoryKey) => {
             if (!window.gabiFitApp.combos) {
                 console.error('combos.js não foi carregado corretamente.');
                 return;
             }
             const combosInSelectedCategory = window.gabiFitApp.combos.getCombosSubcategories(originatingCategoryKey);
-            const categoryInfo = imcCategoryDisplay[originatingCategoryKey]; // USANDO o novo imcCategoryDisplay aqui também
+            const categoryInfo = imcCategoryDisplay[originatingCategoryKey];
 
             const subcategoriesHTML = `
                 <div class="w-full max-w-lg mx-auto view-enter">
@@ -333,13 +307,11 @@
 
             appContainer.innerHTML = subcategoriesHTML;
 
-            // Adiciona listeners para os botões "Ver Combo" dos combos específicos
             _addClickListeners('.specific-combo-card .view-combo-button', el => _transitionView(renderComboDetail, el.dataset.comboId, el.dataset.originatingCategory));
             _addClickListeners('.specific-combo-card:not(.view-combo-button)', el => _transitionView(renderComboDetail, el.querySelector('.view-combo-button').dataset.comboId, el.querySelector('.view-combo-button').dataset.originatingCategory));
-            addBackButtonListener(); // Re-adiciona listener para o botão de voltar
+            addBackButtonListener();
         };
 
-        // Etapa 3: Exibe os detalhes finais de um combo específico
         const renderComboDetail = (comboId, originatingCategoryKey) => {
             if (!window.gabiFitApp.combos) {
                 console.error('combos.js não foi carregado corretamente.');
@@ -348,7 +320,7 @@
             const combo = window.gabiFitApp.combos.getComboById(comboId, originatingCategoryKey);
             if (!combo) return;
 
-            const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${imcCategoryDisplay[originatingCategoryKey].line1}.`); // Usando imcCategoryDisplay
+            const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${imcCategoryDisplay[originatingCategoryKey].line1}.`);
             const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
 
             const detailHTML = `
@@ -409,7 +381,6 @@
             addBackButtonListener();
         };
 
-        // --- FUNÇÃO DE INICIALIZAÇÃO PÚBLICA ---
         const initialize = (containerElement) => {
             appContainer = containerElement;
             preloadProductImages();
