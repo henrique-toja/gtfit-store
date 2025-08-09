@@ -24,22 +24,22 @@
             'obesidade-grau-iii': {
                 emoji: '🚨',
                 line1: 'Obesidade Grau III',
-                line2: 'IMC ≥ 40 kg/m²'
+                line2: 'IMC acima de 40 kg/m²'
             },
             'obesidade-grau-ii': {
                 emoji: '⚠️',
                 line1: 'Obesidade Grau II',
-                line2: '35 a 39,9 kg/m²'
+                line2: 'IMC acima de 35 até 39,9 kg/m²'
             },
             'obesidade-grau-i': {
                 emoji: '❗️',
                 line1: 'Obesidade Grau I',
-                line2: '30 a 34,9 kg/m²'
+                line2: 'IMC acima de 30 até 34,9 kg/m²'
             },
             'peso-saudavel-sobrepeso': {
                 emoji: '⚖️',
                 line1: 'Peso Saudável / Sobrepeso',
-                line2: '18,5 a 29,9 kg/m²'
+                line2: 'IMC acima de 18,5 até 29,9 kg/m²'
             }
         };
 
