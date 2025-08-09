@@ -205,7 +205,7 @@
             const melatoninaIndex = uteisProducts.findIndex(p => p.nome.includes('Melatonina Filme'));
             if (melatoninaIndex > -1) {
                 const melatonina = uteisProducts.splice(melatoninaIndex, 1)[0];
-                uteisProducts.splice(-1, 0, melatonina);
+                uteisProducts.push(melatonina);
             }
             const uteisCards = uteisProducts.map(createProductCard).join('');
 
