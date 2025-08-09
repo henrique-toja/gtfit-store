@@ -182,13 +182,13 @@
         };
 
         const renderMainShowcase = () => {
-            const { products, combos } = window.gabiFitApp;
+            const { products } = window.gabiFitApp;
             const productCategories = products.categoriesInfo;
 
             const orderedImcCategories = [
-                'obesidade-grau-iii',
-                'obesidade-grau-ii',
                 'obesidade-grau-i',
+                'obesidade-grau-ii',
+                'obesidade-grau-iii',
                 'peso-saudavel-sobrepeso'
             ];
 
@@ -200,7 +200,14 @@
 
             const emagrecedoresCards = products.getProductsByCategory('emagrecedores').map(createProductCard).join('');
             const essenciaisCards = products.getProductsByCategory('essenciais').map(createProductCard).join('');
-            const uteisCards = products.getProductsByCategory('uteis').map(createProductCard).join('');
+            
+            const uteisProducts = products.getProductsByCategory('uteis');
+            const melatoninaIndex = uteisProducts.findIndex(p => p.nome.includes('Melatonina Filme'));
+            if (melatoninaIndex > -1) {
+                const melatonina = uteisProducts.splice(melatoninaIndex, 1)[0];
+                uteisProducts.splice(-1, 0, melatonina);
+            }
+            const uteisCards = uteisProducts.map(createProductCard).join('');
 
             const showcaseHTML = `
                 <div class="view-enter">
