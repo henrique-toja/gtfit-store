@@ -334,4 +334,89 @@
             appContainer.innerHTML = subcategoriesHTML;
 
             // Adiciona listeners para os botões "Ver Combo" dos combos específicos
-            _addClickListeners('.specific-combo-card .view-com
+            _addClickListeners('.specific-combo-card .view-combo-button', el => _transitionView(renderComboDetail, el.dataset.comboId, el.dataset.originatingCategory));
+            _addClickListeners('.specific-combo-card:not(.view-combo-button)', el => _transitionView(renderComboDetail, el.querySelector('.view-combo-button').dataset.comboId, el.querySelector('.view-combo-button').dataset.originatingCategory));
+            addBackButtonListener(); // Re-adiciona listener para o botão de voltar
+        };
+
+        // Etapa 3: Exibe os detalhes finais de um combo específico
+        const renderComboDetail = (comboId, originatingCategoryKey) => {
+            if (!window.gabiFitApp.combos) {
+                console.error('combos.js não foi carregado corretamente.');
+                return;
+            }
+            const combo = window.gabiFitApp.combos.getComboById(comboId, originatingCategoryKey);
+            if (!combo) return;
+
+            const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${imcCategoryDisplay[originatingCategoryKey].line1}.`); // Usando imcCategoryDisplay
+            const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
+
+            const detailHTML = `
+                <div class="w-full max-w-lg mx-auto view-enter">
+                    <div class="product-card-detail">
+                        <div class="product-detail-header">
+                            <div class="flex justify-center items-center flex-wrap gap-x-3 gap-y-3 mb-5">
+                                ${combo.products.map(p => `<img src="${p.img}" alt="${p.name}" class="w-20 h-20 object-contain rounded-full border-2 border-purple-400/50">`).join('')}
+                            </div>
+                            <h2 class="text-3xl font-extrabold text-white tracking-tight">${combo.title}</h2>
+                            <p class="text-primary-green font-semibold mt-2 flex items-center justify-center gap-2">
+                                <i class="far fa-clock"></i>
+                                <span>${combo.duration} de Tratamento</span>
+                            </p>
+                        </div>
+                        <div class="product-accordion-container">
+                            <div class="product-accordion-item open">
+                                <button class="product-accordion-header text-center"><span>🤔 Por que este combo é ideal para você?</span><i class="fas fa-chevron-down text-purple-400"></i></button>
+                                <div class="product-accordion-content"><div class="product-accordion-body">${combo.explanation}</div></div>
+                            </div>
+                             <div class="product-accordion-item">
+                                <button class="product-accordion-header text-center"><span>📦 Produtos Inclusos</span><i class="fas fa-chevron-down text-purple-400"></i></button>
+                                <div class="product-accordion-content">
+                                    <div class="product-accordion-body">
+                                        <ul class="space-y-3">
+                                            ${combo.products.map(p => `
+                                                <li class="flex items-center gap-4 bg-slate-800/50 p-3 rounded-xl">
+                                                    <img src="${p.img}" class="w-10 h-10 rounded-full border-2 border-purple-400/40 flex-shrink-0" alt="${p.name}">
+                                                    <span class="font-semibold text-slate-200">${p.name}</span>
+                                                </li>
+                                            `).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
+                            <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                                Especialista <span class="text-emerald-200">🧠</span>
+                                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
+                            </a>
+
+                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                                <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
+                                Loja <span class="text-primary-green">✅</span>
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <button class="back-button link-button group" data-step="subcategories" data-category="${originatingCategoryKey}">
+                        <span class="font-semibold text-slate-400 group-hover:text-white">↩️ Voltar</span>
+                    </button>
+                </div>`;
+
+            appContainer.innerHTML = detailHTML;
+            addAccordionListeners();
+            addBackButtonListener();
+        };
+
+        // --- FUNÇÃO DE INICIALIZAÇÃO PÚBLICA ---
+        const initialize = (containerElement) => {
+            appContainer = containerElement;
+            preloadProductImages();
+            renderMainShowcase();
+        };
+
+        return { initialize, renderMainShowcase };
+
+    })();
+})();
