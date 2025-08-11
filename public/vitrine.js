@@ -1,3 +1,4 @@
+// vitrine.js
 (function() {
     window.gabiFitApp = window.gabiFitApp || {};
 
@@ -6,11 +7,19 @@
         const domain = 'https://www.gtfit.store';
         const mainStoreLink = 'https://www.gabrielatorraca.com.br';
 
+        // Links da loja para cada tipo de combo
+        const comboStoreLinks = {
+            'eco': 'https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/slim-super-x',
+            'anxiety': 'https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/guria-shape',
+            'potencia': 'https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/guria-shape-black',
+            'premium': 'https://www.gabrielatorraca.com.br/suplementos-naturais/emagrecedores/guria-shape-gold'
+        };
+
         const categoryImages = {
             'obesidade-grau-iii': `${domain}/assets/images/grau3.png`,
             'obesidade-grau-ii': `${domain}/assets/images/grau2.png`,
             'obesidade-grau-i': `${domain}/assets/images/grau1.png`,
-            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png` 
+            'peso-saudavel-sobrepeso': `${domain}/assets/images/grau0.png`
         };
 
         const comboEmojis = {
@@ -44,7 +53,7 @@
         };
 
         const _transitionView = (renderFn, ...args) => {
-            const currentView = appContainer.firstElementChild; 
+            const currentView = appContainer.firstElementChild;
 
             if (currentView) {
                 currentView.classList.add('view-exit');
@@ -160,18 +169,20 @@
 
         const createSpecificComboCard = (combo, originatingCategoryKey) => {
             const emoji = comboEmojis[combo.type] || '📦';
-            const mainTitle = `Plano ${combo.tag.replace('PLANO ', '')}`;
-            const subTitle = `Projeto Slim - ${combo.duration}`;
+            // Usa o título do combo, que agora é "Obesidade Grau X - Plano"
+            const mainTitle = combo.title;
+            // Usa a duração do combo, que agora está padronizada
+            const subTitle = `Duração: ${combo.duration}`;
 
             return `
-                <div class="specific-combo-card flex-shrink-0 w-56 group">
+                <div class="specific-combo-card flex-shrink-0 w-64 group">
                     <div class="relative overflow-hidden rounded-xl bg-slate-800/50 p-4 transform transition-transform duration-300 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-purple-500/20 aspect-square flex flex-col justify-between">
                         <div class="h-3/5 w-full flex items-center justify-center mb-3">
                             <span class="text-6xl text-white text-center" role="img" aria-label="Emoji">${emoji}</span>
                         </div>
-                        <h3 class="min-h-12 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
+                        <h3 class="min-h-16 text-sm font-semibold text-center text-slate-200 flex flex-col items-center justify-center leading-tight px-1">
                             <span class="text-base font-bold text-white">${mainTitle}</span>
-                            <span class="text-xs font-normal text-primary-green leading-tight">${subTitle}</span>
+                            <span class="text-xs font-normal text-primary-green leading-tight mt-1">${subTitle}</span>
                         </h3>
                         <button class="view-combo-button w-full bg-purple-600 text-white text-xs font-bold py-2 rounded-b-lg mt-3 hover:bg-purple-700 transition-colors duration-300" data-combo-id="${combo.id}" data-originating-category="${originatingCategoryKey}">
                             Ver Detalhes
@@ -200,7 +211,7 @@
 
             const emagrecedoresCards = products.getProductsByCategory('emagrecedores').map(createProductCard).join('');
             const essenciaisCards = products.getProductsByCategory('essenciais').map(createProductCard).join('');
-            
+
             const uteisProducts = products.getProductsByCategory('uteis');
             const melatoninaIndex = uteisProducts.findIndex(p => p.nome.includes('Melatonina Filme'));
             if (melatoninaIndex > -1) {
@@ -271,13 +282,13 @@
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
                             <a href="${product.link_loja}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
                                 <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
-                                Loja <span class="text-primary-green">✅</span>
+                                Comprar Agora <span class="text-primary-green">🛒</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
                             </a>
 
                             <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
-                                Especialista <span class="text-emerald-200">🧠</span>
+                                Falar c/ Especialista <span class="text-emerald-200">🧠</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
                             </a>
                         </div>
@@ -300,11 +311,13 @@
             }
             const combosInSelectedCategory = window.gabiFitApp.combos.getCombosSubcategories(originatingCategoryKey);
             const categoryInfo = imcCategoryDisplay[originatingCategoryKey];
+            const categoryDisplay = window.gabiFitApp.combos.categoryDisplayInfo[originatingCategoryKey];
 
             const subcategoriesHTML = `
                 <div class="w-full max-w-lg mx-auto view-enter">
-                    <h2 class="text-2xl font-bold text-white text-center mb-5">Planos para: ${categoryInfo.line1}</h2>
-                    <div class="flex flex-col gap-4 items-center pb-4 -mb-4 px-2">
+                    <h2 class="text-2xl font-bold text-white text-center mb-1">${categoryDisplay.line1}</h2>
+                    <p class="text-center text-primary-green mb-5">${categoryDisplay.line2}</p>
+                    <div class="flex flex-wrap justify-center gap-4 pb-4 -mb-4 px-2">
                         ${combosInSelectedCategory.map(combo => createSpecificComboCard(combo, originatingCategoryKey)).join('')}
                     </div>
                     <button class="back-button link-button group mt-8" data-step="showcase">
@@ -329,6 +342,9 @@
 
             const whatsappMessage = encodeURIComponent(`Olá! Gostaria de fazer o planejamento com o especialista para o combo: "${combo.title}" da categoria ${imcCategoryDisplay[originatingCategoryKey].line1}.`);
             const whatsappUrl = `https://wa.me/556792552604?text=${whatsappMessage}`;
+            
+            // Pega o link da loja específico para o tipo de combo
+            const storeLink = comboStoreLinks[combo.type] || mainStoreLink; // Usa o link principal como fallback
 
             const detailHTML = `
                 <div class="w-full max-w-lg mx-auto view-enter">
@@ -365,16 +381,15 @@
                             </div>
                         </div>
                         <div class="product-detail-footer flex flex-wrap justify-center gap-3 mt-8">
+                            <a href="${storeLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
+                                <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
+                                Comprar Agora <span class="text-primary-green">🛒</span>
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
+                            </a>
                             <a href="${whatsappUrl}" target="_blank" class="specialist-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-emerald-500/30 hover:border-emerald-500">
                                 <i class="fab fa-whatsapp text-xl"></i>
-                                Especialista <span class="text-emerald-200">🧠</span>
+                                Falar c/ Especialista <span class="text-emerald-200">🧠</span>
                                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-emerald-500/50"></div>
-                            </a>
-
-                            <a href="${mainStoreLink}" target="_blank" class="store-cta-button-full flex-1 min-w-[150px] max-w-[calc(50%-0.75rem)] group flex items-center justify-center gap-2 p-3 rounded-xl text-white font-bold text-base bg-black relative overflow-hidden transition-all duration-300 ease-in-out border border-purple-500/30 hover:border-purple-500">
-                                <img src="/gtfit.png" alt="Logo GTFit" class="h-6 w-auto">
-                                Loja <span class="text-primary-green">✅</span>
-                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out blur-lg shadow-purple-500/50"></div>
                             </a>
                         </div>
                     </div>
